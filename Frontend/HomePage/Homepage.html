@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link rel="stylesheet" href="Homepage_style.css">
+    <style>
+        header{
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="text-align: left;" class="logo">Logo của web là gì?</div>
+        <nav>
+            <a href="">Search job</a>
+            <a href="">Notification</a>
+            <a href="">Account</a> <!--có sửa thông tin cá nhân với đăng xuất-->
+            <a href="">Your CV</a> <!--xem cv với edit cv-->
+        </nav>
+    </header>
+    <section class="search-bar">
+            <input type="text " placeholder="Job title, position,...">
+            <button type="submit">🔍</button>
+            <br>
+            <form action="" >
+                <div class="job-list ">
+                    <div
+                    >
+                        <label for="Field">Field</label>
+                        <br>
+                        <select name="Field" id="Field">
+                            <option value="" disabled selected>-- Select a field --</option>
+                            <option value="Business">Business</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="it">Information Technology (IT)</option>
+                            <option value="education">Education and Training</option>
+                            <option value="healthcare">Healthcare and Medicine</option>
+                            <option value="engineering">Engineering and Manufacturing</option>
+                            <option value="finance">Finance and Banking</option>
+                            <option value="accounting">Accounting and Auditing</option>
+                            <option value="marketing">Marketing and Advertising</option>
+                            <option value="sales">Sales and Business Development</option>
+                            <option value="hr">Human Resources (HR)</option>
+                            <option value="logistics">Logistics and Supply Chain Management</option>
+                        </select>
+                        <label for="Location">Location</label><br>
+                        <select name="Location" id="Location">
+                            <option value="Hà Nội">Hà Nội</option>
+                            <option value="Thành phố Hồ Chí Minh">Thành phố Hồ Chí Minh</option>
+                            <option value="Đà Nẵng">Đà Nẵng</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </section>
+        
+        <section class="job post">
+            <ul>
+                <li><a href="">
+                    <h3>Accountant</h3>
+                    <p>ABC company</p>
+                    <p>Location:</p>
+                </a></li>
+                <br>
+                <li><a href="">
+                    <h3>Front-end developer</h3>
+                    <p>XYZ company</p>
+                    <p></p>
+                </a></li>
+            </ul>
+        </section>
+        <footer>
+            &copy 2025
+            <a href="">Contact</a>
+            <a href="">About us</a>
+        </footer>
+</body>
+</html>
