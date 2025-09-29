@@ -3,54 +3,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="Signup_style.css">
 
 </head>
 <body>
-    <h1 style="text-align: center;">SIGN UP</h1>
-    <form  action="../Login/Login.html" method="get">
-        <table align="center">
-            <tr>
-                <td><label>Full Name</label></td>
-                <td><input type="text" required autocomplete="on" autofocus></td>
-            </tr>
-            <tr><td><label for="">Birthday</label></td>
-            <td><input type="date" required></td>
-            </tr>
-            <tr>
-                <td><label for="">Gender</label></td>
-                <td><label for=""><input type="radio" name="gender" value="Male">Male</label>
-                    <label for=""><input type="radio" name="gender" value="Female">Female</label>
-                    <td>
-            </tr>
-           <tr>
-                <td><label>Address</label></td>
-                <td><input type="text" required></td>
-            </tr>
-            <tr>
-                <td><label>Phone number</label></td>
-                <td><input type="tel" pattern="0[0-9]{9}" required></td>
-            </tr>
-            <tr>
-                <td><label>Password</label></td>
-                <td><input type="password" required></td>
-            </tr>
-            <tr>
-                <td><label>Email</label></td>
-                <td><input type="email" required></td>
-            </tr>
-            <tr>
-                <td><label for="role">Choose role</label></td>
-                <td><label for="Student"><input type="radio" name="role" value="Student" required>Student</label>
-                    <label for="Employer"><input type="radio" name="role" value="Employer">Employer</label>
-                    <td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center"><label for="">
-                    <input type="submit" name="btnSignUp" value="SignUp">
-                </label></td>
-            </tr>
-        </table>
-    </form>
+    <header>
+    <div class="logo"><h2 >Work Hub</h2></div>
+    <nav class="navi">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Service</a>
+            <a href="#">Contact</a>
+            <a href="#">Notification</a>
+            <a href="#">Account</a>
+            <button type="button" class="btn_login">Login</button>
+    </nav>
     
+    </header>
+    
+    <main><div class="signup_box">
+        <h2>SIGN UP</h2> <br>
+    <form  action="../Login/Login.html" method="get">
+
+    <div class="info">
+        <label>Full Name</label>
+        <input type="text" placeholder="VD: Nguyễn Văn A" required autocomplete="on" autofocus>
+    </div>
+
+    <div class="info">
+        <label>Birthday</label>
+        <input type="text" placeholder="Birthday" pattern="[0-31]{2}/[0-12]{2}/[0-9]{4}" required> 
+    </div>
+
+    <div class="radio">
+        <label>Gender</label>
+        <label for="Male"><input type="radio" name="gender" value="Male"> Male</label>
+        <label for="Female"><input type="radio" name="gender" value="Female"> Female</label>
+    </div>
+
+    <div class="info">
+        <label>Address</label>
+        <input type="text" placeholder="Address" required>
+    </div>
+
+    <div class="info">
+        <label>Phone number</label>
+        <input type="tel" placeholder="Phone number" pattern="0[0-9]{9}" required>
+    </div>
+
+    <div class="info">
+        <label>Password</label>
+        <input type="password" placeholder="Password" required>
+    </div>
+
+    <div class="info">
+        <label>Email</label>
+        <input type="email" placeholder="Email@gmail.com" required>
+    </div>
+
+    <div class="radio">
+        <label>Choose role</label>
+        <label for="student"><input type="radio" name="role" id="student" value="Student" required> Student</label>
+        <label for="employer"><input type="radio" name="role" id="employer" value="Employer"> Employer</label>
+    </div>
+
+    <div class="signup_btn">
+        <input type="submit" name="btnSignUp" value="Sign Up">
+    </div>
+
+    </form>
+    </div></main>
 </body>
 </html>
