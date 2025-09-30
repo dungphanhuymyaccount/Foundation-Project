@@ -4,19 +4,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="Signup_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 </head>
 <body>
     <header>
-    <div class="logo"><h2 >Work Hub</h2></div>
+    <div class="logo">
+        <h2>Work Hub</h2>
+    </div>
     <nav class="navi">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Service</a>
-            <a href="#">Contact</a>
-            <a href="#">Notification</a>
-            <a href="#">Account</a>
-            <button type="button" class="btn_login">Login</button>
+            <a href="#" class="nav_btn">Home</a>
+            <a href="#" class="nav_btn">About</a>
+            <a href="#" class="nav_btn">Service</a>
+            <a href="#" class="nav_btn">Contact</a>
+            <a href="#" class="nav_btn">Notification</a>
+            <a href="#" class="nav_btn">Account</a>
+            <a href="../Login/Login.html"><button type="button" class="btn_login" value="Login">Login</button></a>
     </nav>
     
     </header>
@@ -37,8 +40,8 @@
 
     <div class="radio">
         <label>Gender</label>
-        <label for="Male"><input type="radio" name="gender" value="Male"> Male</label>
-        <label for="Female"><input type="radio" name="gender" value="Female"> Female</label>
+        <label for="Male"><input type="radio" name="gender" value="Male" id="Male"> Male</label>
+        <label for="Female"><input type="radio" name="gender" value="Female" id="Female"> Female</label>
     </div>
 
     <div class="info">
@@ -63,8 +66,8 @@
 
     <div class="radio">
         <label>Choose role</label>
-        <label for="student"><input type="radio" name="role" id="student" value="Student" required> Student</label>
-        <label for="employer"><input type="radio" name="role" id="employer" value="Employer"> Employer</label>
+        <label for="student"><input type="radio" name="role" id="student" value="Student" required>Student</label>
+        <label for="employer"><input type="radio" name="role" id="employer" value="Employer">Employer</label>
     </div>
 
     <div class="signup_btn">

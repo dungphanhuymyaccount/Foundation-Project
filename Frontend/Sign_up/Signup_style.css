@@ -1,44 +1,37 @@
+@import url(<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">);
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
+
 header{
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    padding: 20px 100px;
     justify-content: space-between;
     display: flex;
     align-content: center;
-    justify-content: center;
-    display: flex;
-    
 }
 .logo{
-    margin-top: 20px;
-    margin-right: 100px;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bolder;
 }
 
-.logo{
-    cursor: pointer;
-}
-.navi{
-    margin-top: 20px;
-    margin-right: 50px;
-    font-size: 18px;
-    align-content: center;
-    transition: .5s;
-}
 
 .navi a{
+    font-size: 20px;
     position: relative;
     text-decoration: none; 
     color:#000 ;
     margin-left: 40px;
     align-content: center;
     word-spacing: 10px;
+    font-weight: bold;
 }
 
 .navi a::after{
@@ -71,6 +64,7 @@ a:hover:after{
 }
 
 body{
+    min-height: 100vh;
     display:flex;
     justify-content: center;
     align-items: center;
@@ -106,7 +100,7 @@ label{
 }
 
 .info input{
-    border-radius: 30px;
+    border-radius: 10px;
     border: 0;
     width: 250px;
     height: 30px;
@@ -133,19 +127,20 @@ label{
     transition: 0.3s;
 }
 .signup_btn input{
-    width: 100%;
+    width: 70%;
     height: 40px;
     font-size: 20px;
     cursor: pointer;
-    
+    border-radius: 10px;
 }
 .signup_btn input:hover{
     background-color:#66bcf6 ;
     color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transform: translate(-5px);
+    transform: scale(1.1);
     
 }
+
 
 
 

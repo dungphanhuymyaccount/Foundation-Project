@@ -3,26 +3,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../Login/Login_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
 </head>
 <body>
-    <form action="../HomePage/Homepage.html">
-        <h1 style="text-align: center;">LOGIN</h1>
-    <table align="center" style="border-spacing: 30px 15px;">
-        <tr>
-            <td style="padding: auto;"><label for="Email">Email</label></td>
-            <td><input type="email" required autofocus></td>
-        </tr>
-        <tr>
-            <td style="padding: auto;"><label for="Password">Password</label></td>
-            <td><input type="password" required autofocus></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center"><a href="../Sign up/Signup.html">Don't have an account?Sign up.</a></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center"><input type="submit" value="Login"></td>
-        </tr>
-    </table>
-    </form>
+    <header>
+    <div class="logo">
+        <h2>Work Hub</h2>
+    </div>
+    <nav class="navi">
+            <a href="#" class="nav_btn">Home</a>
+            <a href="#" class="nav_btn">About</a>
+            <a href="#" class="nav_btn">Service</a>
+            <a href="#" class="nav_btn">Contact</a>
+            <a href="#" class="nav_btn">Notification</a>
+            <a href="#" class="nav_btn">Account</a>
+    </nav>
+    </header>
+
+    <main class="login_box">
+    <h2>LOGIN</h2>
+    
+    <form action="../HomePage/Homepage.html" method="get">
+    <div class="lg_info">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Email@gmail.com" required autofocus autocomplete="on">
+    </div>
+
+    <div class="lg_info">
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password"  required autofocus>
+    </div>
+
+    <div class="remember_chk">
+        <input type="checkbox" id="chk_rmb" >
+        <label for="chk_rmb">Remember me</label>
+    </div>
+
+    <div class="login_btn">
+        <input type="submit" value="Login">
+    </div>
+
+    <div class="Sign_up">
+        <p>Don't have an account? <a class="Sign_up_btn" href="../Sign_up/Signup.html">Sign up?</a></a></p>
+    </div>
+</form>
+    </main>
+    
 </body>
 </html>
