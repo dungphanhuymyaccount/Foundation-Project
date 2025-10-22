@@ -1,36 +1,64 @@
 @import url(<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">);
-
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins',sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
-header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 100px;
-    justify-content: space-between;
+body {
+    background-color: #f5f5f5;
+}
+
+
+header {
     display: flex;
-    align-content: center;
-}
-.logo{
-    justify-content: center;
-    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
+    background: #222;
+    padding: 15px 60px;
 }
 
+.logo h2 {
+    font-weight: bold;
+    color: #fff;
+}
 
-.navi a{
-    font-size: 1.5em;
+.navi ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.navi ul li {
     position: relative;
-    text-decoration: none; 
-    color:#000 ;
-    margin-left: 40px;
-    align-content: center;
-    word-spacing: 10px;
+    margin-left: 30px;
+}
+
+.navi ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.navi ul li ul {
+    display: none;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: #333;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.navi ul li ul li a {
+    display: block;
+    padding: 10px 20px;
+    color: #fff;
+    white-space: nowrap;
 }
 
 .navi a::after{
@@ -48,9 +76,170 @@ header{
 a:hover:after{
         transform: scaleX(1);
         cursor: pointer;
-
 }
-main{
+
+.wrapper {
+    width: 100%;
+}
+
+.banner_and_search {
+    background: #00bcd4;
+    padding: 60px 0;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.banner {
+    text-align: center;
+    color: white;
+}
+
+.banner h1 {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.banner p {
+    font-size: 16px;
+}
+
+
+.search {
+    background: #f0f0f0;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 700px;
+    padding: 20px 25px;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+}
+
+.search_bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+    margin-bottom: 15px;
+}
+
+
+.search_job {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    padding: 10px 12px;
+    border-radius:8px 0 0 8px; ;
+}
+
+.search_bar button {
+    background: #0073e6;
+    color: white;
+    border: none;
+    padding: 16px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 8px 8px 0;
+}
+
+.search_bar button:hover {
+    background: #005bb5;
+}
+
+.advanced_search .row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px;
+    padding-left: 10px;
+}
+
+.advanced_search select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 16px;
+    background: #fff;
+    
+}
+
+.job_post_section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+    padding: 30px 70px;
+    gap: 20px;
+}
+
+.job_container {
+    flex: 1;
+    border: solid black 1px;
+    box-shadow: #bbb;
+    padding: 30px;
+}
+
+.footer {
+    background-color: #1f1f1f;
+    color: #ddd;
+    padding: 40px 0 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+}
+
+#footer-col {
+    flex: 0 0 20%;
+}
+
+.footer-about h2,
+.footer-link h3 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.footer- p {
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-link ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer- ul li {
+    margin: 8px 0;
+}
+
+.footer-link ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-link ul li a:hover {
+    color: #00bcd4;
+}
+
+.footer-contact p ion-icon {
+    color: #00bcd4;
+    margin-right: 8px;
+    vertical-align: middle;
 }
