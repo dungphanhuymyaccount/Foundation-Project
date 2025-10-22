@@ -3,36 +3,47 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins',sans-serif;
 }
 
-header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 100px;
-    justify-content: space-between;
+header {
     display: flex;
-    align-content: center;
-}
-.logo{
-    justify-content: center;
-    cursor: pointer;
-    font-weight: bolder;
+    justify-content: space-between;
+    align-items: center;
+    background: #222;
+    padding: 5px 60px;
 }
 
-
-.navi a{
-    font-size: 20px;
-    position: relative;
-    text-decoration: none; 
-    color:#000 ;
-    margin-left: 40px;
-    align-content: center;
-    word-spacing: 10px;
+.logo h2 {
     font-weight: bold;
+    color: #fff;
 }
+
+.navi ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.navi ul li {
+    position: relative;
+    margin-left: 30px;
+    
+}
+.navi ul li a:hover{
+    color: #0961ee;
+}
+
+.navi ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0px;
+}
+
 
 .navi a::after{
     content: '';
@@ -45,18 +56,18 @@ header{
     transform: scaleX(0);
     border-radius: 5px;
     transition: transform.5s;
+    
+    
 }
 a:hover:after{
         transform: scaleX(1);
         cursor: pointer;
-
 }
-
 .btn_login{
     width: 70px;
-    height: 40px;
+    height: 30px;
     border-radius: 10px;
-    margin-left: 90px;
+    margin-bottom: 5px;
 }
 .btn_login:hover{
     background-color: lightblue;
@@ -65,23 +76,34 @@ a:hover:after{
 
 body{
     min-height: 100vh;
-    display:flex;
     justify-content: center;
     align-items: center;
     background-image: url(background.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    
 }
 
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
 .signup_box{
+    display: flex;
+    flex-direction: column;
     background: rgba(121, 121, 121, 0.2);
     box-shadow: 0 0 50px rgba(0, 0, 0, .1);
     border-radius: 30px;
     padding: 10px;
+    width: 70%;
+    max-width: 400px;
+    justify-content: center;
 }
 
-h2{
+.signup_box h2{
     text-align: center;
     
 }
@@ -90,6 +112,7 @@ h2{
     padding-bottom: 12px;
     font-size: 16px;
     margin-bottom: 10px;
+    justify-content: center;
 }
 
 label{
@@ -138,7 +161,6 @@ label{
     color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     transform: scale(1.1);
-    
 }
 
 

@@ -1,55 +1,62 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../Login/Login_style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
+
 <body>
     <header>
-    <div class="logo">
-        <h2>Work Hub</h2>
-    </div>
-    <nav class="navi">
-            <a href="#" class="nav_btn">Home</a>
-            <a href="#" class="nav_btn">About</a>
-            <a href="#" class="nav_btn">Service</a>
-            <a href="#" class="nav_btn">Contact</a>
-            <a href="#" class="nav_btn">Notification</a>
-            <a href="#" class="nav_btn">Account</a>
-    </nav>
+        <div class="logo">
+            <h2>Work Hub</h2>
+        </div>
+        <nav class="navi">
+            <ul>
+                <li><a href="#" class="menu_btn">Find Job</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon name="reader-outline"></ion-icon></span>My CV</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon name="notifications-outline"></ion-icon></span>Notification</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon name="person-circle-outline"></ion-icon></span>Account</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main class="login_box">
-    <h2>LOGIN</h2>
-    
-    <form action="../HomePage/Homepage.html" method="get">
-    <div class="lg_info">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Email@gmail.com" required autofocus autocomplete="on">
-    </div>
+    <main >
+        <div class="login_box">
+            <h2>LOGIN</h2>
 
-    <div class="lg_info">
-        <label for="password">Password</label>
-        <input type="password" placeholder="Password" id="password"  required autofocus>
-    </div>
+        <form action="../HomePage/Homepage.html" method="get">
+            <div class="lg_info">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Email@gmail.com" required autofocus autocomplete="on">
+            </div>
 
-    <div class="remember_chk">
-        <input type="checkbox" id="chk_rmb" >
-        <label for="chk_rmb">Remember me</label>
-    </div>
+            <div class="lg_info">
+                <label for="password">Password</label>
+                <input type="password" placeholder="Password" id="password" required autofocus>
+            </div>
 
-    <div class="login_btn">
-        <input type="submit" value="Login">
-    </div>
+            <div class="remember_chk">
+                <input type="checkbox" id="chk_rmb">
+                <label for="chk_rmb">Remember me</label>
+            </div>
 
-    <div class="Sign_up">
-        <p>Don't have an account? <a class="Sign_up_btn" href="../Sign_up/Signup.html">Sign up?</a></a></p>
-    </div>
-</form>
+            <div class="login_btn">
+                <input type="submit" value="Login">
+            </div>
+
+            <div class="Sign_up">
+                <p>Don't have an account? <a class="Sign_up_btn" href="../Sign_up/Signup.html">Sign up?</a></a></p>
+            </div>
+        </form>
+        </div>
+        
     </main>
-    
+
 </body>
+
 </html>
