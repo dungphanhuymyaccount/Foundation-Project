@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Job</title>
+    <link rel="stylesheet" href="PostJob.css">
+</head>
+<body>
+    <main>
+        <form action="">
+            <h2>Post Job</h2>
+            
+            <div class="form-group">
+                <label for="title">Job Title:</label>
+                <input type="text" id="title" name="title" placeholder="e.g. Senior Software Engineer" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" placeholder="Job description and responsibilities..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="salary">Salary:</label>
+                <input type="text" id="salary" name="salary" placeholder="e.g. $50,000 - $70,000" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" placeholder="e.g. Hanoi, Vietnam" required>
+            </div>
+
+            <div class="form-group">
+                <label for="position">Position:</label>
+                <input type="text" id="position" name="position" placeholder="e.g. Full-time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="jobType">Job Type:</label>
+                <select id="jobType" name="jobType" required>
+                    <option value="">Select job type</option>
+                    <option value="full-time">Full-time</option>
+                    <option value="part-time">Part-time</option>
+                    <option value="contract">Contract</option>
+                    <option value="internship">Internship</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="studentReq">Student Requirement:</label>
+                <input type="text" id="studentReq" name="studentReq" placeholder="e.g. Bachelor's degree required">
+            </div>
+
+            <div class="form-group">
+                <label for="deadline">Application Deadline:</label>
+                <input type="date" id="deadline" name="deadline" required>
+            </div>
+
+            <div class="form-group file-upload">
+                <label for="image">Upload Image:</label>
+                <input type="file" id="image" name="image" accept="image/png, image/jpeg">
+            </div>
+
+            <input type="button" value="Submit" id="submit" onclick="handleSubmit()">
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Job Portal. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function handleSubmit() {
+            alert('Job posted successfully!');
+        }
+    </script>
+</body>
+</html>
