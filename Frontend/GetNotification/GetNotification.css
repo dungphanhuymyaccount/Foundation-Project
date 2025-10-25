@@ -1,0 +1,131 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.notification-box {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  width: 400px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+.header h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.tabs button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  padding: 6px 10px;
+  cursor: pointer;
+  color: #555;
+}
+
+.tabs .active {
+  font-weight: bold;
+  border-bottom: 2px solid #1877f2;
+  color: #1877f2;
+}
+
+.section-title {
+  padding: 10px 16px;
+  color: #555;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.notification {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 16px;
+  border-top: 1px solid #eee;
+  position: relative;
+}
+
+.notification:hover {
+  background: #f5f6f7;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.content {
+  flex: 1;
+}
+
+.content p {
+  margin: 0;
+  font-size: 14px;
+  color: #222;
+}
+
+.time {
+  font-size: 12px;
+  color: gray;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background: #1877f2;
+  border-radius: 50%;
+  position: absolute;
+  right: 15px;
+  top: 20px;
+}
+
+.buttons {
+  margin-top: 6px;
+}
+
+.accept, .decline {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 6px;
+  font-size: 13px;
+}
+
+.accept {
+  background: #1877f2;
+  color: white;
+}
+
+.decline {
+  background: #e4e6eb;
+  color: #333;
+}
+
+.footer {
+  border-top: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
+}
+
+.footer button {
+  background: #e4e6eb;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
