@@ -1,0 +1,69 @@
+{
+  "jobs": [
+    {
+      "jobId": "JD001",
+      "jobTitle": "Frontend Developer (ReactJS)",
+      "companyName": "TechNova Solutions",
+      "description": "Develop and maintain user interfaces for web applications using ReactJS and modern JavaScript libraries. Collaborate closely with UI/UX designers to deliver responsive and high-performance web pages.",
+      "location": "Hanoi, Vietnam",
+      "salary": "20,000,000 - 35,000,000 VND/month",
+      "level": "Junior",
+      "requirement": "Proficient in HTML, CSS, JavaScript (ES6+). Familiar with ReactJS and RESTful APIs. Basic knowledge of Git and responsive design principles.",
+      "deadline": "2025-12-10",
+      "benefit": "13th month salary, annual bonus, flexible working hours, health insurance.",
+      "numberOfVacancy": 3
+    },
+    {
+      "jobId": "JD002",
+      "jobTitle": "Backend Developer (NodeJS)",
+      "companyName": "TechNova Solutions",
+      "description": "Design and implement server-side logic using NodeJS and Express framework. Manage databases and ensure data integrity across distributed systems.",
+      "location": "Ho Chi Minh City, Vietnam",
+      "salary": "25,000,000 - 40,000,000 VND/month",
+      "level": "Mid-level",
+      "requirement": "Experience in NodeJS, Express, and MongoDB. Knowledge of RESTful API design and JWT authentication. Familiar with deployment tools like Docker or PM2.",
+      "deadline": "2025-11-30",
+      "benefit": "Hybrid working mode, performance bonuses, yearly company trip.",
+      "numberOfVacancy": 2
+    },
+    {
+      "jobId": "JD003",
+      "jobTitle": "Frontend Developer (Angular)",
+      "companyName": "TechNova Solutions",
+      "description": "Build modern and scalable web applications using Angular framework. Work closely with backend teams to integrate APIs and ensure smooth data flow.",
+      "location": "Da Nang, Vietnam",
+      "salary": "18,000,000 - 30,000,000 VND/month",
+      "level": "Junior",
+      "requirement": "Strong understanding of TypeScript, Angular components, and RxJS. Knowledge of SCSS and cross-browser compatibility issues.",
+      "deadline": "2025-12-15",
+      "benefit": "Annual health check, paid leave, on-site parking, team-building events.",
+      "numberOfVacancy": 4
+    },
+    {
+      "jobId": "JD004",
+      "jobTitle": "Full Stack Developer (MERN)",
+      "companyName": "TechNova Solutions",
+      "description": "Design and develop full-stack web applications using MongoDB, Express, React, and NodeJS. Responsible for both frontend and backend development tasks.",
+      "location": "Ho Chi Minh City, Vietnam",
+      "salary": "30,000,000 - 50,000,000 VND/month",
+      "level": "Senior",
+      "requirement": "Proficient in MERN stack development. Strong understanding of API design, JWT authentication, and frontend optimization.",
+      "deadline": "2025-12-30",
+      "benefit": "Flexible schedule, 100% remote option, 13th month salary.",
+      "numberOfVacancy": 2
+    },
+    {
+      "jobId": "JD005",
+      "jobTitle": "Backend Developer (GoLang)",
+      "companyName": "TechNova Solutions",
+      "description": "Develop efficient backend systems and microservices using GoLang. Work on scalable architectures handling high traffic web applications.",
+      "location": "Hanoi, Vietnam",
+      "salary": "35,000,000 - 55,000,000 VND/month",
+      "level": "Senior",
+      "requirement": "Strong experience in Go, REST APIs, and cloud deployment. Familiar with Kubernetes and CI/CD workflows.",
+      "deadline": "2025-12-31",
+      "benefit": "Stock options, yearly bonus, premium health insurance.",
+      "numberOfVacancy": 1
+    }
+  ]
+}

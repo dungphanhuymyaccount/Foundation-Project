@@ -1,0 +1,49 @@
+{
+  "students": [
+    {
+      "StudentID": "S001",
+      "Name": "Nguyen Van A",
+      "DoB": "2002-05-12",
+      "Gender": "Male",
+      "Address": "Ha Noi, Vietnam",
+      "PhoneNumber": "0987654321",
+      "Avatar": "images/student1.jpg"
+    },
+    {
+      "StudentID": "S002",
+      "Name": "Tran Thi B",
+      "DoB": "2001-11-25",
+      "Gender": "Female",
+      "Address": "Hai Phong, Vietnam",
+      "PhoneNumber": "0978123456",
+      "Avatar": "images/student2.jpg"
+    },
+    {
+      "StudentID": "S003",
+      "Name": "Le Van C",
+      "DoB": "2003-02-18",
+      "Gender": "Male",
+      "Address": "Da Nang, Vietnam",
+      "PhoneNumber": "0901234567",
+      "Avatar": "images/student3.jpg"
+    },
+    {
+      "StudentID": "S004",
+      "Name": "Pham Thi D",
+      "DoB": "2002-07-09",
+      "Gender": "Female",
+      "Address": "Ho Chi Minh City, Vietnam",
+      "PhoneNumber": "0912345678",
+      "Avatar": "images/student4.jpg"
+    },
+    {
+      "StudentID": "S005",
+      "Name": "Do Van E",
+      "DoB": "2001-03-15",
+      "Gender": "Male",
+      "Address": "Can Tho, Vietnam",
+      "PhoneNumber": "0932123456",
+      "Avatar": "images/student5.jpg"
+    }
+  ]
+}

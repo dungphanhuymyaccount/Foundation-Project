@@ -1,0 +1,27 @@
+[
+  {
+    "Email": "nguyentuan@gmail.com",
+    "Password": "tuan1234",
+    "Role": "Student"
+  },
+  {
+    "Email": "tranminh@gmail.com",
+    "Password": "minh5678",
+    "Role": "Employer"
+  },
+  {
+    "Email": "lethao@gmail.com",
+    "Password": "thao2025",
+    "Role": "Admin"
+  },
+  {
+    "Email": "phamquang@gmail.com",
+    "Password": "quangabc",
+    "Role": "Student"
+  },
+  {
+    "Email": "hoanganh@gmail.com",
+    "Password": "anhpass",
+    "Role": "Employer"
+  }
+]
