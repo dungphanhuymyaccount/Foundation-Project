@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="Homepage_script.js"></script>
+    <script src="Se"></script>
 </head>
 
 <body>
@@ -44,8 +44,8 @@
                 <form class="search" action="#" method="get">
                     <div class="search_form">
                         <div class="search_bar">
-                            <input type="text" class="search_job" placeholder="Enter job title">
-                            <button type="submit"><ion-icon name="search-outline"></ion-icon></button>
+                            <input type="text" class="search_job" id="searchInput" placeholder="Enter job title">
+                            <button type="submit" id="searchBtn"><ion-icon name="search-outline"></ion-icon></button>
                         </div>
 
                         <div class="advanced_search">
@@ -55,6 +55,7 @@
                                         <option value="">Select Location</option>
                                         <option value="ha-noi">Hà Nội</option>
                                         <option value="ho-chi-minh">Hồ Chí Minh</option>
+                                        <option value="da-nang">Đà Nẵng</option>
                                         <option value="international">International</option>
                                     </select>
                                 </div>
@@ -82,6 +83,7 @@
                                     <select class="level">
                                         <option value="">Select Level</option>
                                         <option value="intern">Intern</option>
+                                        <option value="fresher">Fresher</option>
                                         <option value="junior">Junior</option>
                                         <option value="mid">Mid-level</option>
                                         <option value="senior">Senior</option>
@@ -94,26 +96,44 @@
             </section>
             <section>
                 <div class="job_post_section">
-                    <div class="job_container">
-                        <h3>Front-End Developer (React)</h3>
-                        <p>TechVision</p>
-                        <p>Hà Nội</p>
-                        <p>Lương:18.000.000</p>
-                    </div>
 
-                    <div class="job_container">
-                        <h3>Front-End Developer (VueJS)</h3>
-                        <p>SoftHub</p>
-                        <p>Hồ Chí Minh</p>
-                        <p>Lương:22.000.000</p>
-                    </div>
+                    <a href="#">
+                        <div class="job_container">
+                            <div class="company_logo"><img src="../../image/techvisionlogo.png" alt=""></div>
+                            <div class="job_content">
+                                <h3>Front-End Developer (React)</h3>
+                                <p>TechVision</p>
+                                <p>Hà Nội</p>
+                                <p>Lương:18.000.000</p>
+                            </div>
+                        </div>
+                    </a>
 
-                    <div class="job_container">
-                        <h3>Back-End Developer (Node.js)</h3>
-                        <p>CodeForge</p>
-                        <p>Hồ Chí Minh</p>
-                        <p>Lương:25.000.000</p>
-                    </div>
+                    <a href="#">
+                        <div class="job_container">
+                            <div class="company_logo"><img src="../../image/softhub_logo.png" alt=""></div>
+                            <div class="job_content">
+                                <h3>Front-End Developer (VueJS)</h3>
+                                <p>SoftHub</p>
+                                <p>Hồ Chí Minh</p>
+                                <p>Lương:22.000.000</p>
+                            </div>
+
+                        </div>
+                    </a>
+
+                    <a href="#">
+                        <div class="job_container">
+                            <div class="company_logo"><img src="../../image/codeforge_logo.jpg" alt=""></div>
+                            <div class="job_content">
+                                <h3>Back-End Developer (Node.js)</h3>
+                                <p>CodeForge</p>
+                                <p>Hồ Chí Minh</p>
+                                <p>Lương:25.000.000</p>
+                            </div>
+                        </div>
+                    </a>
+
                 </div>
             </section>
         </div>
@@ -148,6 +168,9 @@
         <p style="text-align: center;padding-top: 20px;">© 2025 Work Hub | All rights reserved.</p>
     </footer>
 
+    <script>
+        
+    </script>
 </body>
 
 </html>

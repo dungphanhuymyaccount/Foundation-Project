@@ -9,7 +9,7 @@ body {
 .notification-box {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   width: 400px;
   overflow: hidden;
 }
@@ -59,6 +59,7 @@ body {
 
 .notification:hover {
   background: #f5f6f7;
+  cursor: pointer;
 }
 
 .avatar {
@@ -97,13 +98,18 @@ body {
   margin-top: 6px;
 }
 
-.accept, .decline {
+.accept,
+.decline {
   border: none;
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
   margin-right: 6px;
   font-size: 13px;
+}
+
+.accept:active {
+  background: #1979f7b8;
 }
 
 .accept {
@@ -114,6 +120,10 @@ body {
 .decline {
   background: #e4e6eb;
   color: #333;
+}
+
+.decline:active {
+  background: #e4e6eb77;
 }
 
 .footer {
