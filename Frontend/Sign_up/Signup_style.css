@@ -31,7 +31,7 @@ header {
     
 }
 .navi ul li a:hover{
-    color: #0961ee;
+    color: #00bcd4;
 }
 
 .navi ul li a {
@@ -103,7 +103,8 @@ main{
     justify-content: center;
 }
 
-.signup_box h2{
+.signup_box h2,
+.signup_box h4{
     text-align: center;
     
 }
@@ -112,14 +113,27 @@ main{
     padding-bottom: 12px;
     font-size: 16px;
     margin-bottom: 10px;
-    justify-content: center;
+    justify-content: space-between;
 }
 
-label{
+.info label{
     color: black;
     text-align: left;
     width: 120px;
     font-size: 16px;
+}
+
+.info select{
+    border-radius: 10px;
+    border: 0;
+    width: 250px;
+    height: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    padding-left: 10px;
+}
+
+.info option{
+    
 }
 
 .info input{
@@ -128,7 +142,8 @@ label{
     width: 250px;
     height: 30px;
     padding: 14px 45px 14px 14px;
-
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    
 }
 
 .radio{
@@ -147,22 +162,47 @@ label{
 
 .signup_btn {
     text-align: center;
-    transition: 0.3s;
 }
 .signup_btn input{
-    width: 70%;
+    width: 70px;
     height: 40px;
-    font-size: 20px;
     cursor: pointer;
     border-radius: 10px;
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
+
 .signup_btn input:hover{
+    background-color:#66bcf6 ;
+    color: #fff;
+    
+    transform: scale(1.1);
+}
+
+/*sign up role*/
+.choose-role{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+    padding: 10px;
+    
+}
+
+.role{
+    text-align: center;
+    transition: 0.3s;
+    width: 70px;
+    height: 40px;
+    border-radius: 10px;
+    white-space: 10px;
+}
+
+.role:hover{
     background-color:#66bcf6 ;
     color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     transform: scale(1.1);
 }
-
-
 
 

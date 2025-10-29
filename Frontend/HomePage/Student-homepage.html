@@ -1,0 +1,176 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="Student-homepage-style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="Se"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h2>Work Hub</h2>
+        </div>
+        <nav class="navi">
+            <ul>
+                <li><a href="#" class="menu_btn">Find Job</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon name="reader-outline"></ion-icon></span>My CV</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon
+                                name="notifications-outline"></ion-icon></span>Notification</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon
+                                name="person-circle-outline"></ion-icon></span>Account</a>
+                    <ul class="sub-menu">
+                        <li><a href="#">Edit profile</a></li>
+                        <li><a href="#">Log out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="wrapper">
+            <section class="banner_and_search">
+                <div class="banner">
+                    <h1>Find your dream job at our website</h1>
+                    <p>Explore thousands of jobs right away</p>
+                </div>
+
+                <form class="search" action="#" method="get">
+                    <div class="search_form">
+                        <div class="search_bar">
+                            <input type="text" class="search_job" id="searchInput" placeholder="Enter job title">
+                            <button type="submit" id="searchBtn"><ion-icon name="search-outline"></ion-icon></button>
+                        </div>
+
+                        <div class="advanced_search">
+                            <div class="row">
+                                <div class="location_chosen">
+                                    <select class="location">
+                                        <option value="">Select Location</option>
+                                        <option value="ha-noi">Hà Nội</option>
+                                        <option value="ho-chi-minh">Hồ Chí Minh</option>
+                                        <option value="da-nang">Đà Nẵng</option>
+                                        <option value="international">International</option>
+                                    </select>
+                                </div>
+
+                                <div class="categories_chosen">
+                                    <select class="categories">
+                                        <option value="">Select Category</option>
+                                        <option value="fe">Front-end Developer</option>
+                                        <option value="be">Back-end Developer</option>
+                                    </select>
+                                </div>
+
+                                <div class="salary_chosen">
+                                    <select class="salary">
+                                        <option value="">Select Salary</option>
+                                        <option value="3">From 3,000,000 đ</option>
+                                        <option value="10">From 10,000,000 đ</option>
+                                        <option value="20">From 20,000,000 đ</option>
+                                        <option value="50">From 50,000,000 đ</option>
+                                        <option value="100">From 100,000,000 đ</option>
+                                    </select>
+                                </div>
+
+                                <div class="level_chosen">
+                                    <select class="level">
+                                        <option value="">Select Level</option>
+                                        <option value="intern">Intern</option>
+                                        <option value="fresher">Fresher</option>
+                                        <option value="junior">Junior</option>
+                                        <option value="mid">Mid-level</option>
+                                        <option value="senior">Senior</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section>
+                <div class="job_post_section">
+
+                    <a href="#">
+                        <div class="job_container">
+                            <div class="company_logo"><img src="../../image/techvisionlogo.png" alt=""></div>
+                            <div class="job_content">
+                                <h3>Front-End Developer (React)</h3>
+                                <p>TechVision</p>
+                                <p>Hà Nội</p>
+                                <p>Lương:18.000.000</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="#">
+                        <div class="job_container">
+                            <div class="company_logo"><img src="../../image/softhub_logo.png" alt=""></div>
+                            <div class="job_content">
+                                <h3>Front-End Developer (VueJS)</h3>
+                                <p>SoftHub</p>
+                                <p>Hồ Chí Minh</p>
+                                <p>Lương:22.000.000</p>
+                            </div>
+
+                        </div>
+                    </a>
+
+                    <a href="#">
+                        <div class="job_container">
+                            <div class="company_logo"><img src="../../image/codeforge_logo.jpg" alt=""></div>
+                            <div class="job_content">
+                                <h3>Back-End Developer (Node.js)</h3>
+                                <p>CodeForge</p>
+                                <p>Hồ Chí Minh</p>
+                                <p>Lương:25.000.000</p>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-about" id="footer-col">
+                <h2>Work Hub</h2>
+                <p>
+                    Work Hub is your trusted job portal helping students and professionals
+                    find their dream careers quickly and easily.
+                </p>
+            </div>
+
+            <div class="footer-link" id="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Find Job</a></li>
+                    <li><a href="#">My CV</a></li>
+                    <li><a href="#">Notifications</a></li>
+                    <li><a href="#">Account</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact" id="footer-col">
+                <h3>Contact Us</h3>
+                <p><ion-icon name="mail-outline"></ion-icon> support@workhub.com</p>
+                <p><ion-icon name="call-outline"></ion-icon> +84 123 456 789</p>
+                <p><ion-icon name="location-outline"></ion-icon> Hà Nội, Việt Nam</p>
+            </div>
+        </div>
+        <p style="text-align: center;padding-top: 20px;">© 2025 Work Hub | All rights reserved.</p>
+    </footer>
+
+    <script>
+        
+    </script>
+</body>
+
+</html>
