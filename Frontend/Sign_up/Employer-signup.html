@@ -33,23 +33,33 @@
 
     <main>
         <div class="signup_box">
-            <h2>SIGN UP</h2> <br>
+            <h2>SIGN UP</h2>
+            <h4>Step 2</h4> <br>
             <form action="../Login/Login.html" method="get">
 
                 <div class="info">
-                    <label>Full Name</label>
-                    <input type="text" placeholder="VD: Nguyễn Văn A" required autocomplete="on" autofocus>
+                    <label>Company Name</label>
+                    <input type="text" placeholder="VD:Công ty cổ phần  ABC" autofocus>
                 </div>
 
                 <div class="info">
-                    <label>Birthday</label>
-                    <input type="text" placeholder="Birthday" pattern="[0-31]{2}/[0-12]{2}/[0-9]{4}" required>
+                    <label>Field</label>
+                    <select name="field" class="field">
+                        <option value="choose-field">Choose field of your company</option>
+                        <option value="IT">IT</option>
+                    </select>
                 </div>
 
-                <div class="radio">
-                    <label>Gender</label>
-                    <label for="Male"><input type="radio" name="gender" value="Male" id="Male"> Male</label>
-                    <label for="Female"><input type="radio" name="gender" value="Female" id="Female"> Female</label>
+                <div class="info">
+                    <label>Size</label>
+                    <select name="size" class="size">
+                        <option value="choose-size">Choose size of your company</option>
+                        <option value="under10">Under 10 employees</option>
+                        <option value="10-30">10-30 employees</option>
+                        <option value="30-100 ">30-100 employees</option>
+                        <option value="100-300">100-300 employees</option>
+                        <option value="more300">More than 300 employees</option>
+                    </select>
                 </div>
 
                 <div class="info">
@@ -60,24 +70,6 @@
                 <div class="info">
                     <label>Phone number</label>
                     <input type="tel" placeholder="Phone number" pattern="0[0-9]{9}" required>
-                </div>
-
-                <div class="info">
-                    <label>Password</label>
-                    <input type="password" placeholder="Password" required>
-                </div>
-
-                <div class="info">
-                    <label>Email</label>
-                    <input type="email" placeholder="Email@gmail.com" required>
-                </div>
-
-                <div class="radio">
-                    <label>Choose role</label>
-                    <label for="student"><input type="radio" name="role" id="student" value="Student"
-                            required>Student</label>
-                    <label for="employer"><input type="radio" name="role" id="employer"
-                            value="Employer">Employer</label>
                 </div>
 
                 <div class="signup_btn">

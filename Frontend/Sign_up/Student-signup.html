@@ -1,0 +1,75 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Signup_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h2>Work Hub</h2>
+        </div>
+        <nav class="navi">
+            <ul>
+                <li><a href="#" class="menu_btn">Find Job</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon name="reader-outline"></ion-icon></span>My CV</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon
+                                name="notifications-outline"></ion-icon></span>Notification</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon
+                                name="person-circle-outline"></ion-icon></span>Account</a></li>
+                <li><a href="../Login/Login.html"><button type="button" class="btn_login"
+                            value="Login">Login</button></a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <main>
+        <div class="signup_box">
+            <h2>SIGN UP</h2>
+            <h4>Step 2</h4> <br>
+            <form action="../Login/Login.html" method="get">
+
+                <div class="info">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="VD: Nguyễn Văn A" required autocomplete="on" autofocus>
+                </div>
+
+                <div class="info">
+                    <label>Birthday</label>
+                    <input type="text" placeholder="Birthday" pattern="[0-31]{2}/[0-12]{2}/[0-9]{4}" required>
+                </div>
+
+                <div class="radio">
+                    <label>Gender</label>
+                    <label for="Male"><input type="radio" name="gender" value="Male" id="Male"> Male</label>
+                    <label for="Female"><input type="radio" name="gender" value="Female" id="Female"> Female</label>
+                </div>
+
+                <div class="info">
+                    <label>Address</label>
+                    <input type="text" placeholder="Address" required>
+                </div>
+
+                <div class="info">
+                    <label>Phone number</label>
+                    <input type="tel" placeholder="Phone number" pattern="0[0-9]{9}" required>
+                </div>
+
+                <div class="signup_btn">
+                    <input type="submit" name="btnSignUp" value="Sign Up">
+                </div>
+
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>
