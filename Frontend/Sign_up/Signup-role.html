@@ -32,27 +32,49 @@
 
     <main>
         <div class="signup_box">
-        <form action="" method="get">
-            <h2>SIGN UP</h2>
-            <h4>Step 1</h4> <br>
-            <div class="info">
-                <label>Email</label>
-                <input type="email" placeholder="Email@gmail.com" required>
-            </div>
+            <form action="" method="get" id="signup-form">
+                <h2>SIGN UP</h2>
+                <h4>Step 1</h4> <br>
+                <div class="info">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="Email@gmail.com" required>
+                </div>
 
-            <div class="info">
-                <label>Password</label>
-                <input type="password" placeholder="Password" required>
-            </div>
+                <div class="info">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
 
-            <div class="choose-role">
-                <input type="submit" class="role" name="role" id="student" value="Student" >
-                <input type="submit"  class="role" name="role" id="employer" value="Employer">
-            </div>
-        </form>
-    </div>
+                <div class="choose-role">
+                    <input type="submit" class="role" name="role" id="student" value="Student">
+                    <input type="submit" class="role" name="role" id="employer" value="Employer">
+                </div>
+            </form>
+        </div>
     </main>
-    
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+            let role = event.submitter.value;
+            let list_user = localStorage.getItem('userdata') ? JSON.parse(localStorage.getItem('userdata')) : []
+            list_user.push({
+                email: email,
+                password: password,
+                role: role
+            });
+            localStorage.setItem('userdata', JSON.stringify(list_user));
+            if (role === 'Student') {
+                window.location.href = 'Student-signup.html'
+            }
+            if (role === 'Employer') {
+                window.location.href = 'Employer-signup.html'
+            }
+        });
+    </script>
 </body>
 
 </html>
