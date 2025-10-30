@@ -4,14 +4,14 @@
       "jobId": "JD001",
       "jobTitle": "Frontend Developer (ReactJS)",
       "companyName": "TechNova Solutions",
-      "description": "Develop and maintain user interfaces for web applications using ReactJS and modern JavaScript libraries. Collaborate closely with UI/UX designers to deliver responsive and high-performance web pages.",
+      "description": "Develop and optimize website/web app interfaces using HTML, CSS, JavaScript, and modern frameworks (React, Angular, Vue, etc.). Collaborate with UI/UX designers and backend developers to deliver smooth and user-friendly experiences. Test, debug, and ensure performance, responsiveness, and cross-browser compatibility.",
       "location": "Hanoi, Vietnam",
       "salary": "20,000,000 - 35,000,000 VND/month",
       "level": "Junior",
       "requirement": "Proficient in HTML, CSS, JavaScript (ES6+). Familiar with ReactJS and RESTful APIs. Basic knowledge of Git and responsive design principles.",
       "deadline": "2025-12-10",
-      "benefit": "13th month salary, annual bonus, flexible working hours, health insurance.",
-      "numberOfVacancy": 3
+      "benefit": "13th month salary and annual bonuses, health insurance, wellness programs, opportunities for professional growth.",
+      "numberOfVacancy": 3 
     },
     {
       "jobId": "JD002",
