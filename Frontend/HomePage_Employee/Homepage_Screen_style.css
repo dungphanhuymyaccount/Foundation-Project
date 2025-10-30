@@ -102,8 +102,7 @@ img {
     object-fit: cover;
 }
 
-
-.post_job_section {
+.job_post_section{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -113,11 +112,36 @@ img {
     gap: 20px;
 }
 
+
+.job_post_section a{
+    text-decoration: none;
+}
+
 .job_container {
-    flex: 1;
     border: solid black 1px;
-    box-shadow: #bbb;
-    padding: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    transition: 0.2s ease;
+    gap: 20px;
+    min-width: 300px;
+    max-width: 400px;
+    }
+
+.job_container h3,
+.job_container p{
+    color: #000;
+}
+
+.button{
+    text-decoration: underline;
+    color: blue;
+    font-size: 18px;
+}
+
+.job_container:hover{
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transform: scale(1.01);
+    cursor: pointer;
 }
 
 .footer {

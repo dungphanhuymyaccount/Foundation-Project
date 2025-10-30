@@ -177,6 +177,7 @@ nav ul {
 
 .job_post_section a{
     text-decoration: none;
+    
 }
 
 .job_container {
@@ -195,6 +196,7 @@ nav ul {
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     transform: scale(1.01);
     cursor: pointer;
+    
 }
 
 
