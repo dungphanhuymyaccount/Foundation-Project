@@ -1,6 +1,7 @@
 [
   {
-    "CompanyID": "EMP001",
+    "EmployerID": "EMP001",
+    "EmployerName": "Trần Quỳnh Hoa",
     "CompanyName": "TechVision Co., Ltd",
     "Field": "Information Technology",
     "Size": "200 employees",
@@ -9,7 +10,8 @@
     "Avatar": "../image/techvisionlogo.png"
   },
   {
-    "CompanyID": "EMP002",
+    "EmployerID": "EMP002",
+    "EmployerName": "Nguyễn Thị Ngọc Bích",
     "CompanyName": "GreenMart Corporation",
     "Field": "E-commerce & Retail",
     "Size": "500 employees",
@@ -18,7 +20,8 @@
     "Avatar": "images/student1.jpg"
   },
   {
-    "CompanyID": "EMP003",
+    "EmployerID": "EMP003",
+    "EmployerName": "Phạm Nhật Vượng",
     "CompanyName": "EduNext Academy",
     "Field": "Education & Training",
     "Size": "100 employees",
@@ -27,7 +30,8 @@
     "Avatar": "images/student1.jpg"
   },
   {
-    "CompanyID": "EMP004",
+    "EmployerID": "EMP004",
+    "EmployerName": "Bùi Anh Tuấn",
     "CompanyName": "FinNova Group",
     "Field": "Finance & Banking",
     "Size": "350 employees",
@@ -36,7 +40,8 @@
     "Avatar": "images/student1.jpg"
   },
   {
-    "CompanyID": "EMP005",
+    "EmployerID": "EMP005",
+    "EmployerName": "Ông Cao Thắng",
     "CompanyName": "Meditech Vietnam",
     "Field": "Healthcare & Biotechnology",
     "Size": "150 employees",
