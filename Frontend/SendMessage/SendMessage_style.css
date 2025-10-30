@@ -1,0 +1,255 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+section {
+    flex: 1;
+    display: flex;
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #222;
+    padding: 15px 60px;
+}
+
+.logo h2 {
+    font-weight: bold;
+    color: #fff;
+}
+
+.navi ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.navi ul li {
+    position: relative;
+    margin-left: 30px;
+}
+
+.navi ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.navi ul li ul {
+    display: none;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: #333;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.navi ul li ul li a {
+    display: block;
+    padding: 10px 20px;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.navi a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    left: 0;
+    bottom: -5px;
+    background: cyan;
+    transform: scaleX(0);
+    border-radius: 5px;
+    transition: transform .5s;
+}
+
+a:hover:after {
+    transform: scaleX(1);
+    cursor: pointer;
+}
+
+.message-container {
+    display: flex;
+    flex: 1;
+    background-color: white;
+}
+
+.chat-list {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 25%;
+    min-width: 220px;
+    max-width: 400px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.chat-list-SearchBox {
+    height: 30px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    margin: 5px;
+    margin-top: 10px;
+    padding-left: 10px;
+    width: 90%;
+}
+.chat-list ul {
+    list-style: none;
+}
+.chat-list ul li {
+    display: flex; /* xếp ảnh + chữ trên cùng một hàng */
+    align-items: center;  /* căn giữa dọc */
+    gap: 10px;  /* khoảng cách giữa ảnh và chữ */
+    width: 95%;
+    border: 1px solid #ccc;
+    margin: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.chat-list a {
+    color: black;
+    font-weight: bold;
+}
+.chat-list ul li:hover {
+    background-color: cyan;
+}
+
+.chat-list-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    flex: 1;
+}
+
+.sent-message {
+    height: 90%;
+    background-color: cyan;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+}
+
+.chat-texting {
+    flex: 1;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+}
+.chat-texting-box {
+    border: none;
+    background-color:#f0f0f0 ;
+    border-radius: 20px;
+    margin-left: 10px;
+    padding-left: 10px;
+    height: 30px;
+    width: 90%;
+}
+
+.chat-texting-emoji {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    border-radius: 50%;
+    border: none;
+    background: none;
+    line-height: 1;
+    padding: 0;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.chat-texting-like {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: none;
+    background: none;
+    line-height: 1;
+    padding: 0;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* --- Tin nhắn đến (người khác gửi) --- */
+.incoming {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+/* Avatar người gửi bên trái */
+.incoming img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.incoming .message {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 60%;
+}
+
+/* --- Tin nhắn đi (mình gửi) --- */
+.outgoing {
+    display: flex;
+    justify-content: flex-end; /* Căn tin nhắn sang phải */
+    margin-bottom: 10px;
+}
+
+/* Nội dung tin nhắn gửi đi */
+.outgoing .message {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #0084ff;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 60%;
+}
+
