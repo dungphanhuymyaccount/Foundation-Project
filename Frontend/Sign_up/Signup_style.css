@@ -157,7 +157,7 @@ main{
     transform: scale(1.5);
 }
 .radio input[type="radio"]{
-    margin-right: 10px;
+    margin-left: 75px;
 }
 
 .signup_btn {

@@ -32,6 +32,7 @@
 
     <main>
         <div class="signup_box">
+<<<<<<< Updated upstream
         <form action="" method="get">
             <h2>SIGN UP</h2>
             <h4>Step 1</h4> <br>
@@ -39,6 +40,15 @@
                 <label>Email</label>
                 <input type="email" placeholder="Email@gmail.com" required>
             </div>
+=======
+            <form id="signup-form-step1">
+                <h2>SIGN UP</h2>
+                <h4>Step 1</h4> <br>
+                <div class="info">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="Email@gmail.com" required>
+                </div>
+>>>>>>> Stashed changes
 
             <div class="info">
                 <label>Password</label>
@@ -52,7 +62,35 @@
         </form>
     </div>
     </main>
+<<<<<<< Updated upstream
     
+=======
+
+    <script>
+        document.getElementById('signup-form-step1').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+            let role = event.submitter.value;
+            
+
+            let user=({
+                email: email,
+                password: password,
+                role: role
+            });
+
+            localStorage.setItem('user', JSON.stringify(user));
+            if (role === 'Student') {
+                window.location.href = 'Student-signup.html'
+            }
+            if (role === 'Employer') {
+                window.location.href = 'Employer-signup.html'
+            }
+        });
+    </script>
+>>>>>>> Stashed changes
 </body>
 
 </html>

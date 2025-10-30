@@ -35,16 +35,16 @@
         <div class="signup_box">
             <h2>SIGN UP</h2>
             <h4>Step 2</h4> <br>
-            <form action="../Login/Login.html" method="get">
+            <form id="signup-form-step2">
 
                 <div class="info">
-                    <label>Company Name</label>
-                    <input type="text" placeholder="VD:Công ty cổ phần  ABC" autofocus>
+                    <label>Employer Name</label>
+                    <input type="text" id="employerName" placeholder="VD:Công ty cổ phần  ABC" autofocus>
                 </div>
 
                 <div class="info">
                     <label>Field</label>
-                    <select name="field" class="field">
+                    <select name="field" id="field" class="field">
                         <option value="choose-field">Choose field of your company</option>
                         <option value="IT">IT</option>
                     </select>
@@ -52,7 +52,7 @@
 
                 <div class="info">
                     <label>Size</label>
-                    <select name="size" class="size">
+                    <select name="size" id="size" class="size">
                         <option value="choose-size">Choose size of your company</option>
                         <option value="under10">Under 10 employees</option>
                         <option value="10-30">10-30 employees</option>
@@ -64,21 +64,50 @@
 
                 <div class="info">
                     <label>Address</label>
-                    <input type="text" placeholder="Address" required>
+                    <input type="text" id="address" placeholder="Address" required>
                 </div>
 
                 <div class="info">
                     <label>Phone number</label>
-                    <input type="tel" placeholder="Phone number" pattern="0[0-9]{9}" required>
+                    <input type="tel" id="phoneNumber" placeholder="Phone number" pattern="0[0-9]{9}" required>
                 </div>
 
                 <div class="signup_btn">
                     <input type="submit" name="btnSignUp" value="Sign Up">
                 </div>
-
             </form>
         </div>
     </main>
+
+    <script>
+        document.getElementById('signup-form-step2').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let employerName = document.getElementById('employerName').value;
+            let field = document.querySelector('.field').value;
+            let size = document.querySelector('.size').value
+            let address = document.getElementById('address').value;
+            let phoneNumber = document.getElementById('phoneNumber').value;
+
+            let employer = JSON.parse(localStorage.getItem('user'));
+
+            employer.employerName = employerName;
+            employer.field = field;
+            employer.size = size;
+            employer.address = address;
+            employer.phoneNumber = phoneNumber;
+
+            let list_employer = JSON.parse(localStorage.getItem('list_employer')) || [];
+
+            list_employer.push(employer);
+
+            localStorage.setItem('list_employer', JSON.stringify(list_employer))
+
+            localStorage.removeItem('user');
+
+            window.location.href = '../Login/login.html'
+        })
+    </script>
 </body>
 
 </html>
