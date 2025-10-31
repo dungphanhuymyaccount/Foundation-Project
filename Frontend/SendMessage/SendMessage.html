@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Message</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="SendMessage_style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h2>Work Hub</h2>
+        </div>
+        <nav class="navi">
+            <ul>
+                <li><a href="#" class="menu_btn">Find Job</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon name="reader-outline"></ion-icon></span>My CV</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon name="notifications-outline"></ion-icon></span>Notification</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon name="person-circle-outline"></ion-icon></span>Account</a>
+                <ul>
+                    <li><a href="#">Edit profile</a></li>
+                    <li><a href="#">Log out</a></li>
+                </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <section>
+        <div class="message-container">
+            <div class="chat-list">
+                <input type="text" name="chatSearch" id="chatSearch" placeholder="Search" class="chat-list-SearchBox">
+                <ul>
+                    <li><img src="techvisionlogo.png" alt="" class="chat-list-avatar"><a href="#">TechVision</a></li>
+                    <li><img src="softhub_logo.png" alt="" class="chat-list-avatar"><a href="#">SoftHub</a></li>
+                    <li><img src="codeforge_logo.jpg" alt="" class="chat-list-avatar"><a href="#">CodeForge</a></li>
+                    <li><img src="meditech-logo.png" alt="" class="chat-list-avatar"><a href="#">MediTech</a></li>
+                </ul>
+            </div>
+            <div class="chat-box">
+                <div class="chat-texting-topName"></div>
+                <div class="sent-message"></div>
+                <div class="chat-texting">
+                    <input type="text" name="chatTexting" id="chatTexting" placeholder="Texting here" class="chat-texting-box">
+                    <input type="button" name="btnchatEmoji" id="btnchatEmoji" value="😊" class="chat-texting-emoji">
+                    <input type="button" name="btnchatLike" id="btnchatLike" value="👍" class="chat-texting-like">
+                    <input type="button" name="btnchatSend" id="btnchatSend" value="➤" class="chat-texting-send">
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="SendMessage.js"></script>
+</body>
+</html>
