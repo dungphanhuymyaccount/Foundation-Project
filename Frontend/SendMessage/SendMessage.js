@@ -7,22 +7,22 @@ const chatTopName = document.querySelector(".chat-texting-topName");
 // Hội thoại mẫu cho từng công ty
 const chatScripts = {
     TechVision: [
-    { type: 'incoming', text: 'Hello! We have seen your resume and we would like to interview you directly.', avatar: 'techvisionlogo.png' },
-    { type: 'incoming', text: 'What time is suit for you?', avatar: 'techvisionlogo.png' },
+    { type: 'incoming', text: 'Hello! We have seen your resume and we would like to interview you directly.', avatar: '../../image/techvisionlogo.png' },
+    { type: 'incoming', text: 'What time is suit for you?', avatar: '../../techvisionlogo.png' },
     { type: 'outgoing', text: 'I can come on Monday.' },
-    { type: 'incoming', text: 'Great! Let me set up an appointment for you.', avatar: 'techvisionlogo.png' }
+    { type: 'incoming', text: 'Great! Let me set up an appointment for you.', avatar: '../../techvisionlogo.png' }
   ],
   SoftHub: [
     { type: 'outgoing', text: 'I am sorry but I can come to the interview on Monday. I have got busy all of the sudden.' },
-    { type: 'incoming', text: 'Can we set up another appointment.', avatar: 'softhub_logo.png' },
+    { type: 'incoming', text: 'Can we set up another appointment.', avatar: '../../softhub_logo.png' },
     { type: 'outgoing', text: 'Yes, please.' },
   ],
   CodeForge: [
-    { type: 'incoming', text: 'Your profile looks impressive. Are you available this week?', avatar: 'codeforge_logo.jpg' },
+    { type: 'incoming', text: 'Your profile looks impressive. Are you available this week?', avatar: '../../codeforge_logo.jpg' },
     { type: 'outgoing', text: 'Yes, any time after Wednesday works for me.' }
   ],
   MediTech: [
-    { type: 'incoming', text: 'We’d like to discuss a position related to medical AI.', avatar: 'meditech-logo.png' },
+    { type: 'incoming', text: 'We’d like to discuss a position related to medical AI.', avatar: '../../meditech-logo.png' },
     { type: 'outgoing', text: 'That sounds great!' }
   ]
 };
@@ -59,3 +59,4 @@ chatItems.forEach(function (item) {
     });
   });
 });
+
