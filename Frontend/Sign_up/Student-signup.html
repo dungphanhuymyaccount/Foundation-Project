@@ -90,7 +90,7 @@
             student.address = address;
             student.phoneNumber = phoneNumber;
 
-            let list_student = JSON.parse(localStorage.getItem('list_student')) : [];
+            let list_student = JSON.parse(localStorage.getItem('list_student')) || [];
 
             list_student.push(student);
 
