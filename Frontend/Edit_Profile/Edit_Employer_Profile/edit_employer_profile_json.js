@@ -87,7 +87,7 @@ const EMPLOYERS_DATA = [
 	},
 ];
 
-// Mapping Email → CompanyID
+// Mapping Email → EMPLOYERID
 const EMAIL_TO_EMPLOYER = {
 	"tranminh@gmail.com": "EMP002",
 	"hoanganh@gmail.com": "EMP005",
@@ -116,7 +116,6 @@ function convertToDDMMYYY(ddmmyyyy) {
 // ==================== TÌM EMPLOYER THEO EMAIL ====================
 function findEmployerByEmail(email) {
 	console.log("Tìm kiếm employer cho email:", email);
-	// ... (giữ nguyên code cũ)
 	const user = USERS_DATA.find(
 		(u) => u.Email === email && u.Role === "Employer",
 	);
@@ -185,6 +184,26 @@ function getCompanyInputs() {
 		companyName: allInputs[0],
 		field: allInputs[1],
 		size: allInputs[2],
+	};
+}
+
+// ==================== LẤY FORM INPUTS (PASSWORD) ====================
+function getPasswordInputs() {
+	const passwordSection = document.querySelector("#account-change-password");
+	if (!passwordSection) {
+		console.error("Không tìm thấy #account-change-password");
+		return {};
+	}
+
+	// Lấy theo thứ tự: Current (0), New (1), Repeat (2)
+	const allInputs = passwordSection.querySelectorAll(
+		".card-body input[type='password']",
+	);
+
+	return {
+		currentPassword: allInputs[0],
+		newPassword: allInputs[1],
+		repeatPassword: allInputs[2],
 	};
 }
 
@@ -302,24 +321,50 @@ function loadCompanyProfile() {
 	console.log("Đã load company profile:", companyData);
 }
 
-// ==================== LƯU PROFILE CHUNG ====================
+// ==================== LƯU PROFILE CHUNG (CẬP NHẬT) ====================
+// (Thay thế hàm saveProfile cũ)
 function saveProfile() {
-	console.log("Đang lưu tất cả profile...");
+	console.log("Đang lưu tất cả thay đổi...");
 
-	// Lưu Personal Info và validate
+	// 1. Luôn lưu Personal & Company (theo logic file gốc)
 	const isPersonalSaved = savePersonalProfile();
-
-	// Lưu Company Info và validate
 	const isCompanySaved = saveCompanyProfile();
 
-	if (isPersonalSaved && isCompanySaved) {
-		showNotification(
-			"Lưu **Thông tin chung & Công ty** thành công!",
-			"success",
-		);
+	// 2. Kiểm tra xem có cần lưu mật khẩu không
+	const passInputs = getPasswordInputs();
+	const isPasswordChangeAttempted =
+		passInputs.currentPassword.value.trim() !== "" ||
+		passInputs.newPassword.value.trim() !== "" ||
+		passInputs.repeatPassword.value.trim() !== "";
+
+	let isPasswordSaved = true; // Mặc định là true nếu không cố gắng đổi
+
+	if (isPasswordChangeAttempted) {
+		console.log("Phát hiện nỗ lực thay đổi mật khẩu...");
+		isPasswordSaved = savePassword(); // Hàm này sẽ tự validate và thông báo
 	}
 
-	return isPersonalSaved && isCompanySaved;
+	// 3. Thông báo tổng
+	if (isPersonalSaved && isCompanySaved && isPasswordSaved) {
+		if (!isPasswordChangeAttempted) {
+			// Nếu chỉ lưu Personal/Company
+			showNotification(
+				"Lưu **Thông tin chung & Công ty** thành công!",
+				"success",
+			);
+		}
+		// Nếu đổi cả mật khẩu, hàm savePassword() đã tự thông báo rồi.
+	} else if (isPersonalSaved && isCompanySaved && !isPasswordSaved) {
+		// Personal/Company OK, Pass FAILED
+		// (savePassword đã báo lỗi)
+		showNotification(
+			"Lưu Thông tin chung & Công ty thành công! (Đổi mật khẩu thất bại)",
+			"info",
+		);
+	}
+	// Các trường hợp khác (Personal/Company fail) đã được báo lỗi bên trong.
+
+	return isPersonalSaved && isCompanySaved && isPasswordSaved;
 }
 
 // ==================== LƯU PERSONAL PROFILE ====================
@@ -384,6 +429,47 @@ function saveCompanyProfile() {
 
 	console.log("Đã lưu công ty:", companyData);
 	return true;
+}
+
+// ==================== LƯU PASSWORD ====================
+function savePassword() {
+	console.log("Đang lưu mật khẩu...");
+
+	if (!validatePasswordForm()) {
+		return false; // Dừng lại nếu validation thất bại
+	}
+
+	const inputs = getPasswordInputs();
+	const newPassword = inputs.newPassword.value.trim();
+
+	// Tìm user trong mảng "database"
+	const userInData = USERS_DATA.find((u) => u.Email === currentUser.Email);
+
+	if (userInData) {
+		// Cập nhật "database"
+		userInData.Password = newPassword;
+
+		// Cập nhật biến session
+		currentUser.Password = newPassword;
+
+		console.log("Đã cập nhật mật khẩu cho:", currentUser.Email);
+		showNotification("Đổi mật khẩu thành công!", "success");
+
+		// Xóa trắng các ô input
+		inputs.currentPassword.value = "";
+		inputs.newPassword.value = "";
+		inputs.repeatPassword.value = "";
+
+		// Xóa viền đỏ
+		Object.values(inputs).forEach(
+			(input) => input && input.classList.remove("is-invalid"),
+		);
+
+		return true;
+	} else {
+		showNotification("Lỗi: Không tìm thấy người dùng trong CSDL.", "error");
+		return false;
+	}
 }
 
 // ==================== VALIDATE PERSONAL FORM (Đổi tên từ validateForm) ====================
@@ -483,6 +569,73 @@ function validateCompanyForm() {
 	return isValid;
 }
 
+// ==================== VALIDATE PASSWORD FORM ====================
+function validatePasswordForm() {
+	let isValid = true;
+	let errors = [];
+	const inputs = getPasswordInputs();
+
+	// Xóa các lỗi cũ
+	Object.values(inputs).forEach(
+		(input) => input && input.classList.remove("is-invalid"),
+	);
+
+	const currentPass = inputs.currentPassword.value.trim();
+	const newPass = inputs.newPassword.value.trim();
+	const repeatPass = inputs.repeatPassword.value.trim();
+
+	// 1. Kiểm tra người dùng
+	if (!currentUser) {
+		errors.push("Lỗi: Không tìm thấy thông tin người dùng.");
+		isValid = false;
+		showNotification("Lỗi nghiêm trọng: Không có currentUser", "error");
+		return false;
+	}
+
+	// 2. Kiểm tra mật khẩu hiện tại
+	if (currentPass === "") {
+		errors.push("Vui lòng nhập mật khẩu hiện tại.");
+		inputs.currentPassword.classList.add("is-invalid");
+		isValid = false;
+	} else if (currentPass !== currentUser.Password) {
+		errors.push("Mật khẩu hiện tại không đúng.");
+		inputs.currentPassword.classList.add("is-invalid");
+		isValid = false;
+	}
+
+	// 3. Kiểm tra mật khẩu mới
+	if (newPass === "") {
+		errors.push("Vui lòng nhập mật khẩu mới.");
+		inputs.newPassword.classList.add("is-invalid");
+		isValid = false;
+	} else if (newPass.length < 6) {
+		errors.push("Mật khẩu mới phải có ít nhất 6 ký tự.");
+		inputs.newPassword.classList.add("is-invalid");
+		isValid = false;
+	} else if (newPass === currentPass) {
+		errors.push("Mật khẩu mới phải khác mật khẩu cũ.");
+		inputs.newPassword.classList.add("is-invalid");
+		isValid = false;
+	}
+
+	// 4. Kiểm tra lặp lại mật khẩu
+	if (repeatPass === "") {
+		errors.push("Vui lòng nhập lại mật khẩu mới.");
+		inputs.repeatPassword.classList.add("is-invalid");
+		isValid = false;
+	} else if (newPass !== repeatPass) {
+		errors.push("Mật khẩu lặp lại không khớp.");
+		inputs.repeatPassword.classList.add("is-invalid");
+		isValid = false;
+	}
+
+	if (!isValid) {
+		showNotification("Lỗi Đổi Mật Khẩu:\n" + errors.join("\n"), "error");
+	}
+
+	return isValid;
+}
+
 // ==================== UPLOAD ẢNH ====================
 function handleImageUpload(event) {
 	// ... (giữ nguyên code cũ)
@@ -559,6 +712,12 @@ function cancelChanges() {
 		companyInputs.companyName.value = originalData.companyName || "";
 	if (companyInputs.field) companyInputs.field.value = originalData.field || "";
 	if (companyInputs.size) companyInputs.size.value = originalData.size || "";
+
+	// Khôi phục các trường mật khẩu
+	const passInputs = getPasswordInputs();
+	if (passInputs.currentPassword) passInputs.currentPassword.value = "";
+	if (passInputs.newPassword) passInputs.newPassword.value = "";
+	if (passInputs.repeatPassword) passInputs.repeatPassword.value = "";
 
 	// Xóa invalid classes
 	document.querySelectorAll(".is-invalid").forEach((el) => {
