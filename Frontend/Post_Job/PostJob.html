@@ -10,15 +10,19 @@
     <main>
         <form action="">
             <h2>Post Job</h2>
-            
             <div class="form-group">
                 <label for="title">Job Title:</label>
-                <input type="text" id="title" name="title" placeholder="e.g. Senior Software Engineer" required>
+                <input type="text" id="jobTitle" name="jobTitle" placeholder="e.g. Senior Software Engineer" required>
             </div>
 
             <div class="form-group">
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" placeholder="Job description and responsibilities..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="companyName">Company Name:</label>
+                <input type="text" id="companyName" name="companyName" placeholder="e.g. SamSung" required></textarea>
             </div>
 
             <div class="form-group">
@@ -32,19 +36,8 @@
             </div>
 
             <div class="form-group">
-                <label for="position">Position:</label>
-                <input type="text" id="position" name="position" placeholder="e.g. Full-time" required>
-            </div>
-
-            <div class="form-group">
-                <label for="jobType">Job Type:</label>
-                <select id="jobType" name="jobType" required>
-                    <option value="">Select job type</option>
-                    <option value="full-time">Full-time</option>
-                    <option value="part-time">Part-time</option>
-                    <option value="contract">Contract</option>
-                    <option value="internship">Internship</option>
-                </select>
+                <label for="level">Position:</label>
+                <input type="text" id="level" name="level" placeholder="e.g. Full-time" required>
             </div>
 
             <div class="form-group">
@@ -56,10 +49,15 @@
                 <label for="deadline">Application Deadline:</label>
                 <input type="date" id="deadline" name="deadline" required>
             </div>
+            
+            <div class="form-group">
+                <label for="benefit">Benefit:</label>
+                <input type="text" id="benefit" name="benefit" placeholder="e.g. annual bonus" required>
+            </div>
 
-            <div class="form-group file-upload">
-                <label for="image">Upload Image:</label>
-                <input type="file" id="image" name="image" accept="image/png, image/jpeg">
+            <div class="form-group">
+                <label for="numberOfVacancy">Vacancy:</label>
+                <input type="number" id="numberOfVacancy" name="numberOfVacancy" placeholder="e.g. 3" required>
             </div>
 
             <input type="button" value="Submit" id="submit" onclick="handleSubmit()">
@@ -72,7 +70,21 @@
 
     <script>
         function handleSubmit() {
-            alert('Job posted successfully!');
+            const jobTitle = document.getElementById('jobTitle').value.trim();
+            const companyName = document.getElementById('companyName').value.trim();
+            const studentReq = document.getElementById('studentReq').value.trim();
+            const deadline = document.getElementById('deadline').value.trim();
+            const salary = document.getElementById('salary').value.trim();
+            const benefit = document.getElementById('benefit').value.trim();
+            const level = document.getElementById('level').value.trim();
+            const description = document.getElementById('description').value.trim();
+    
+            if (!jobTitle || !companyName || !studentReq || !deadline || !salary || !benefit || !level || !description) {
+                alert('You need to fill all the information!');
+                return;
+            }
+    
+            alert('Information has been sent!');
         }
     </script>
 </body>

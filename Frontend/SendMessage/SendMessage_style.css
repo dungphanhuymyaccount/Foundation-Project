@@ -161,7 +161,7 @@ a:hover:after {
 }
 
 .sent-message {
-    height: 90%;
+    height: 80%;
     background-color: cyan;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -169,7 +169,7 @@ a:hover:after {
 }
 
 .chat-texting {
-    flex: 1;
+    height: 10%;
     border-radius: 10px;
     border: 1px solid #ccc;
     display: flex;
@@ -202,7 +202,6 @@ a:hover:after {
     width: 30px;
     height: 30px;
     margin-left: 10px;
-    margin-right: 10px;
     border: none;
     background: none;
     line-height: 1;
@@ -211,7 +210,20 @@ a:hover:after {
     cursor: pointer;
 }
 
-/* --- Tin nhắn đến (người khác gửi) --- */
+.chat-texting-send {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: none;
+    background: none;
+    line-height: 1;
+    padding: 0;
+    font-size: 25px;
+    color: cyan;
+    cursor: pointer;
+}
+
 .incoming {
   display: flex;
   align-items: flex-end;
@@ -235,14 +247,12 @@ a:hover:after {
     max-width: 60%;
 }
 
-/* --- Tin nhắn đi (mình gửi) --- */
 .outgoing {
     display: flex;
-    justify-content: flex-end; /* Căn tin nhắn sang phải */
+    justify-content: flex-end; 
     margin-bottom: 10px;
 }
 
-/* Nội dung tin nhắn gửi đi */
 .outgoing .message {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -253,3 +263,15 @@ a:hover:after {
     max-width: 60%;
 }
 
+.chat-texting-topName {
+    height: 40px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+    background-color: #f8f8f8;
+}
