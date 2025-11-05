@@ -82,28 +82,29 @@
     </main>
 
     <script>
-        function validateInfomation(field, size){
+        //hàm kiểm tra xem đã chọn field và size chưa, nếu chưa thì hiện thông báo lỗi
+        function validateInfo(field, size) {
             errorMessageField = document.getElementById('error-message-field');
             errorMessageSize = document.getElementById('error-message-size');
-            validField=false;
-            validSize=false;
-            if(field==="choose-field"){
-                errorMessageField.innerHTML="<p>Please choose your company field!</p>";
-                validField= false;
-            }else{
-                errorMessageField.innerHTML="";
-                validField=true;
+            validField = false;
+            validSize = false;
+            if (field === "choose-field") {
+                errorMessageField.innerHTML = "<p>Please choose your company field!</p>";
+                validField = false;
+            } else {
+                errorMessageField.innerHTML = "";
+                validField = true;
             }
 
-            if(size==="choose-size"){
-                errorMessageSize.innerHTML="<p>Please choose your company size!</p>";
-                    validSize=false;
-            }else{
-                errorMessageSize.innerHTML="";
-                validSize=true;
+            if (size === "choose-size") {
+                errorMessageSize.innerHTML = "<p>Please choose your company size!</p>";
+                validSize = false;
+            } else {
+                errorMessageSize.innerHTML = "";
+                validSize = true;
             }
-            
-            if(validField===validSize && validField===true ){
+
+            if (validField === validSize && validField === true) {
                 return true;
             }
         }
@@ -116,28 +117,30 @@
             let size = document.getElementById('size').value
             let address = document.getElementById('address').value;
             let phoneNumber = document.getElementById('phone-number').value;
-
-            if(!validateInfomation(field,size)){
+            if (!validateInfo(field, size)) {
                 return;
             }
-            
-            let employer = JSON.parse(localStorage.getItem('user'));
+            let list_user = JSON.parse(localStorage.getItem('list_user')) || { list_student: [], list_employer: [] };
+            let currentUser = JSON.parse(localStorage.getItem('user'));
+            let employerIndex = list_user.list_employer.findIndex(employer => employer.email === currentUser.email);
 
-            employer.employerName = employerName;
-            employer.field = field;
-            employer.size = size;
-            employer.address = address;
-            employer.phoneNumber = phoneNumber;
+            //kiểm tra xem làm bước 1 chưa
+            if (!currentUser) {
+                alert("No user found. Sign up again!");
+            }
 
-            let list_employer = JSON.parse(localStorage.getItem('list_employer')) || [];
+            if (employerIndex !== -1) {
+                list_user.list_employer[employerIndex].employerName = employerName;
+                list_user.list_employer[employerIndex].field = field;
+                list_user.list_employer[employerIndex].size = size;
+                list_user.list_employer[employerIndex].address = address;
+                list_user.list_employer[employerIndex].phoneNumber = phoneNumber;
 
-            list_employer.push(employer);
 
-            localStorage.setItem('list_employer', JSON.stringify(list_employer));
-
-            localStorage.removeItem('user');
-
-            window.location.href = '../Login/login.html'
+                localStorage.setItem('list_user', JSON.stringify(list_user));
+                localStorage.removeItem('user');
+                window.location.href = '../Login/login.html';
+            }
         })
     </script>
 </body>

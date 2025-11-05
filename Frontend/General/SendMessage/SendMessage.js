@@ -1,0 +1,63 @@
+const chatItems = document.querySelectorAll(".chat-list li");
+
+const chatBox = document.querySelector(".sent-message");
+
+const chatTopName = document.querySelector(".chat-texting-topName");
+
+// Hội thoại mẫu cho từng công ty
+const chatScripts = {
+    TechVision: [
+    { type: 'incoming', text: 'Hello! We have seen your resume and we would like to interview you directly.', avatar: '../../image/techvisionlogo.png' },
+    { type: 'incoming', text: 'What time is suit for you?', avatar: '../../image/techvisionlogo.png' },
+    { type: 'outgoing', text: 'I can come on Monday.' },
+    { type: 'incoming', text: 'Great! Let me set up an appointment for you.', avatar: '../../image/techvisionlogo.png' }
+  ],
+  SoftHub: [
+    { type: 'outgoing', text: 'I am sorry but I can come to the interview on Monday. I have got busy all of the sudden.' },
+    { type: 'incoming', text: 'Can we set up another appointment.', avatar: '../../image/softhub_logo.png' },
+    { type: 'outgoing', text: 'Yes, please.' },
+  ],
+  CodeForge: [
+    { type: 'incoming', text: 'Your profile looks impressive. Are you available this week?', avatar: '../../image/codeforge_logo.jpg' },
+    { type: 'outgoing', text: 'Yes, any time after Wednesday works for me.' }
+  ],
+  MediTech: [
+    { type: 'incoming', text: 'We’d like to discuss a position related to medical AI.', avatar: '../../image/meditech-logo.png' },
+    { type: 'outgoing', text: 'That sounds great!' }
+  ]
+};
+
+// Gắn sự kiện click cho từng dòng trong danh sách công ty
+chatItems.forEach(function (item) {
+  item.addEventListener('click', function () {
+    // Lấy tên công ty từ phần <a> trong <li>
+    var company = item.querySelector('a').textContent.trim();
+
+    chatTopName.textContent = company;
+
+    // Lấy danh sách tin nhắn tương ứng trong chatScripts
+    var messages = chatScripts[company];
+
+    // Xóa các tin nhắn cũ trong chatBox trước đó
+    chatBox.innerHTML = '';
+
+    messages.forEach(function (msg) {
+      
+      var div = document.createElement('div');
+      div.classList.add(msg.type); 
+
+      if (msg.type === 'incoming') {
+        div.innerHTML = `<img src="${msg.avatar}"><div class="message">${msg.text}</div>`;
+      } 
+    
+      else {
+        div.innerHTML = `<div class="message">${msg.text}</div>`;
+      }
+
+      // Thêm tin nhắn vào khung chat
+      chatBox.appendChild(div);
+    });
+  });
+});
+
+

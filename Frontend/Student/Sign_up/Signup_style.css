@@ -1,9 +1,10 @@
-@import url(<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">);
-*{
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet");
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins',sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 header {
@@ -28,9 +29,10 @@ header {
 .navi ul li {
     position: relative;
     margin-left: 30px;
-    
+
 }
-.navi ul li a:hover{
+
+.navi ul li a:hover {
     color: #00bcd4;
 }
 
@@ -45,7 +47,7 @@ header {
 }
 
 
-.navi a::after{
+.navi a::after {
     content: '';
     position: absolute;
     width: 100%;
@@ -56,158 +58,136 @@ header {
     transform: scaleX(0);
     border-radius: 5px;
     transition: transform.5s;
-    
-    
+
+
 }
-a:hover:after{
-        transform: scaleX(1);
-        cursor: pointer;
-}
-.btn_login{
-    width: 70px;
-    height: 30px;
-    border-radius: 10px;
-    margin-bottom: 5px;
-}
-.btn_login:hover{
-    background-color: lightblue;
+
+a:hover:after {
+    transform: scaleX(1);
     cursor: pointer;
 }
 
-body{
+body {
     min-height: 100vh;
     justify-content: center;
     align-items: center;
-    background-image: url(background.jpg);
+    background-color: #00bcd4;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    
+
 }
 
-main{
+main {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 100px;
 }
-.signup_box{
+
+.signup_box,
+.login_box {
     display: flex;
     flex-direction: column;
-    background: rgba(121, 121, 121, 0.2);
+    background-color: #fff;
     box-shadow: 0 0 50px rgba(0, 0, 0, .1);
     border-radius: 30px;
     padding: 10px;
     width: 70%;
-    max-width: 400px;
+    max-width: 530px;
     justify-content: center;
 }
 
 .signup_box h2,
-.signup_box h4{
+.login_box h2 {
     text-align: center;
-    
-}
-.info{
-    display: flex;
-    padding-top: 12px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    justify-content: space-between;
 }
 
-.info label{
+.info {
+    width: 100%;
+    padding: 12px 10px;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.info label {
     color: black;
     text-align: left;
-    width: 80px;
     font-size: 16px;
 }
 
-.info select{
-    border-radius: 10px;
-    border: 0;
-    width: 250px;
-    height: 30px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    padding-left: 10px;
+.info label:hover {
+    cursor: pointer;
 }
 
-
-.info input{
+.info input {
     border-radius: 10px;
     border: 0;
-    width: 250px;
-    height: 30px;
+    width: 100%;
+    height: 40px;
     padding: 14px 45px 14px 14px;
+    margin: 15px 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    
 }
 
-.radio{
+.remember_chk {
     display: flex;
-    padding-bottom: 20px;
+    width: 100%;
     font-size: 16px;
-    margin-bottom: 10px;
+    margin: 10px 0 0 0;
+    align-items: center;
+    transform: translateX(10px);
 }
-.radio input{
-    margin: 0 0 0 20px;
-    transform: scale(1.5);
-}
-.radio input[type="radio"]{
-    margin-left: 75px;
+.remember_chk label,
+.chk_rmb{
+    cursor: pointer;
 }
 
-.signup_btn {
+.chk_rmb {
+    padding-left: 10px;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    accent-color: #00bcd4;
+}
+
+.signup_btn,
+.login_btn {
     text-align: center;
 }
-.signup_btn input{
-    width: 70px;
+
+.signup_btn input,
+.login_btn input {
+    width: 95%;
     height: 40px;
     cursor: pointer;
     border-radius: 10px;
-    transition: 0.3s;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.signup_btn input:hover{
-    background-color:#66bcf6 ;
-    color: #fff;
-    
-    transform: scale(1.1);
-}
-
-/*sign up role*/
-.choose-role{
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    text-align: center;
-    padding: 10px;
-    
-}
-
-.role{
-    text-align: center;
-    transition: 0.3s;
-    width: 70px;
-    height: 40px;
-    border-radius: 10px;
-    white-space: 10px;
-}
-
-.role:hover{
-    background-color:#66bcf6 ;
+    transition: color 0.3s ease;
+    margin: 30px 0;
+    background-color: #00bcd4;
     color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+.signup_btn input:hover {
+    transform: scale(1.05);
+
+}
+
+.login,
+.sign-up {
+    text-align: center;
+}
+
+.login span {
+    color: #0000ff;
 }
 
 /*phần validate*/
-.error-message{
+.error-message {
     color: red;
     font-size: 12px;
     font-style: italic;
-    margin-left: 130px;
+
 }
-
-

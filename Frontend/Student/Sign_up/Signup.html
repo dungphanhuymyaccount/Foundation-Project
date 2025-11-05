@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up account- Work Hub</title>
+    <link rel="stylesheet" href="Signup_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h2>Work Hub</h2>
+        </div>
+        <nav class="navi">
+            <ul>
+                <li><a href="#" class="menu_btn">Find Job</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon name="reader-outline"></ion-icon></span>My CV</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon
+                                name="notifications-outline"></ion-icon></span>Notification</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon
+                                name="person-circle-outline"></ion-icon></span>Account</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <main>
+        <div class="signup_box">
+            <form id="signup-form-step1" novalidate>
+                <h2>SIGN UP</h2> <br>
+                <div class="info">
+                    <label for="fullname">Full name</label> <br>
+                    <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+                    <div id="error-message-name" class="error-message"></div>
+                </div>
+
+
+                <div class="info">
+                    <label for="email">Email</label> <br>
+                    <input type="email" id="email" name="email" placeholder="Email@gmail.com" required>
+                    <div id="error-message-email" class="error-message"></div>
+                </div>
+
+
+                <div class="info">
+                    <label for="password">Password</label> <br>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <div id="error-message-password" class="error-message"></div>
+                </div>
+
+
+                <div class="signup_btn">
+                    <input type="submit" name="btnSignUp" id="btnSignUp" value="Sign Up">
+                </div>
+
+                <p class="login">Already have an account? <span><a href="../Login/Login.html">Login</a></span></p>
+            </form>
+        </div>
+    </main>
+    
+    <script src="Signup.js"></script>
+</body>
+
+</html>

@@ -95,20 +95,20 @@ main{
     max-width: 400px;
     justify-content: center;
 }
-.lg_info{
+.info{
     display: flex;
     font-size: 16px;
     margin-bottom: 22px;
 }
 
-.lg_info label{
+.info label{
     color: black;
     text-align: left;
     width: 120px;
     font-size: 16px;
 }
 
-.lg_info input{
+.info input{
     border-radius:10px;
     border: 0;
     width: 250px;
@@ -116,18 +116,18 @@ main{
     padding: 14px 45px 14px 14px;
 }
 
-.login_btn {
+.login-btn {
     text-align: center;
     transition: 0.3s;
 }
-.login_btn input{
+.login-btn input{
     width: 70%;
     height: 40px;
     font-size: 20px;
     cursor: pointer;
     border-radius: 10px;
 }
-.login_btn input:hover{
+.login-btn input:hover{
     background-color:#66bcf6 ;
     color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -139,7 +139,7 @@ main{
     color: rgb(0, 98, 255)
 }
 
-.Sign_up{
+.Sign-up{
     text-align: center;
     margin-top: 15px;
 }

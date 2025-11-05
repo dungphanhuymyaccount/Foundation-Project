@@ -39,8 +39,7 @@
 
                 <div class="info">
                     <label>Full Name</label>
-                    <input type="text" id="fullname" placeholder="VD: Nguyễn Văn A" required autocomplete="on"
-                        autofocus>
+                    <input type="text" id="fullname" placeholder="VD: Nguyễn Văn A" required autocomplete="on" autofocus>
                 </div>
 
                 <div class="info">
@@ -53,6 +52,7 @@
                     <label for="Male"><input type="radio" name="gender" value="Male" id="Male"> Male</label>
                     <label for="Female"><input type="radio" name="gender" value="Female" id="Female"> Female</label>
                 </div>
+                <div id="error-message-gender" class="error-message"></div>
 
                 <div class="info">
                     <label>Address</label>
@@ -61,7 +61,7 @@
 
                 <div class="info">
                     <label>Phone number</label>
-                    <input type="tel" id="phonenumber" placeholder="Phone number" pattern="0[0-9]{9}" required>
+                    <input type="tel" id="phone-number" placeholder="Phone number" pattern="0[0-9]{9}" required>
                 </div>
 
                 <div class="signup_btn">
@@ -73,32 +73,60 @@
     </main>
 
     <script>
+        //kiểm tra điền giới tính chưa
+        function validateInfo(gender) {
+            let valid = true;
+            let errorMessageGender = document.getElementById('error-message-gender');
+            if (gender === null) {
+                errorMessageGender.innerHTML = "<p>Please choose your gender!</p>";
+                valid = false;
+            }
+            return valid;
+        }
         document.getElementById('signup-form-step2').addEventListener('submit', function (event) {
             event.preventDefault();
 
             let fullName = document.getElementById('fullname').value;
             let birthday = document.getElementById('birthday').value;
-            let gender = document.querySelector('input[name="gender"]:checked').value
+            let gender = document.querySelector('input[name="gender"]:checked');
             let address = document.getElementById('address').value;
-            let phoneNumber = document.getElementById('phonenumber').value;
+            let phoneNumber = document.getElementById('phone-number').value;
+            if (!validateInfo(gender)) {
+                return;
+            }
 
-            let student = JSON.parse(localStorage.getItem('user'));
+            let list_user = JSON.parse(localStorage.getItem('list_user')) || { list_student: [], list_employer: [] };
+            let currentUser = JSON.parse(localStorage.getItem('user')) ;
 
-            student.fullName = fullName;
-            student.birthday = birthday;
-            student.gender = gender;
-            student.address = address;
-            student.phoneNumber = phoneNumber;
+            if (!currentUser) {
+                alert("No user found. Sign up again!");
+                window.location.href= 'Signup-role.html';
+                
+            }
 
-            let list_student = JSON.parse(localStorage.getItem('list_student')) || [];
+            let studentIndex = list_user.list_student.findIndex(
+                student =>
+                student.email === currentUser.email && 
+                student.password === currentUser.password && 
+                student.role === currentUser.role
+            );
 
-            list_student.push(student);
+            //kiểm tra xem đã làm bước 1 chưa
+            
 
-            localStorage.setItem('list_student', JSON.stringify(list_student))
+            //nếu có thì điền thông tin, lưu dữ liệu
+            if (studentIndex !== -1) {
+                list_user.list_student[studentIndex].fullName = fullName;
+                list_user.list_student[studentIndex].birthday = birthday;
+                list_user.list_student[studentIndex].gender = gender.value;
+                list_user.list_student[studentIndex].address = address;
+                list_user.list_student[studentIndex].phoneNumber = phoneNumber;
+                list_user.list_student[studentIndex].step = 2;
 
-            localStorage.removeItem('user');
-
-            window.location.href = '../Login/login.html'
+                localStorage.setItem('list_user', JSON.stringify(list_user));
+                localStorage.removeItem('user');
+                window.location.href = '../Login/login.html';
+            }
         })
     </script>
 </body>
