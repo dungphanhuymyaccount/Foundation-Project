@@ -1,40 +1,11 @@
-// general-account-embedded.js - Version nhúng dữ liệu JSON (hoàn chỉnh cho Personal & Company Info)
-
-// ==================== DỮ LIỆU JSON NHÚNG TRỰC TIẾP ====================
-const USERS_DATA = [
-	{
-		Email: "nguyentuan@gmail.com",
-		Password: "tuan1234",
-		Role: "Student",
-	},
-	{
-		Email: "tranminh@gmail.com",
-		Password: "minh5678",
-		Role: "Employer",
-	},
-	{
-		Email: "lethao@gmail.com",
-		Password: "thao2025",
-		Role: "Admin",
-	},
-	{
-		Email: "phamquang@gmail.com",
-		Password: "quangabc",
-		Role: "Student",
-	},
-	{
-		Email: "hoanganh@gmail.com",
-		Password: "anhpass",
-		Role: "Employer",
-	},
-];
-
+// ==================== DỮ LIỆU NGƯỜI DÙNG (GIẢ LẬP CSDL) ====================
 const EMPLOYERS_DATA = [
 	{
-		EmployerID: "EMP001",
+		Email: "tranhoa@gmail.com",
+		Password: "tuan1234",
 		EmployerName: "Trần Quỳnh Hoa",
 		CompanyName: "TechVision Co., Ltd",
-		Birthday: "08/15/1985",
+		Birthday: "08/15/1985", // MM/DD/YYYY
 		Field: "Information Technology",
 		Size: "200 employees",
 		Address: "12 Tran Duy Hung, Hanoi, Vietnam",
@@ -42,10 +13,11 @@ const EMPLOYERS_DATA = [
 		Avatar: "../image/techvisionlogo.png",
 	},
 	{
-		EmployerID: "EMP002",
+		Email: "ngocbich@gmail.com",
+		Password: "minh5678",
 		EmployerName: "Nguyễn Thị Ngọc Bích",
 		CompanyName: "GreenMart Corporation",
-		Birthday: "03/22/1990", // Sửa lại ngày tháng để khớp với format MM/DD/YYYY
+		Birthday: "03/22/1990", // MM/DD/YYYY
 		Field: "E-commerce & Retail",
 		Size: "500 employees",
 		Address: "45 Nguyen Thi Minh Khai, Ho Chi Minh City, Vietnam",
@@ -53,7 +25,8 @@ const EMPLOYERS_DATA = [
 		Avatar: "images/student1.jpg",
 	},
 	{
-		EmployerID: "EMP003",
+		Email: "phamvuong@gmail.com",
+		Password: "thao2025",
 		EmployerName: "Phạm Nhật Vượng",
 		CompanyName: "EduNext Academy",
 		Birthday: "04/05/1975",
@@ -64,7 +37,8 @@ const EMPLOYERS_DATA = [
 		Avatar: "images/student1.jpg",
 	},
 	{
-		EmployerID: "EMP004",
+		Email: "buituan@gmail.com",
+		Password: "quangabc",
 		EmployerName: "Bùi Anh Tuấn",
 		CompanyName: "FinNova Group",
 		Birthday: "11/30/1982",
@@ -75,7 +49,8 @@ const EMPLOYERS_DATA = [
 		Avatar: "images/student1.jpg",
 	},
 	{
-		EmployerID: "EMP005",
+		Email: "caothang@gmail.com",
+		Password: "anhpass",
 		EmployerName: "Ông Cao Thắng",
 		CompanyName: "Meditech Vietnam",
 		Birthday: "06/18/1978",
@@ -87,24 +62,19 @@ const EMPLOYERS_DATA = [
 	},
 ];
 
-// Mapping Email → EMPLOYERID
-const EMAIL_TO_EMPLOYER = {
-	"tranminh@gmail.com": "EMP002",
-	"hoanganh@gmail.com": "EMP005",
-};
-
 // ==================== BIẾN TOÀN CỤC ====================
-let currentUser = null;
-let currentEmployer = null;
+let currentUser = null; // Sẽ chứa thông tin user (gồm cả Password)
+let currentEmployer = null; // Sẽ chứa thông tin employer
 let originalData = {}; // Chứa cả Personal & Company Info
 
 // ==================== HÀM CHUYỂN ĐỔI NGÀY THÁNG (FIX LỖI FORMAT) ====================
 function convertToDDMMYYY(ddmmyyyy) {
 	if (!ddmmyyyy) return "";
-	// Chuyển đổi từ MM/DD/YYYY sang YYYY-MM-DD
+	// Dữ liệu gốc là MM/DD/YYYY, chuyển sang YYYY-MM-DD
 	const parts = ddmmyyyy.split("/");
 	if (parts.length === 3) {
-		const [day, month, year] = parts;
+		// SỬA LỖI 5: Dữ liệu là MM/DD/YYYY nên thứ tự là month, day, year
+		const [month, day, year] = parts;
 		// Đảm bảo month và day có 2 chữ số
 		const formattedMonth = month.padStart(2, "0");
 		const formattedDay = day.padStart(2, "0");
@@ -116,23 +86,8 @@ function convertToDDMMYYY(ddmmyyyy) {
 // ==================== TÌM EMPLOYER THEO EMAIL ====================
 function findEmployerByEmail(email) {
 	console.log("Tìm kiếm employer cho email:", email);
-	const user = USERS_DATA.find(
-		(u) => u.Email === email && u.Role === "Employer",
-	);
-
-	if (!user) {
-		console.log("Không tìm thấy user hoặc không phải Employer");
-		return null;
-	}
-
-	const EmployerID = EMAIL_TO_EMPLOYER[email];
-
-	if (!EmployerID) {
-		console.log("Email chưa được map với Employer");
-		return null;
-	}
-
-	const employer = EMPLOYERS_DATA.find((e) => e.EmployerID === EmployerID);
+	// SỬA LỖI 1 & 3: Tìm thẳng trong EMPLOYERS_DATA
+	const employer = EMPLOYERS_DATA.find((e) => e.Email === email);
 
 	if (!employer) {
 		console.log("Không tìm thấy employer");
@@ -140,7 +95,8 @@ function findEmployerByEmail(email) {
 	}
 
 	console.log("Tìm thấy:", employer.EmployerName);
-	return { user, employer };
+	// Trả về đối tượng tương thích với code cũ
+	return { user: { ...employer }, employer: employer };
 }
 
 // ==================== LẤY FORM INPUTS (PERSONAL / GENERAL) ====================
@@ -150,12 +106,10 @@ function getPersonalInputs() {
 		console.error("Không tìm thấy #account-general");
 		return {};
 	}
-
 	// Full Name (0), DoB (1), Phonenumber (2), Personal Address (3), E-mail (4)
 	const allInputs = generalSection.querySelectorAll(
 		'.card-body input:not([type="file"])',
 	);
-
 	return {
 		fullName: allInputs[0], // 1. Full Name
 		dob: allInputs[1], // 2. Birthday
@@ -167,19 +121,16 @@ function getPersonalInputs() {
 
 // ==================== LẤY FORM INPUTS (COMPANY) ====================
 function getCompanyInputs() {
-	// Giả định Tab Company Information có ID là #account-company
 	const companySection = document.querySelector("#account-company");
 	if (!companySection) {
-		console.warn("Không tìm thấy #account-company. Bỏ qua Company Inputs.");
+		console.error("Không tìm thấy #account-company.");
 		return {};
 	}
-
+	// Code này đúng, vì HTML đã được sửa để khớp
 	// Company Name (0), Field (1), Size (2)
 	const allInputs = companySection.querySelectorAll(
-		'.card-body input:not([type="file"]), .card-body select', // Bao gồm cả select nếu Size là dropdown
+		'.card-body input:not([type="file"]), .card-body select',
 	);
-
-	// Gán theo chỉ mục (index)
 	return {
 		companyName: allInputs[0],
 		field: allInputs[1],
@@ -194,12 +145,10 @@ function getPasswordInputs() {
 		console.error("Không tìm thấy #account-change-password");
 		return {};
 	}
-
 	// Lấy theo thứ tự: Current (0), New (1), Repeat (2)
 	const allInputs = passwordSection.querySelectorAll(
 		".card-body input[type='password']",
 	);
-
 	return {
 		currentPassword: allInputs[0],
 		newPassword: allInputs[1],
@@ -214,7 +163,8 @@ function initializePage() {
 	let loggedInEmail = localStorage.getItem("loggedInEmail");
 
 	if (!loggedInEmail) {
-		loggedInEmail = "tranminh@gmail.com";
+		// SỬA LỖI 4: Dùng email có tồn tại trong EMPLOYERS_DATA
+		loggedInEmail = "tranhoa@gmail.com";
 		localStorage.setItem("loggedInEmail", loggedInEmail);
 		console.log("Sử dụng email mặc định:", loggedInEmail);
 	} else {
@@ -224,20 +174,19 @@ function initializePage() {
 	const result = findEmployerByEmail(loggedInEmail);
 
 	if (result) {
-		currentUser = result.user;
-		currentEmployer = result.employer;
+		currentUser = result.user; // Chứa cả password
+		currentEmployer = result.employer; // Chứa info
 
 		loadPersonalProfile(); // Tải Personal Info
 		loadCompanyProfile(); // Tải Company Info
 
-		console.log("User:", currentUser);
-		console.log("Employer:", currentEmployer);
+		console.log("User (chứa pass):", currentUser);
+		console.log("Employer (chứa info):", currentEmployer);
 	} else {
 		showNotification(
 			"Không tìm thấy thông tin employer cho email: " + loggedInEmail,
 			"error",
 		);
-		console.log('Tip: Dùng setLoggedInUser("tranminh@gmail.com") để đổi user');
 	}
 }
 
@@ -247,13 +196,10 @@ function loadPersonalProfile() {
 		console.error("Không có dữ liệu employer");
 		return;
 	}
-
 	console.log("Đang load personal profile...");
-
 	const profileImage = document.querySelector(".ui-w-80");
 	const inputs = getPersonalInputs();
 
-	// Kiểm tra local edits Personal
 	const localPersonalData = localStorage.getItem(
 		"employerPersonalProfile_" + currentUser.Email,
 	);
@@ -262,10 +208,10 @@ function loadPersonalProfile() {
 		? JSON.parse(localPersonalData)
 		: {
 				fullName: currentEmployer.EmployerName || "",
-				dob: convertToDDMMYYYY(currentEmployer.Birthday) || "", // <-- FIX FORMAT DATE
+				dob: convertToDDMMYYY(currentEmployer.Birthday) || "", // <-- Đã sửa hàm convert
 				phone: currentEmployer["Phone Number"] || "",
 				address: currentEmployer.Address || "",
-				email: currentUser.Email || "",
+				email: currentEmployer.Email || "", // Lấy email từ currentEmployer
 				profileImage: currentEmployer.Avatar || "image/OIP.jpg",
 		  };
 
@@ -293,12 +239,9 @@ function loadCompanyProfile() {
 		console.error("Không có dữ liệu employer");
 		return;
 	}
-
 	console.log("Đang load company profile...");
+	const inputs = getCompanyInputs(); // Sẽ chạy đúng vì HTML đã khớp
 
-	const inputs = getCompanyInputs();
-
-	// Kiểm tra local edits Company
 	const localCompanyData = localStorage.getItem(
 		"employerCompanyProfile_" + currentUser.Email,
 	);
@@ -317,16 +260,14 @@ function loadCompanyProfile() {
 
 	// Lưu bản sao vào originalData
 	originalData = { ...originalData, ...companyData };
-
 	console.log("Đã load company profile:", companyData);
 }
 
 // ==================== LƯU PROFILE CHUNG (CẬP NHẬT) ====================
-// (Thay thế hàm saveProfile cũ)
 function saveProfile() {
 	console.log("Đang lưu tất cả thay đổi...");
 
-	// 1. Luôn lưu Personal & Company (theo logic file gốc)
+	// 1. Luôn lưu Personal & Company
 	const isPersonalSaved = savePersonalProfile();
 	const isCompanySaved = saveCompanyProfile();
 
@@ -347,7 +288,6 @@ function saveProfile() {
 	// 3. Thông báo tổng
 	if (isPersonalSaved && isCompanySaved && isPasswordSaved) {
 		if (!isPasswordChangeAttempted) {
-			// Nếu chỉ lưu Personal/Company
 			showNotification(
 				"Lưu **Thông tin chung & Công ty** thành công!",
 				"success",
@@ -355,30 +295,22 @@ function saveProfile() {
 		}
 		// Nếu đổi cả mật khẩu, hàm savePassword() đã tự thông báo rồi.
 	} else if (isPersonalSaved && isCompanySaved && !isPasswordSaved) {
-		// Personal/Company OK, Pass FAILED
-		// (savePassword đã báo lỗi)
 		showNotification(
 			"Lưu Thông tin chung & Công ty thành công! (Đổi mật khẩu thất bại)",
 			"info",
 		);
 	}
-	// Các trường hợp khác (Personal/Company fail) đã được báo lỗi bên trong.
-
 	return isPersonalSaved && isCompanySaved && isPasswordSaved;
 }
 
 // ==================== LƯU PERSONAL PROFILE ====================
 function savePersonalProfile() {
 	console.log("Đang lưu personal profile...");
-
 	if (!validatePersonalForm()) {
 		return false;
 	}
-
 	const inputs = getPersonalInputs();
 	const profileImage = document.querySelector(".ui-w-80");
-
-	// Thu thập dữ liệu
 	const personalData = {
 		fullName: inputs.fullName?.value.trim() || "",
 		dob: inputs.dob?.value.trim() || "",
@@ -387,16 +319,11 @@ function savePersonalProfile() {
 		email: inputs.email?.value.trim() || "",
 		profileImage: profileImage?.src || "image/OIP.jpg",
 	};
-
-	// Lưu vào localStorage
 	localStorage.setItem(
 		"employerPersonalProfile_" + currentUser.Email,
 		JSON.stringify(personalData),
 	);
-
-	// Cập nhật originalData
 	originalData = { ...originalData, ...personalData };
-
 	console.log("Đã lưu personal:", personalData);
 	return true;
 }
@@ -404,29 +331,20 @@ function savePersonalProfile() {
 // ==================== LƯU COMPANY PROFILE ====================
 function saveCompanyProfile() {
 	console.log("Đang lưu company profile...");
-
 	if (!validateCompanyForm()) {
 		return false;
 	}
-
 	const inputs = getCompanyInputs();
-
-	// Thu thập dữ liệu công ty
 	const companyData = {
 		companyName: inputs.companyName?.value.trim() || "",
 		field: inputs.field?.value.trim() || "",
 		size: inputs.size?.value.trim() || "",
 	};
-
-	// Lưu vào localStorage
 	localStorage.setItem(
 		"employerCompanyProfile_" + currentUser.Email,
 		JSON.stringify(companyData),
 	);
-
-	// Cập nhật originalData
 	originalData = { ...originalData, ...companyData };
-
 	console.log("Đã lưu công ty:", companyData);
 	return true;
 }
@@ -436,19 +354,18 @@ function savePassword() {
 	console.log("Đang lưu mật khẩu...");
 
 	if (!validatePasswordForm()) {
-		return false; // Dừng lại nếu validation thất bại
+		return false;
 	}
 
 	const inputs = getPasswordInputs();
 	const newPassword = inputs.newPassword.value.trim();
 
-	// Tìm user trong mảng "database"
-	const userInData = USERS_DATA.find((u) => u.Email === currentUser.Email);
+	// SỬA LỖI 1: Cập nhật EMPLOYERS_DATA
+	const userInData = EMPLOYERS_DATA.find((u) => u.Email === currentUser.Email);
 
 	if (userInData) {
 		// Cập nhật "database"
 		userInData.Password = newPassword;
-
 		// Cập nhật biến session
 		currentUser.Password = newPassword;
 
@@ -460,7 +377,6 @@ function savePassword() {
 		inputs.newPassword.value = "";
 		inputs.repeatPassword.value = "";
 
-		// Xóa viền đỏ
 		Object.values(inputs).forEach(
 			(input) => input && input.classList.remove("is-invalid"),
 		);
@@ -472,14 +388,12 @@ function savePassword() {
 	}
 }
 
-// ==================== VALIDATE PERSONAL FORM (Đổi tên từ validateForm) ====================
+// ==================== VALIDATE PERSONAL FORM ====================
 function validatePersonalForm() {
 	let isValid = true;
 	let errors = [];
-
 	const inputs = getPersonalInputs();
 
-	// Validate Full Name
 	if (inputs.fullName && inputs.fullName.value.trim() === "") {
 		errors.push("Vui lòng nhập tên đầy đủ");
 		inputs.fullName.classList.add("is-invalid");
@@ -488,7 +402,6 @@ function validatePersonalForm() {
 		inputs.fullName.classList.remove("is-invalid");
 	}
 
-	// Validate Email
 	const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 	if (inputs.email && inputs.email.value.trim() === "") {
 		errors.push("Vui lòng nhập email");
@@ -502,7 +415,6 @@ function validatePersonalForm() {
 		inputs.email.classList.remove("is-invalid");
 	}
 
-	// Validate Phone
 	if (
 		inputs.phone &&
 		inputs.phone.value.trim() !== "" &&
@@ -515,12 +427,10 @@ function validatePersonalForm() {
 		inputs.phone.classList.remove("is-invalid");
 	}
 
-	// Validate DoB
 	if (inputs.dob && inputs.dob.value !== "") {
 		const dob = new Date(inputs.dob.value);
 		const today = new Date();
 		const age = today.getFullYear() - dob.getFullYear();
-
 		if (age < 18) {
 			errors.push("Phải từ 18 tuổi trở lên");
 			inputs.dob.classList.add("is-invalid");
@@ -533,7 +443,6 @@ function validatePersonalForm() {
 	if (!isValid) {
 		showNotification("Lỗi Personal Info:\n" + errors.join("\n"), "error");
 	}
-
 	return isValid;
 }
 
@@ -541,10 +450,8 @@ function validatePersonalForm() {
 function validateCompanyForm() {
 	let isValid = true;
 	let errors = [];
+	const inputs = getCompanyInputs(); // Sẽ chạy đúng
 
-	const inputs = getCompanyInputs();
-
-	// Validate Company Name
 	if (inputs.companyName && inputs.companyName.value.trim() === "") {
 		errors.push("Vui lòng nhập Tên Công ty");
 		inputs.companyName.classList.add("is-invalid");
@@ -553,7 +460,6 @@ function validateCompanyForm() {
 		inputs.companyName.classList.remove("is-invalid");
 	}
 
-	// Validate Field
 	if (inputs.field && inputs.field.value.trim() === "") {
 		errors.push("Vui lòng nhập Lĩnh vực hoạt động");
 		inputs.field.classList.add("is-invalid");
@@ -565,7 +471,6 @@ function validateCompanyForm() {
 	if (!isValid) {
 		showNotification("Lỗi Company Info:\n" + errors.join("\n"), "error");
 	}
-
 	return isValid;
 }
 
@@ -575,7 +480,6 @@ function validatePasswordForm() {
 	let errors = [];
 	const inputs = getPasswordInputs();
 
-	// Xóa các lỗi cũ
 	Object.values(inputs).forEach(
 		(input) => input && input.classList.remove("is-invalid"),
 	);
@@ -584,7 +488,6 @@ function validatePasswordForm() {
 	const newPass = inputs.newPassword.value.trim();
 	const repeatPass = inputs.repeatPassword.value.trim();
 
-	// 1. Kiểm tra người dùng
 	if (!currentUser) {
 		errors.push("Lỗi: Không tìm thấy thông tin người dùng.");
 		isValid = false;
@@ -592,7 +495,7 @@ function validatePasswordForm() {
 		return false;
 	}
 
-	// 2. Kiểm tra mật khẩu hiện tại
+	// SỬA LỖI 1: Check password từ currentUser
 	if (currentPass === "") {
 		errors.push("Vui lòng nhập mật khẩu hiện tại.");
 		inputs.currentPassword.classList.add("is-invalid");
@@ -603,7 +506,6 @@ function validatePasswordForm() {
 		isValid = false;
 	}
 
-	// 3. Kiểm tra mật khẩu mới
 	if (newPass === "") {
 		errors.push("Vui lòng nhập mật khẩu mới.");
 		inputs.newPassword.classList.add("is-invalid");
@@ -618,7 +520,6 @@ function validatePasswordForm() {
 		isValid = false;
 	}
 
-	// 4. Kiểm tra lặp lại mật khẩu
 	if (repeatPass === "") {
 		errors.push("Vui lòng nhập lại mật khẩu mới.");
 		inputs.repeatPassword.classList.add("is-invalid");
@@ -632,30 +533,24 @@ function validatePasswordForm() {
 	if (!isValid) {
 		showNotification("Lỗi Đổi Mật Khẩu:\n" + errors.join("\n"), "error");
 	}
-
 	return isValid;
 }
 
 // ==================== UPLOAD ẢNH ====================
 function handleImageUpload(event) {
-	// ... (giữ nguyên code cũ)
 	const file = event.target.files[0];
 	if (!file) return;
-
 	console.log("Upload ảnh:", file.name, file.size + " bytes");
-
 	const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
 	if (!allowedTypes.includes(file.type)) {
 		showNotification("Chỉ chấp nhận JPG, PNG hoặc GIF!", "error");
 		return;
 	}
-
 	const maxSize = 800 * 1024;
 	if (file.size > maxSize) {
 		showNotification("Kích thước file tối đa 800KB!", "error");
 		return;
 	}
-
 	const reader = new FileReader();
 	reader.onload = function (e) {
 		const profileImage = document.querySelector(".ui-w-80");
@@ -670,17 +565,14 @@ function handleImageUpload(event) {
 
 // ==================== RESET ẢNH ====================
 function resetPhoto() {
-	// ... (giữ nguyên code cũ)
 	const profileImage = document.querySelector(".ui-w-80");
 	const uploadInput = document.querySelector(".account-settings-fileinput");
-
 	if (profileImage) {
 		profileImage.src = originalData.profileImage || "image/OIP.jpg";
 	}
 	if (uploadInput) {
 		uploadInput.value = "";
 	}
-
 	console.log("Reset ảnh");
 	showNotification("Đã reset ảnh", "info");
 }
@@ -692,7 +584,6 @@ function cancelChanges() {
 	// Khôi phục Personal Info
 	const personalInputs = getPersonalInputs();
 	const profileImage = document.querySelector(".ui-w-80");
-
 	if (personalInputs.fullName)
 		personalInputs.fullName.value = originalData.fullName || "";
 	if (personalInputs.dob) personalInputs.dob.value = originalData.dob || "";
@@ -707,7 +598,6 @@ function cancelChanges() {
 
 	// Khôi phục Company Info
 	const companyInputs = getCompanyInputs();
-
 	if (companyInputs.companyName)
 		companyInputs.companyName.value = originalData.companyName || "";
 	if (companyInputs.field) companyInputs.field.value = originalData.field || "";
@@ -719,21 +609,17 @@ function cancelChanges() {
 	if (passInputs.newPassword) passInputs.newPassword.value = "";
 	if (passInputs.repeatPassword) passInputs.repeatPassword.value = "";
 
-	// Xóa invalid classes
 	document.querySelectorAll(".is-invalid").forEach((el) => {
 		el.classList.remove("is-invalid");
 	});
-
 	showNotification("Đã hủy thay đổi", "info");
 }
 
 // ==================== HIỂN THỊ THÔNG BÁO ====================
 function showNotification(message, type = "info") {
-	// ... (giữ nguyên code cũ)
 	const notification = document.createElement("div");
 	const bgColor =
 		type === "success" ? "#28a745" : type === "error" ? "#dc3545" : "#17a2b8";
-
 	notification.style.cssText = `
         position: fixed;
         top: 20px;
@@ -751,8 +637,6 @@ function showNotification(message, type = "info") {
         white-space: pre-line;
     `;
 	notification.textContent = message;
-
-	// Thêm animation CSS
 	if (!document.querySelector("#notification-style")) {
 		const style = document.createElement("style");
 		style.id = "notification-style";
@@ -771,49 +655,46 @@ function showNotification(message, type = "info") {
         `;
 		document.head.appendChild(style);
 	}
-
 	document.body.appendChild(notification);
-
 	setTimeout(() => {
 		notification.style.animation = "slideOut 0.3s ease-out";
 		setTimeout(() => notification.remove(), 300);
 	}, 3000);
 }
 
-// ==================== EVENT LISTENERS ====================
-document.addEventListener("DOMContentLoaded", function () {
-	console.log("🎬 DOMContentLoaded - Bắt đầu khởi tạo...");
+// ==================== EVENT LISTENERS (ĐÃ SỬA LỖI) ====================
 
-	setTimeout(() => {
-		// Khởi tạo trang
-		initializePage();
+// VÌ SCRIPT NÀY ĐƯỢC TẢI Ở CUỐI <body>, DOM ĐÃ SẴN SÀNG.
+// KHÔNG CẦN DÙNG 'DOMContentLoaded' HAY 'setTimeout' NỮA.
+console.log("🎬 Script loaded, DOM is ready. Bắt đầu khởi tạo...");
 
-		// Upload ảnh
-		const uploadInput = document.querySelector(".account-settings-fileinput");
-		if (uploadInput) {
-			uploadInput.addEventListener("change", handleImageUpload);
-		}
+// 1. Khởi tạo trang
+initializePage();
 
-		// Reset ảnh
-		const resetPhotoBtn = document.querySelector(".btn-default.md-btn-flat");
-		if (resetPhotoBtn) {
-			resetPhotoBtn.addEventListener("click", resetPhoto);
-		}
+// 2. Gán sự kiện Upload ảnh
+const uploadInput = document.querySelector(".account-settings-fileinput");
+if (uploadInput) {
+	uploadInput.addEventListener("change", handleImageUpload);
+}
 
-		// Cancel changes
-		const cancelBtns = document.querySelectorAll(".btn-default");
-		const cancelBtn = cancelBtns[cancelBtns.length - 1];
-		if (cancelBtn) {
-			cancelBtn.addEventListener("click", cancelChanges);
-		}
+// 3. Gán sự kiện Reset ảnh
+const resetPhotoBtn = document.querySelector(".btn-default.md-btn-flat");
+if (resetPhotoBtn) {
+	resetPhotoBtn.addEventListener("click", resetPhoto);
+}
 
-		console.log("Hệ thống đã sẵn sàng!");
-	}, 100);
-});
+// 4. Gán sự kiện Cancel changes
+// Nút cancel cuối cùng trong .text-right.mt-3
+const formCancelBtn = document.querySelector(".text-right .btn-default");
+if (formCancelBtn) {
+	formCancelBtn.addEventListener("click", cancelChanges);
+}
+
+console.log("Hệ thống đã sẵn sàng!");
 
 // ==================== DEBUG FUNCTIONS ====================
-// ... (giữ nguyên code cũ)
-window.setLoggedInUser = setLoggedInUser;
-window.clearAllData = clearAllData;
+// (để trống hoặc thêm các hàm debug nếu cần)
+// window.setLoggedInUser = function(email) { ... }
+// window.clearAllData = function() { ... }
 
 console.log("Script đã được load");
