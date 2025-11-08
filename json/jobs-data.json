@@ -6,7 +6,7 @@
       "field": "IT",
       "companyName": "TechVision Co., Ltd",
       "description": "Develop and optimize website/web app interfaces using HTML, CSS, JavaScript, and modern frameworks (React, Angular, Vue, etc.). Collaborate with UI/UX designers and backend developers to deliver smooth and user-friendly experiences. Test, debug, and ensure performance, responsiveness, and cross-browser compatibility.",
-      "location": "Hanoi, Vietnam",
+      "location": "Ha Noi, Vietnam",
       "salary": {
         "min": 6000000,
         "max": 9000000,
@@ -98,7 +98,7 @@
       "field": "IT",
       "companyName": "Meditech Vietnam",
       "description": "Develop efficient backend systems and microservices using GoLang. Work on scalable architectures handling high traffic web applications.",
-      "location": "Hanoi, Vietnam",
+      "location": "Ha Noi, Vietnam",
       "salary": {
         "min": 90000000,
         "max": 110000000,
