@@ -19,7 +19,7 @@
 		"Size": "500 employees",
 		"Address": "45 Nguyen Thi Minh Khai, Ho Chi Minh City, Vietnam",
 		"Phone Number": "02839256666",
-		"Avatar": "images/student1.jpg"
+		"Avatar": "../image/greenmart-logo.webp"
 	},
 	{
 		"EmployerID": "EMP003",
@@ -30,7 +30,7 @@
 		"Size": "100 employees",
 		"Address": "27 Le Thanh Tong, Da Nang, Vietnam",
 		"Phone Number": "02363888888",
-		"Avatar": "images/student1.jpg"
+		"Avatar": "../image/edunextAcademy-logo.png"
 	},
 	{
 		"EmployerID": "EMP004",
@@ -41,7 +41,7 @@
 		"Size": "350 employees",
 		"Address": "90 Hai Ba Trung, Hanoi, Vietnam",
 		"Phone Number": "02422223333",
-		"Avatar": "images/student1.jpg"
+		"Avatar": "../image/finnova-log.png"
 	},
 	{
 		"EmployerID": "EMP005",
@@ -52,6 +52,6 @@
 		"Size": "150 employees",
 		"Address": "102 Phan Chu Trinh, Ho Chi Minh City, Vietnam",
 		"Phone Number": "02839393399",
-		"Avatar": "images/student1.jpg"
+		"Avatar": ""
 	}
 ]

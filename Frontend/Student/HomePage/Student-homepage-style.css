@@ -11,69 +11,70 @@ body {
 
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #222;
-  padding: 15px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #222;
+    padding: 15px 60px;
 }
 
 .logo h2 {
-  color: #fff;
-  font-weight: 600;
+    color: #fff;
+    font-weight: 600;
 }
 
 nav ul {
-      display: flex;
-      list-style: none;
-      margin: 0;
-      padding: 10px 40px;
-      background: #222;
-    }
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 10px 40px;
+    background: #222;
+}
 
-    .navi li {
-      position: relative;
-      margin-right: 20px;
-    }
+.navi li {
+    position: relative;
+    margin-right: 20px;
+}
 
-    .navi a {
-      color: #fff;
-      text-decoration: none;
-      padding: 6px 10px;
-      display: block;
-    }
+.navi a {
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 10px;
+    display: block;
+}
 
-    .navi a:hover {
-        color: #00bcd4;
-      border-radius: 4px;
-    }
+.navi a:hover {
+    color: #00bcd4;
+    border-radius: 4px;
+}
 
-    
-    .submenu {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: #333;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      border-radius: 4px;
-      min-width: 150px;
-    }
 
-    .submenu li a {
-      padding: 8px 12px;
-    }
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #333;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 4px;
+    min-width: 150px;
+}
 
-    .submenu li a:hover {
-      background: #555;
-    }
+.submenu li a {
+    padding: 8px 12px;
+}
 
-    
-    .navi li:hover > .submenu {
-      display: block;
-    }
+.submenu li a:hover {
+    background: #555;
+}
+
+
+.navi li:hover>.submenu {
+    display: block;
+}
+
 .wrapper {
     width: 100%;
 }
@@ -128,7 +129,8 @@ nav ul {
     outline: none;
     font-size: 18px;
     padding: 10px 12px;
-    border-radius:8px 0 0 8px; ;
+    border-radius: 8px 0 0 8px;
+    ;
 }
 
 .search_bar button {
@@ -162,22 +164,20 @@ nav ul {
     border-radius: 6px;
     font-size: 16px;
     background: #fff;
-    
+
 }
 
 .job_post_section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    flex-wrap: wrap;
-    padding: 30px 70px;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* đúng 3 cột */
+    gap: 30px;
+    padding: 50px 70px;
+    align-items: start;
 }
 
-.job_post_section a{
+.job_post_section a {
     text-decoration: none;
-    
+
 }
 
 .job_container {
@@ -190,37 +190,39 @@ nav ul {
     gap: 20px;
     min-width: 300px;
     max-width: 400px;
-    }
+    background-color: #f0f0f0f7;
+}
 
-.job_container:hover{
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+.job_container:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     transform: scale(1.01);
     cursor: pointer;
-    
+
 }
 
 
 .company_logo {
-    width: 80px;             
+    width: 80px;
     height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;         
+    overflow: hidden;
     border-radius: 8px;
-    background-color: #f9f9f9; 
+    background-color: #f9f9f9;
 }
 
-.company_logo img{
+.company_logo img {
     width: 100%;
     height: 100%;
 }
-.job_content{
+
+.job_content {
     color: #000;
     font-size: 14px;
 }
 
-.job_content:hover{
+.job_content:hover {
     color: rgb(251, 33, 33);
 }
 

@@ -113,6 +113,6 @@ let fullName = "";
             //lưu người dùng vào danh sách người dùng(đã phân role)
             localStorage.setItem('list_user', JSON.stringify(list_user));
 
-            setTimeout(() => { window.location.href = '../Login/login.html' }, 800);
+            setTimeout(() => { window.location.href = '../../General/Login/Login.html' }, 800);
 
         })

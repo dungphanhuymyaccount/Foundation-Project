@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login-Work Hub</title>
-    <link rel="stylesheet" href="../Sign_up/Signup_style.css">
+    <link rel="stylesheet" href="../../Student/Sign_up/Signup_style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -19,50 +19,91 @@
             <ul>
                 <li><a href="#" class="menu_btn">Find Job</a></li>
                 <li><a href="#" class="menu_btn"><span><ion-icon name="reader-outline"></ion-icon></span>My CV</a></li>
-                <li><a href="#" class="menu_btn"><span><ion-icon name="notifications-outline"></ion-icon></span>Notification</a></li>
-                <li><a href="#" class="menu_btn"><span><ion-icon name="person-circle-outline"></ion-icon></span>Account</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon
+                                name="notifications-outline"></ion-icon></span>Notification</a></li>
+                <li><a href="#" class="menu_btn"><span><ion-icon
+                                name="person-circle-outline"></ion-icon></span>Account</a></li>
             </ul>
         </nav>
     </header>
 
-    <main >
+    <main>
         <div class="login_box">
             <h2>LOGIN</h2>
 
-        <form action="../HomePage/Homepage.html" method="get">
-            <div class="info">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Email@gmail.com" required autofocus autocomplete="on">
-            </div>
+            <form method="get" id="login-box">
+                <div class="info">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Email@gmail.com" required autofocus autocomplete="on">
+                </div>
 
-            <div class="info">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Password" required autofocus>
-            </div>
+                <div class="info">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Password" required autofocus>
+                </div>
 
-            <div class="remember_chk">
-                <input type="checkbox" id="chk_rmb" class="chk_rmb" name="chk_rmb" >
-                <label for="chk_rmb">Remember me</label>
-            </div>
+                <div class="error-message" id="error-message"></div>
 
-            <div class="login_btn">
-                <input type="submit" value="Login">
-            </div>
+                <div class="remember_chk">
+                    <input type="checkbox" id="chk_rmb" class="chk_rmb" name="chk_rmb">
+                    <label for="chk_rmb">Remember me</label>
+                </div>
 
-            <p class="sign-up">Don't have an account? <a class="Sign_up_btn" href="../Sign_up/Signup.html">Sign up?</a></p>
-            
-        </form>
+                <div class="login_btn">
+                    <input type="submit" value="Login">
+                </div>
+
+                <p class="sign-up">Don't have an account? <a class="Sign_up_btn" href="../Sign_up/Signup.html">Sign
+                        up?</a></p>
+
+            </form>
         </div>
-        
-        <script>
-            let currentEmail= document.getElementById('email').value;
-            let currentPassword= document.getElementById('password').value;
 
-            function validateInfo() {
-                
+        <script>
+            let currentEmail = "";
+            let currentPassword = "";
+            let errorMessage = document.getElementById('error-message');
+
+            
+            //kiểm tra xem tài khoản có trong bộ nhớ không không
+            function validateInfo(validUser) {
+                let valid = false;
+                if (!validUser) {
+                    errorMessage.innerHTML = "<p> Your account or password is incorrect </p> ";
+                    valid = false;
+                }
+                else {
+                    errorMessage.innerHTML = "";
+                    valid = true;
+                }
+                return valid;
             }
 
+            document.getElementById('login-box').addEventListener('submit', function (e) {
+                e.preventDefault();
+                currentEmail = document.getElementById('email').value;
+                currentPassword = document.getElementById('password').value;
 
+                //lấy dữ liệu từ trong local và kiểm tra xem người dùng bằng email
+                let list_user = JSON.parse(localStorage.getItem('list_user') || { list_student: [], list_employer: [] });
+                let allUser = [...list_user.list_student, ...list_user.list_employer];
+                let validUser = allUser.find(user => (user.email === currentEmail) && (user.password === currentPassword));
+                console.log(validUser);
+                if (!validateInfo(validUser)) {
+                    return;
+                }
+                else {
+
+                    //lưu người dùng tìm được vào 1 biến khác
+                    localStorage.setItem('current_user', JSON.stringify(validUser));
+                    if (validUser.role === "Student") {
+                        window.location.href = '../../Student/HomePage/Student-homepage.html';
+                    }
+                    if (validUser.role === "Employer") {
+                        window.location.href = "../../Employer/HomePage_Employee/Homepage_Screen1.html";
+                    }
+                }
+            })
         </script>
     </main>
 
