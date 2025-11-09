@@ -22,15 +22,15 @@
                     <a href="#" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My CV</a>
                 </li>
                 <li>
-                    <a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon name="notifications-outline"></ion-icon>
+                    <a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon class="icon" name="notifications-outline"></ion-icon>
                         Notification</a>
                 </li>
                 <li>
-                    <a href="#" class="menu_btn" id="current-user"><ion-icon name="person-circle-outline"></ion-icon>
-                        Account</a>
+                    <a href="#" class="menu_btn" id="current-user"><ion-icon class="icon" name="person-circle-outline"></ion-icon>Account</a>
                     <ul class="submenu">
-                        <li><a href="../Edit_Student_Profile/Edit_Student_Profile.html">Edit profile</a></li>
-                        <li><a href="#" id="log-out">Log out</a></li>
+                        <li class="account-name-and-email" id="current-user-name"></li><hr>
+                        <li><a href="../Edit_Student_Profile/Edit_Student_Profile.html"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
+                        <li><a href="#" id="log-out"><ion-icon class="icon" name="log-out-outline"></ion-icon>Log out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -155,9 +155,9 @@
 
             <div class="footer-contact" id="footer-col">
                 <h3>Contact Us</h3>
-                <p><ion-icon name="mail-outline"></ion-icon> support@workhub.com</p>
-                <p><ion-icon name="call-outline"></ion-icon> +84 123 456 789</p>
-                <p><ion-icon name="location-outline"></ion-icon> Hà Nội, Việt Nam</p>
+                <p><ion-icon class="icon" name="mail-outline"></ion-icon> support@workhub.com</p>
+                <p><ion-icon class="icon" name="call-outline"></ion-icon> +84 123 456 789</p>
+                <p><ion-icon class="icon" name="location-outline"></ion-icon> Hà Nội, Việt Nam</p>
             </div>
         </div>
         <p style="text-align: center; padding-top: 20px">
@@ -165,8 +165,8 @@
         </p>
     </footer>
 
-    <script src="SearchJob.js"></script>
-    <script src="Logout.js"></script>
+    <script src="Search_and_render_Job.js"></script>
+    <script src="Navbar.js"></script>
 </body>
 
 </html>

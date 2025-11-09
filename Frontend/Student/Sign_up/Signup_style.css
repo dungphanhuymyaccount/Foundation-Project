@@ -13,6 +13,11 @@ header {
     align-items: center;
     background: #222;
     padding: 5px 60px;
+    position: fixed;
+    top: 0;            /* Giữ header ở trên cùng */
+    left: 0;           /* Căn từ mép trái */
+    width: 100%;       /* Trải rộng toàn màn hình */
+    z-index: 1000;
 }
 
 .logo h2 {
@@ -80,7 +85,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-
+    padding-top: 60px;
 }
 
 main {

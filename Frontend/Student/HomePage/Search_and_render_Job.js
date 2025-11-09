@@ -5,17 +5,7 @@ let jobsPerPage = 6; //số job 1 trang
 let currentPage = 1; //trang hiện tại
 let displayedJob =[]; //chứa các job đang hiển thị trên màn hình
 
-//hiển thị tên người dùng khi đã đăng nhập vào rồi
-document.addEventListener("DOMContentLoaded", () => {
-    const currentUser = JSON.parse(localStorage.getItem("current_user"));
-    const accountName = document.getElementById("current-user");
-    if (currentUser) {
-        accountName.textContent = `Hi, ${currentUser.fullName}`;
-        //nếu chưa đăng nhập thì sẽ hiện là account
-    } else {
-        accountName.textContent = "Account";
-    }
-});
+
 
 //lấy dữ liệu từ file job-data
 fetch("../../../json/jobs-data.json")
@@ -58,8 +48,6 @@ function renderJob(jobList) {
         jobContainer.innerHTML += jobPost;
     });
     updatePagination();
-
-    
 }
 
 function updatePagination() {
@@ -134,20 +122,21 @@ function advanceSearch() {
             matchField = job.field.toLowerCase() === searchField.toLowerCase();
         }
 
-        //lọc bằng location: không so sánh được với thằng có dấu tiếng việt. VD: ha noi!= Hà Nội
+        //lọc bằng location: không so sánh được với post có location có dấu tiếng việt. VD: ha noi!= Hà Nội
         let matchLocation;
+        let jobLocation = removeVietnameseTones(job.location);
         if (searchLocation === "none") {
             matchLocation = true;
         }
         else if (searchLocation === "other") {
             matchLocation =
-                !job.location.toLowerCase().includes("viet") &&
-                !job.location.toLowerCase().includes("ha noi") &&
-                !job.location.toLowerCase().includes("ho chi minh") &&
-                !job.location.toLowerCase().includes("da nang")
+                !jobLocation.toLowerCase().includes("viet") &&
+                !jobLocation.toLowerCase().includes("ha noi") &&
+                !jobLocation.toLowerCase().includes("ho chi minh") &&
+                !jobLocation.toLowerCase().includes("da nang")
         }
         else {
-            matchLocation = job.location.toLowerCase().includes(searchLocation.toLowerCase())
+            matchLocation = jobLocation.toLowerCase().includes(searchLocation.toLowerCase())
         }
 
         //lọc bằng salary: min của filter < max của post <= max của filter
@@ -180,6 +169,17 @@ function advanceSearch() {
     renderJob(searchedJobs);
 
 }
+
+//hàm xóa dấu tiếng việt
+function removeVietnameseTones(str) {
+    return str
+        .normalize("NFD") // tách ký tự và dấu
+        .replace(/[\u0300-\u036f]/g, "") // xóa dấu
+        .replace(/đ/g, "d") // thay đ -> d
+        .replace(/Đ/g, "D") // thay Đ -> D
+        .toLowerCase(); // viết thường để so sánh dễ
+}
+
 //gắn sự kiện lọc filter mỗi khi giá trị của filter thay đổi
 document.getElementById("field").addEventListener("change", advanceSearch);
 document.getElementById("location").addEventListener("change", advanceSearch);
