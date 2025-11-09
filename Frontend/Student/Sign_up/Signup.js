@@ -13,8 +13,8 @@ let fullName = "";
             let validEmail = true;
             let validPassword = true;
             let validName = true;
-            let isValid = false
-
+            let isValid = fals
+            //kiểm tra xem điền email chưa
             if (!email) {
                 error_message_email.innerHTML = "<p>Please enter your email!</p>";
                 validEmail = false;
@@ -52,6 +52,7 @@ let fullName = "";
                 validPassword = true;
             }
 
+            //kiểm tra định dạng full name
             if (!name) {
                 error_message_name.innerHTML = "<p>Please enter your name!</p>";
                 validName = false;
@@ -67,7 +68,7 @@ let fullName = "";
             return isValid;
         }
 
-        //hàm kiểm tra email đăng kí đã tồn tại
+        //hàm kiểm tra user đăng kí đã tồn tại
         function existEmail(email, role) {
             list_user = JSON.parse(localStorage.getItem('list_user')) ||
             {
@@ -80,6 +81,8 @@ let fullName = "";
             }
             return false;
         }
+
+        //lắng nghe sụ kiện lưu thông tin vào localStorage khi bấm submit sau khi bấm submit
         document.getElementById('signup-form-step1').addEventListener('submit', function (event) {
             event.preventDefault();
             fullName = document.getElementById('fullname').value;
@@ -103,16 +106,20 @@ let fullName = "";
                 role: "Student"
             });
 
+            //lấy dữ liệu danh sách người dùng gồm 2 role
             let list_user = JSON.parse(localStorage.getItem('list_user')) || {
                 list_student: [],
                 list_employer: []
             };
 
+            //đẩy người dùng vừa nhập thông tin đăng kí vào danh sách người dùng
             list_user.list_student.push(user);
 
             //lưu người dùng vào danh sách người dùng(đã phân role)
             localStorage.setItem('list_user', JSON.stringify(list_user));
 
+
+            //chuyển sang trang đăng nhập
             setTimeout(() => { window.location.href = '../../General/Login/Login.html' }, 800);
 
         })

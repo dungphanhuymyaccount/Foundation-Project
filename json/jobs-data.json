@@ -13,7 +13,7 @@
         "currency": "VND"
       },
       "experience": {
-        "min":1,
+        "min": 1,
         "max": 3,
         "currency": "years"
       },
@@ -36,7 +36,7 @@
         "currency": "VND"
       },
       "experience": {
-        "min":3,
+        "min": 3,
         "max": 5,
         "currency": "years"
       },
@@ -59,7 +59,7 @@
         "currency": "VND"
       },
       "experience": {
-        "min":0,
+        "min": 0,
         "max": 1,
         "currency": "years"
       },
@@ -82,7 +82,7 @@
         "currency": "VND"
       },
       "experience": {
-        "min":5,
+        "min": 5,
         "max": 10,
         "currency": "years"
       },
@@ -114,6 +114,75 @@
       "benefit": "Stock options, yearly bonus, premium health insurance.",
       "numberOfVacancy": 1,
       "avatar": "/image/meditech-logo.png"
+    },
+    {
+      "jobId": "JD006",
+      "jobTitle": "Receivable Accountant",
+      "field": "Accountant",
+      "companyName": "Global Finance Ltd.",
+      "description": "Manage financial records, prepare monthly and annual reports, and ensure compliance with international accounting standards (IFRS).",
+      "location": "Singapore",
+      "salary": {
+        "min": 30000000,
+        "max": 40000000,
+        "currency": "VND"
+      },
+      "experience": {
+        "min": 5,
+        "max": 10,
+        "currency": "years"
+      },
+      "requirement": "Bachelor's degree in Accounting or Finance. Strong understanding of IFRS and tax regulations. Experience with ERP systems.",
+      "deadline": "2025-12-30",
+      "benefit": "Annual bonus, flexible working hours, health insurance, professional training programs.",
+      "numberOfVacancy": 1,
+      "avatar": "/image/global-finance-logo.avif"
+    },
+    {
+      "jobId": "JD007",
+      "jobTitle": "Payroll Accountant",
+      "field": "Accountant",
+      "companyName": "EuroBooks Co.",
+      "description": "Assist in daily accounting tasks, including invoice processing, bank reconciliations, and expense tracking.",
+      "location": "Berlin, Germany",
+      "salary": {
+        "min": 18000000,
+        "max": 25000000,
+        "currency": "VND"
+      },
+      "experience": {
+        "min": 1,
+        "max": 3,
+        "currency": "years"
+      },
+      "requirement": "Bachelor’s degree in Accounting or Business Administration. Attention to detail and proficiency in Excel.",
+      "deadline": "2025-11-30",
+      "benefit": "International working environment, mentorship from senior accountants, paid holidays.",
+      "numberOfVacancy": 2,
+      "avatar": "/image/eurobook-co-logo.png"
+    },
+    {
+      "jobId": "JD008",
+      "jobTitle": "Tax Accountant",
+      "field": "Accountant",
+      "companyName": "Apex Consulting Group",
+      "description": "Prepare and review corporate tax returns, handle audits, and provide tax planning advice for multinational clients.",
+      "location": "Sydney, Australia",
+      "salary": {
+        "min": 35000000,
+        "max": 45000000,
+        "currency": "VND"
+      },
+      "experience": {
+        "min": 3,
+        "max": 8,
+        "currency": "years"
+      },
+      "requirement": "CPA certification preferred. In-depth knowledge of international tax law and corporate finance.",
+      "deadline": "2026-01-15",
+      "benefit": "Relocation assistance, performance bonuses, flexible hybrid work model.",
+      "numberOfVacancy": 1,
+      "avatar": "/image/apex-logo.png"
     }
   ]
 }

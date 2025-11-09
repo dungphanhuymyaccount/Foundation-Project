@@ -22,15 +22,15 @@
                     <a href="#" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My CV</a>
                 </li>
                 <li>
-                    <a href="#" class="menu_btn"><ion-icon name="notifications-outline"></ion-icon>
+                    <a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon name="notifications-outline"></ion-icon>
                         Notification</a>
                 </li>
                 <li>
                     <a href="#" class="menu_btn" id="current-user"><ion-icon name="person-circle-outline"></ion-icon>
                         Account</a>
                     <ul class="submenu">
-                        <li><a href="#">Edit profile</a></li>
-                        <li><a href="#">Log out</a></li>
+                        <li><a href="../Edit_Student_Profile/Edit_Student_Profile.html">Edit profile</a></li>
+                        <li><a href="#" id="log-out">Log out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -62,7 +62,7 @@
                                         <option value="ha noi">Hà Nội</option>
                                         <option value="ho chi minh">Hồ Chí Minh</option>
                                         <option value="da nang">Đà Nẵng</option>
-                                        <option value="international">International</option>
+                                        <option value="other">Other</option>
                                     </select>
                                 </div>
 
@@ -126,6 +126,11 @@
                     </a>
                 </div>
             </section>
+            <div class="pagination">
+                <button id="prevBtn">&lt;</button>
+                <span id="pageInfo">1 / 1</span>
+                <button id="nextBtn">&gt;</button>
+            </div>
         </div>
     </main>
     <footer class="footer">
@@ -161,6 +166,7 @@
     </footer>
 
     <script src="SearchJob.js"></script>
+    <script src="Logout.js"></script>
 </body>
 
 </html>

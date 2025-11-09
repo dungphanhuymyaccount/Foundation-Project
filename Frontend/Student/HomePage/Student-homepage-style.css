@@ -15,7 +15,7 @@ header {
     justify-content: space-between;
     align-items: center;
     background: #222;
-    padding: 15px 60px;
+    padding: 5px 60px;
 }
 
 .logo h2 {
@@ -33,7 +33,6 @@ nav ul {
 
 .navi li {
     position: relative;
-    margin-right: 20px;
 }
 
 .navi a {
@@ -167,11 +166,22 @@ nav ul {
 
 }
 
+.post-section{
+    display: flex;
+    justify-content: space-evenly;
+    align-content: space-evenly;
+    margin: 60px 0;
+    
+}
+
+
 .job_post_section {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* đúng 3 cột */
-    gap: 30px;
-    padding: 50px 70px;
+    grid-template-columns: repeat(3, 1fr);
+    /* đúng 3 cột */
+    gap: 50px;
+    justify-content: space-evenly;
+    align-content: space-evenly;
     align-items: start;
 }
 
@@ -226,6 +236,23 @@ nav ul {
     color: rgb(251, 33, 33);
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0;
+}
+
+.pagination button {
+    border-radius: 50px;
+    width: 20px;
+    height: 30px;
+    margin: 0 20px;
+}
+
+.pagination button:hover{
+    background-color: #a4a4a4b1;
+}
 .footer {
     background-color: #1f1f1f;
     color: #ddd;
