@@ -1,107 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Admin Dashboard</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+      <header>
+        <div class="logo">
+            <h2>Work Hub</h2>
+        </div>
+      </header>
+		<div class="dashboard-container">
+			<!-- Sidebar -->
+			<aside class="sidebar">
+				<h2>Admin Panel</h2>
+				<ul>
+					<li onclick="showSection('createEmployer')">🧩 Create Employer</li>
+					<li onclick="showSection('deleteUser')">❌ Delete User</li>
+					<li onclick="showSection('statistics')">📊 Statistics</li>
+				</ul>
+			</aside>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="Dashboard_style.css" />
-</head>
-
-<body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <h2>Admin Panel</h2>
-            <ul>
-                <li onclick="showSection('createEmployer')">🧩 Create Employer</li>
-                <li onclick="showSection('deleteUser')">❌ Delete User</li>
-                <li onclick="showSection('statistics')">📊 Statistics</li>
-            </ul>
-        </aside>
-
-        <!-- Main content -->
-        <main class="main-content">
-            <!-- Create Employer -->
-            <section id="createEmployer" class="content-section hidden" >
-                <form id="employerForm">
-                    <h2>Create Employer Account</h2> <br>
-                    <div class="info">
-                        <label>Employer Name</label>
-                        <input type="text" id="employer-name" placeholder="VD:Công ty cổ phần  ABC" autofocus>
-                        <div id="error-message-name" class="error-message"></div>
-                    </div>
-
-                    <div class="info">
-                        <label for="email">Email</label> <br>
-                        <input type="email" id="email" name="email" placeholder="Email@gmail.com" required>
-                        <div id="error-message-email" class="error-message"></div>
-                    </div>
-
-                    <div class="info">
-                        <label for="password">Password</label> <br>
-                        <input type="password" id="password" name="password" placeholder="Password" required>
-                        <div id="error-message-password" class="error-message"></div>
-                    </div>
-
-
-                    <div class="info">
-                        <label>Address</label>
-                        <input type="text" id="address" placeholder="Address" required>
-                    </div>
-
-                    <div class="info">
-                        <label>Phone number</label>
-                        <input type="tel" id="phone-number" placeholder="Phone number" pattern="0[0-9]{9}" required>
-                    </div>
-
-                    <div class="signup_btn">
-                        <input type="submit" name="btnSignUp" value="Sign Up">
-                    </div>
-                </form>
-            </section>
-
-            <!-- Delete User -->
-            <section id="deleteUser" class="content-section hidden">
-                <h2>Delete User</h2>
-                <input type="text" id="searchUser" placeholder="Search by name, company, or email..." />
-                <table id="userTable">
-                    <thead>
-                        <tr>
-                            <th>Full Name</th>
-                            <th>Company Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </section>
-
-            <!-- Statistics -->
-            <section id="statistics" class="content-section hidden">
-                <h2>Statistics</h2>
-                <div class="stats-container">
-                    <div class="stat-card" id="jobsCard">
-                        <h3 id="totalJobs">0</h3>
-                        <p>Job Posts</p>
-                    </div>
-                    <div class="stat-card" id="studentsCard">
-                        <h3 id="totalStudents">0</h3>
-                        <p>Students</p>
-                    </div>
-                    <div class="stat-card" id="employersCard">
-                        <h3 id="totalEmployers">0</h3>
-                        <p>Employers</p>
-                    </div>
+			<!-- Main content -->
+			<main class="main-content">
+				<!-- Create Employer -->
+				<section id="createEmployer" class="content-section">
+					<h2>Create Employer Account</h2>
+					<form id="employerForm">
+						<div class="display-info">
+							<div class="form-group-general">
+								<label>Full Name</label>
+								<input
+									type="text"
+									id="fullName"
+									class="form-control"
+									required
+								/>
                 </div>
-                <div id="detailsSection" class="hidden"></div>
-            </section>
-        </main>
-    </div>
+                <div class="form-group-general">
+								<label>Company Name</label>
+								<input
+									type="text"
+									id="companyName"
+									class="form-control"
+									required
+								/>
+                </div>
+              </div>
+              <div class="display-info">
+              <div class="form-group-general">
+								<label>Email</label>
+								<input type="email" id="email" class="form-control" required />
+                </div>
+                <div class="form-group-general">
+								<label>Password</label>
+								<input
+									type="password"
+									id="password"
+									class="form-control"
+									required
+								/>
+                </div>
+              </div>
+						 <div class="display-info">
+              <div class="form-group-general">
+								<label>Phone Number (optional)</label>
+								<input type="text" id="phone" class="form-control" />
+                </div>
+                <div class="form-group-general">
+								<label>Address (optional)</label>
+								<input type="text" id="address" class="form-control" />
+                </div>
+              </div>
+						<button type="submit">Create Employer</button>
+					</form>
+				</section>
 
-    <script src="Manage_user.js"></script>
-</body>
+				<!-- Delete User -->
+				<section id="deleteUser" class="content-section hidden">
+					<h2>Delete User</h2>
+					<input
+						type="text"
+						id="searchUser"
+            class="form-control"
+						placeholder="Search by name, company, or email..."
+					/>
+					<table id="userTable">
+						<thead>
+							<tr>
+								<th>Full Name</th>
+								<th>Company Name</th>
+								<th>Email</th>
+								<th>Role</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</section>
 
+				<!-- Statistics -->
+				<section id="statistics" class="content-section hidden">
+					<h2>Statistics</h2>
+					<div class="stats-container">
+						<div class="stat-card" id="jobsCard">
+							<h3 id="totalJobs">0</h3>
+							<p>Job Posts</p>
+						</div>
+						<div class="stat-card" id="studentsCard">
+							<h3 id="totalStudents">0</h3>
+							<p>Students</p>
+						</div>
+						<div class="stat-card" id="employersCard">
+							<h3 id="totalEmployers">0</h3>
+							<p>Employers</p>
+						</div>
+					</div>
+					<div id="detailsSection" class="hidden"></div>
+				</section>
+			</main>
+		</div>
+
+		<script src="script.js"></script>
+	</body>
 </html>
