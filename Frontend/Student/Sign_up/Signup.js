@@ -13,7 +13,7 @@ let fullName = "";
             let validEmail = true;
             let validPassword = true;
             let validName = true;
-            let isValid = fals
+            let isValid = false;
             //kiểm tra xem điền email chưa
             if (!email) {
                 error_message_email.innerHTML = "<p>Please enter your email!</p>";

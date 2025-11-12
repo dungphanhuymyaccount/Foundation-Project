@@ -1,0 +1,185 @@
+* {
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f4f6f8;
+}
+
+/* Layout */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 330px;
+    background: #1f2937;
+    color: #fff;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background: #374151;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.sidebar li:hover {
+    background: #4b5563;
+}
+
+/* Main */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.content-section {
+    display: block;
+}
+
+.hidden {
+    display:  none !important;
+}
+
+/* Form */
+#createEmployer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Giới hạn chiều rộng form */
+#createEmployer form {
+    width: 100%;
+    max-width: 400px;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    box-shadow: 0 0 50px rgba(0, 0, 0, .1);
+    border-radius: 30px;
+    padding: 20px;
+    width: 70%;
+    max-width: 400px;
+    justify-content: center;
+}
+
+.info {
+    position: relative;
+    width: 100%;
+    font-size: 16px;
+}
+
+.info label {
+    color: black;
+    text-align: left;
+    font-size: 16px;
+}
+
+.info label:hover {
+    cursor: pointer;
+}
+
+.info input {
+    border-radius: 10px;
+    border: 0;
+    width: 100%;
+    height: 40px;
+    padding: 14px 45px 14px 14px;
+    margin: 15px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.signup_btn,
+.login_btn {
+    text-align: center;
+}
+
+.signup_btn input,
+.login_btn input {
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: color 0.3s ease;
+    margin: 30px 0;
+    background-color: #00bcd4;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+}
+
+.signup_btn input:hover {
+    transform: scale(1.05);
+
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+th {
+    background: #e5e7eb;
+}
+
+/* Stats */
+.stats-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    flex: 1;
+    background: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: scale(1.05);
+}
+
+/*error message*/
+.error-message {
+    color: red;
+    font-size: 12px;
+    font-style: italic;
+
+}
