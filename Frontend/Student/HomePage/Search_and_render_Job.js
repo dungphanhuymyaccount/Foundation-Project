@@ -5,8 +5,6 @@ let jobsPerPage = 6; //số job 1 trang
 let currentPage = 1; //trang hiện tại
 let displayedJob =[]; //chứa các job đang hiển thị trên màn hình
 
-
-
 //lấy dữ liệu từ file job-data
 fetch("../../../json/jobs-data.json")
     .then((res) => res.json())
