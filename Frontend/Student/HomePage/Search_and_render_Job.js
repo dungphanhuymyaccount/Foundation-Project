@@ -29,25 +29,27 @@ function renderJob(jobList) {
     //template của jobpost
     jobsToShow.forEach((job) => {
         let jobPost = `
-            <a href="#">
-                <div class="job_container">
+                <div class="job_container" onclick = "jobDetail(${job.jobID})">
                     <div class="company_logo"><img src = "${job.avatar}"></div>
                     <div class="job_content">
                         <h3>${job.jobTitle}</h3>
                         <p>${job.companyName}</p>
                         <p>${job.location}</p>
                         <p>Salary: ${job.salary && job.salary.min && job.salary.max ? job.salary.min.toLocaleString() + " - " +
-                job.salary.max.toLocaleString() + " " + job.salary.currency : "Negotiable"}
-                        </p>
+                        job.salary.max.toLocaleString() + " " + job.salary.currency : "Negotiable"}</p>
                     </div>
-                </div>
-            </a>`;
-
+                </div>`;    
         jobContainer.innerHTML += jobPost;
     });
     updatePagination();
 }
 
+function jobDetail (jobId) {
+    localStorage.setItem('selected_job_id', jobId);
+    window.location.href= '../JobDetail/jobDetail.html';
+    
+}
+//chức năng bấm chuyển trang
 function updatePagination() {
         const totalPages = Math.ceil(displayedJob.length / jobsPerPage) || 1;
         document.getElementById("pageInfo").textContent = `${currentPage} / ${totalPages}`;

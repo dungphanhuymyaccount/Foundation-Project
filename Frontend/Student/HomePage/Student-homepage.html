@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>WorkHub-Homepage</title>
     <link rel="stylesheet" href="Student-homepage-style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -104,26 +104,23 @@
             </section>
             <section class="post-section">
                 <div class="job_post_section">
-                    <a href="../JobDetail/jobDetail1.html">
-                        <div class="job_container">
+                        <div class="job_container" onclick = "jobDetail(${job.jobID})">
                             <div class="company_logo"></div>
                             <div class="job_content"></div>
                         </div>
                     </a>
 
-                    <a href="../JobDetail/jobDetail2.html">
-                        <div class="job_container">
+                        <div class="job_container" onclick = "jobDetail(${job.jobID})">
                             <div class="company_logo"></div>
                             <div class="job_content"></div>
                         </div>
-                    </a>
+                    
 
-                    <a href="../JobDetail/jobDetail3.html">
-                        <div class="job_container">
+                        <div class="job_container" onclick = "jobDetail(${job.jobID})">
                             <div class="company_logo"></div>
                             <div class="job_content"></div>
                         </div>
-                    </a>
+                    
                 </div>
             </section>
             <div class="pagination">
