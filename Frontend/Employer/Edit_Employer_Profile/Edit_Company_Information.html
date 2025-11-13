@@ -11,6 +11,29 @@
 		window.onload = initializePage();
 	</script>
 	<body>
+		  <header>
+        <div class="logo">
+            <h2>Work Hub</h2>
+        </div>
+				
+        <nav class="navi">
+            <ul>
+                <li><a href="#">Find Job</a></li>
+                <li><a href="#" ><ion-icon name="reader-outline"></ion-icon> My Post</a></li>
+                <li><a href="#"><ion-icon name="notifications-outline"></ion-icon> Notification</a>
+                </li>
+                <li>
+                    <a href="#" ><ion-icon name="person-circle-outline"></ion-icon> Account</a>
+                    <ul class="submenu">
+                        <li><a href="#">Edit profile</a></li>
+                        <li><a href="#">Log out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+				
+    </header>
+
 		<div class="container light-style flex-grow-1 container-p-y">
 			<h3 class="font-weight-bold py-3 mb-4">
 				Account settings (Role: Employer)
@@ -91,6 +114,7 @@
 											type="email"
 											class="form-control mb-1"
 											autocomplete="off"
+											readonly
 										/>
 									</div>
 								</div>
