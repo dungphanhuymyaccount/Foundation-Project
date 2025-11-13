@@ -7,25 +7,31 @@ body {
 	margin: 0;
 	background: #f4f6f8;
 }
+
 /*header*/
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #1f2937;
-    color: white;
-    padding: 5px 60px;
-    position: fixed;
-    top: 0;            /* Giữ header ở trên cùng */
-    left: 0;           /* Căn từ mép trái */
-    width: 100%;       /* Trải rộng toàn màn hình */
-    z-index: 1000;     /* Đè lên các phần tử khác khi cuộn */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #1f2937;
+	color: white;
+	padding: 5px 60px;
+	position: fixed;
+	top: 0;
+	/* Giữ header ở trên cùng */
+	left: 0;
+	/* Căn từ mép trái */
+	width: 100%;
+	/* Trải rộng toàn màn hình */
+	z-index: 1000;
+	/* Đè lên các phần tử khác khi cuộn */
 }
+
 /* Layout */
 .dashboard-container {
 	display: flex;
 	height: 100vh;
-  margin-top: 80px;
+	margin-top: 80px;
 }
 
 /* Sidebar */
@@ -50,7 +56,7 @@ header {
 	padding: 12px 15px;
 	margin-bottom: 10px;
 	background: #fffefe;
-  border: rgb(205, 205, 205) 1px solid;
+	border: rgb(205, 205, 205) 1px solid;
 	border-radius: 6px;
 	cursor: pointer;
 	transition: background 0.2s;
@@ -92,33 +98,30 @@ form input {
 	border-radius: 7px;
 }
 
-form button {
+/*phần validate*/
+.error-message {
+	color: red;
+	font-size: 12px;
+	font-style: italic;
+}
+
+.btnSignUp {
 	background: #2563eb;
 	color: white;
 	padding: 10px;
 	border: none;
 	border-radius: 6px;
 	cursor: pointer;
-  width: 200px;
-  margin: 20px 0 0 650px;
+	width: 200px;
+	margin: 20px 0 0 650px;
 }
 
-form button:hover {
+.btnSignUp:hover {
 	background: #1d4ed8;
 }
 
-.style-button-js{
-  background: white;
-	color: black;
-	padding: 10px;
-	border: rgb(211, 209, 209) 1px solid;
-	border-radius: 6px;
-	cursor: pointer;
-  width: 100px;
-}
-.style-button-js:hover{
-  background: rgba(162, 177, 182, 0.467);
-}
+
+
 /* Table */
 table {
 	width: 100%;
@@ -133,9 +136,10 @@ td {
 }
 
 td:last-child {
-  text-align: center;
-  vertical-align: middle;
+	text-align: center;
+	vertical-align: middle;
 }
+
 th {
 	background: #e5e7eb;
 }
@@ -160,7 +164,7 @@ th {
 
 .stat-card:hover {
 	transform: scale(1.05);
-  background: #f1f2f3;
+	background: #f1f2f3;
 }
 
 .form-control {
@@ -178,19 +182,23 @@ th {
 	border-radius: 0.25rem;
 	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
 @media (prefers-reduced-motion: reduce) {
 	.form-control {
 		transition: none;
 	}
 }
+
 .form-control::-ms-expand {
 	background-color: transparent;
 	border: 0;
 }
+
 .form-control:-moz-focusring {
 	color: transparent;
 	text-shadow: 0 0 0 #495057;
 }
+
 .form-control:focus {
 	color: #495057;
 	background-color: #fff;
@@ -198,31 +206,38 @@ th {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
+
 .form-control::-webkit-input-placeholder {
 	color: #6c757d;
 	opacity: 1;
 }
+
 .form-control::-moz-placeholder {
 	color: #6c757d;
 	opacity: 1;
 }
+
 .form-control:-ms-input-placeholder {
 	color: #6c757d;
 	opacity: 1;
 }
+
 .form-control::-ms-input-placeholder {
 	color: #6c757d;
 	opacity: 1;
 }
+
 .form-control::placeholder {
 	color: #6c757d;
 	opacity: 1;
 }
+
 .form-control:disabled,
 .form-control[readonly] {
 	background-color: #e9ecef;
 	opacity: 1;
 }
+
 input[type="date"].form-control,
 input[type="datetime-local"].form-control,
 input[type="month"].form-control,
@@ -231,19 +246,23 @@ input[type="time"].form-control {
 	-moz-appearance: none;
 	appearance: none;
 }
+
 select.form-control:focus::-ms-value {
 	color: #495057;
 	background-color: #fff;
 }
+
 .form-control-file,
 .form-control-range {
 	display: block;
 	width: 100%;
 }
+
 .display-info {
 	display: flex;
 	gap: 50%;
 }
+
 .form-group-general {
 	margin-bottom: 1rem;
 }
