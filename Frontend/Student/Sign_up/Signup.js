@@ -69,7 +69,7 @@ let fullName = "";
         }
 
         //hàm kiểm tra user đăng kí đã tồn tại
-        function existEmail(email, role) {
+        function existEmail(email) {
             list_user = JSON.parse(localStorage.getItem('list_user')) ||
             {
                 list_student: [],
