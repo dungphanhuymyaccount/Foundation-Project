@@ -6,6 +6,7 @@ let list_user = JSON.parse(localStorage.getItem('list_user')) || {
 };
 //cho tất cả các object(user account) của 2 mảng list student và list employer vào chung 1 mảng 
 allUser = [...list_user.list_student, ...list_user.list_employer];
+let pendingDeleteEmail = null;//email trong trạng thái đợi confirm xóa
 // Navigation control
 function showSection(sectionId) {
 	document
@@ -91,17 +92,17 @@ function validate(email, password, employerName, companyName) {
 }
 //kiểm tra email tồn tại
 function existEmail(email) {
-            list_user = JSON.parse(localStorage.getItem('list_user')) ||
-            {
-                list_student: [],
-                list_employer: []
-            }
+	list_user = JSON.parse(localStorage.getItem('list_user')) ||
+	{
+		list_student: [],
+		list_employer: []
+	}
 
-            if (email) {
-                return list_user.list_employer.some(user => user.email === email);
-            }
-            return false;
-        }
+	if (email) {
+		return list_user.list_employer.some(user => user.email === email);
+	}
+	return false;
+}
 // chức năng tạo employer
 document.getElementById("employerForm").addEventListener("submit", function (e) {
 	e.preventDefault();
@@ -116,7 +117,7 @@ document.getElementById("employerForm").addEventListener("submit", function (e) 
 	}
 
 	//kiểm tra xem tồn tại email này chưa
-	if(existEmail(email)) {
+	if (existEmail(email)) {
 		document.getElementById('error-message-email').innerHTML = "<p>Email already exist!!</p>";;
 		return;
 	}
@@ -143,22 +144,22 @@ document.getElementById("employerForm").addEventListener("submit", function (e) 
 });
 
 //Hiện thông tin các tài khoản theo role, có cả phần tìm kiếm luôn
-function renderUserTable(searchTerm ="") {
+function renderUserTable(searchTerm = "") {
 	const tbody = document.querySelector("#userTable tbody");//hiện danh sách người dùng
 	const thead = document.querySelector("#userTable thead");//hiện tiêu đề bảng
 	const roleSelect = document.getElementById('role').value; //phân role để hiện theo role
 	thead.innerHTML = "";
 	tbody.innerHTML = "";
-	let userRoleFilter = allUser.filter( user => user.role === roleSelect);
-	if(searchTerm !== ""){
-		if(roleSelect === "Student") {
+	let userRoleFilter = allUser.filter(user => user.role === roleSelect);
+	if (searchTerm !== "") {
+		if (roleSelect === "Student") {
 			userRoleFilter = userRoleFilter.filter(student =>
 				student.fullName.trim().toLowerCase().includes(searchTerm) ||
 				student.email.trim().toLowerCase().includes(searchTerm)
 			)
 		}
-		if(roleSelect === "Employer") {
-			userRoleFilter =userRoleFilter.filter(employer =>
+		if (roleSelect === "Employer") {
+			userRoleFilter = userRoleFilter.filter(employer =>
 				employer.employerName.trim().toLowerCase().includes(searchTerm) ||
 				employer.companyName.trim().toLowerCase().includes(searchTerm) ||
 				employer.email.trim().toLowerCase().includes(searchTerm)
@@ -180,7 +181,7 @@ function renderUserTable(searchTerm ="") {
 			tbody.appendChild(row);
 		})
 
-	//template hiện bảng các user là employer 
+		//template hiện bảng các user là employer 
 	}
 	if (roleSelect === "Employer") {
 		thead.innerHTML = `
@@ -203,28 +204,56 @@ function renderUserTable(searchTerm ="") {
 }
 
 // Tìm kiếm user
-document.getElementById("searchUser").addEventListener("keyup", function() {
-    renderUserTable(this.value.toLowerCase());
+document.getElementById("searchUser").addEventListener("keyup", function () {
+	renderUserTable(this.value.toLowerCase());
 });
 
 // Đổi role (student / employer)
-document.getElementById("role").addEventListener("change", function() {
-    renderUserTable();
+document.getElementById("role").addEventListener("change", function () {
+	renderUserTable();
 });
+
 renderUserTable();//hiện  lần đầu
 
-//chức năng xóa user ra khỏi list_user 
+// gọi popup khi bấm delete
 function deleteUser(email) {
-	if (confirm("Are you sure you want to delete this user?")) {
-		allUser= allUser.filter(user => user.email !== email)//cập nhật lại mảng mới 
-		list_user.list_student = allUser.filter(user => user.role === "Student");
-		list_user.list_employer = allUser.filter(user => user.role === "Employer");
-		allUser = [...list_user.list_student, ...list_user.list_employer];//cập nhật lại allUser
-		localStorage.setItem("list_user", JSON.stringify(list_user));
-		renderUserTable(document.getElementById("searchUser").value.toLowerCase());
-		updateStatistics();
-	}
+	pendingDeleteEmail = email;
+	document.getElementById("confirmModal").style.display="flex";
 }
+
+// xóa user
+document.getElementById("Yes").addEventListener("click", function () {
+	console.log(document.getElementById("Yes"));
+	if (!pendingDeleteEmail) return;
+
+	// Xóa user khỏi allUser
+	allUser = allUser.filter(user => user.email !== pendingDeleteEmail);
+
+	// Cập nhật lại list_user theo role
+	list_user.list_student = allUser.filter(user => user.role === "Student");
+	list_user.list_employer = allUser.filter(user => user.role === "Employer");
+	allUser = [...list_user.list_student, ...list_user.list_employer];
+	// Lưu lại
+	localStorage.setItem("list_user", JSON.stringify(list_user));
+
+	renderUserTable(document.getElementById("searchUser").value.toLowerCase());
+	updateStatistics();
+
+	// Đóng popup
+	document.getElementById("confirmModal").style.display="none";
+	pendingDeleteEmail = null;
+	
+});
+
+// NẾU BẤM NO → ĐÓNG POPUP
+document.getElementById("No").addEventListener("click", function () {
+	pendingDeleteEmail = null;
+
+	document.getElementById("confirmModal").style.display = "none";
+});
+
+
+
 // -------------------- STATISTICS --------------------
 // function updateStatistics() {
 // 	document.getElementById("totalJobs").innerText = jobPosts.length;
