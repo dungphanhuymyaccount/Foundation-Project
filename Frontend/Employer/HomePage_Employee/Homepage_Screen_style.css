@@ -30,57 +30,62 @@ header {
 }
 
 nav ul {
-      display: flex;
-      list-style: none;
-      margin: 0;
-      padding: 10px 40px;
-      background: #222;
-    }
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 10px 40px;
+    background: #222;
+}
 
-    .navi li {
-      position: relative;
-      margin-right: 20px;
-    }
+.navi li {
+    position: relative;
+    margin-right: 20px;
+}
 
-    .navi a {
-      color: #fff;
-      text-decoration: none;
-      padding: 6px 10px;
-      display: block;
-    }
+.navi a {
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 10px;
+    display: block;
+}
 
-    .navi a:hover {
-      color: #08ede9;
-      border-radius: 4px;
-    }
-
-
-    .submenu {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: #333;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      border-radius: 4px;
-      min-width: 150px;
-    }
-
-    .submenu li a {
-      padding: 8px 12px;
-    }
-
-    .submenu li a:hover {
-      background: #4a5150;
-
-    }
+.navi a:hover {
+    color: #08ede9;
+    border-radius: 4px;
+}
 
 
-    .navi li:hover > .submenu {
-      display: block;
-    }
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #333;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+.submenu li a {
+    padding: 8px 12px;
+}
+
+.account-name-and-email {
+    color: #fff;
+    padding-left: 20px;
+}
+
+.submenu li a:hover {
+    background: #4a5150;
+
+}
+
+
+.navi li:hover>.submenu {
+    display: block;
+}
 
 .wrapper {
     width: 100%;
@@ -102,7 +107,7 @@ img {
     object-fit: cover;
 }
 
-.job_post_section{
+.job_post_section {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -113,7 +118,7 @@ img {
 }
 
 
-.job_post_section a{
+.job_post_section a {
     text-decoration: none;
 }
 
@@ -125,21 +130,21 @@ img {
     gap: 20px;
     min-width: 300px;
     max-width: 400px;
-    }
+}
 
 .job_container h3,
-.job_container p{
+.job_container p {
     color: #000;
 }
 
-.button{
+.button {
     text-decoration: underline;
     color: blue;
     font-size: 18px;
 }
 
-.job_container:hover{
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+.job_container:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     transform: scale(1.01);
     cursor: pointer;
 }
@@ -149,7 +154,7 @@ img {
     color: #ddd;
     padding: 40px 0 20px;
     font-family: 'Poppins', sans-serif;
-    
+
 }
 
 .footer-content {

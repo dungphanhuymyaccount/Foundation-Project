@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="Homepage_script.js"></script>
+    
 </head>
 
 <body>
@@ -23,10 +23,11 @@
                 <li><a href="#" class="menu_btn"><ion-icon name="notifications-outline"></ion-icon> Notification</a>
                 </li>
                 <li>
-                    <a href="#" class="menu_btn"><ion-icon name="person-circle-outline"></ion-icon> Account</a>
+                    <a href="#" class="menu_btn" id="current-user"><ion-icon class="icon" name="person-circle-outline"></ion-icon>Account</a>
                     <ul class="submenu">
-                        <li><a href="#">Edit profile</a></li>
-                        <li><a href="#">Log out</a></li>
+                        <li class="account-name-and-email" id="current-user-name"></li><hr>
+                        <li><a href="../Edit_Employer_Profile/Edit_Company_Information.html"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
+                        <li><a href="#" id="log-out"><ion-icon class="icon" name="log-out-outline"></ion-icon>Log out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -101,6 +102,7 @@
         <p style="text-align: center;padding-top: 20px;">© 2025 Work Hub | All rights reserved.</p>
     </footer>
 
+    <script src="Homepage.js"></script>
 </body>
 
 </html>
