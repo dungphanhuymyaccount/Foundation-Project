@@ -1,0 +1,169 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WorkHub-Homepage</title>
+    <link rel="stylesheet" href="Student-homepage-style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h2>Work Hub</h2>
+        </div>
+        <nav class="navi">
+            <ul>
+                <li><a href="#" class="menu_btn">Find Job</a></li>
+                <li>
+                    <a href="#" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My CV</a>
+                </li>
+                <li>
+                    <a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon class="icon" name="notifications-outline"></ion-icon>
+                        Notification</a>
+                </li>
+                <li>
+                    <a href="#" class="menu_btn" id="current-user"><ion-icon class="icon" name="person-circle-outline"></ion-icon>Account</a>
+                    <ul class="submenu">
+                        <li class="account-name-and-email" id="current-user-name"></li><hr>
+                        <li><a href="../Edit_Student_Profile/Edit_Student_Profile.html"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
+                        <li><a href="#" id="log-out"><ion-icon class="icon" name="log-out-outline"></ion-icon>Log out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="wrapper">
+            <section class="banner_and_search">
+                <div class="banner">
+                    <h1>Find your dream job at our website</h1>
+                    <p>Explore thousands of jobs right away</p>
+                </div>
+
+                <form class="search" action="#" method="get">
+                    <div class="search_form">
+                        <div class="search_bar">
+                            <input type="text" class="search_job" id="searchInput" placeholder="Enter job title" />
+                            <button type="button" id="searchBtn">
+                                <ion-icon name="search-outline"></ion-icon>
+                            </button>
+                        </div>
+
+                        <div class="advanced_search">
+                            <div class="row">
+                                <div class="location_chosen">
+                                    <select class="location" id="location">
+                                        <option value="none">Select Location</option>
+                                        <option value="ha noi">Hà Nội</option>
+                                        <option value="ho chi minh">Hồ Chí Minh</option>
+                                        <option value="da nang">Đà Nẵng</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="field_chosen">
+                                    <select class="field" id="field">
+                                        <option value="none">Select Field</option>
+                                        <option value="IT">IT</option>
+                                        <option value="Accountant">Accountant</option>
+                                    </select>
+                                </div>
+
+                                <div class="salary_chosen">
+                                    <select class="salary" id="salary">
+                                        <option value="none">Select Salary</option>
+                                        <option value="0-10000000">Under 10,000,000 VND</option>
+                                        <option value="10000000-15000000">10,000,000-15,000,000 VND</option>
+                                        <option value="15000000-25000000">15,000,000-25,000,000 VND</option>
+                                        <option value="25000000-40000000">25,000,000-40,000,000 VND</option>
+                                        <option value="40000000-70000000">40,000,000-70,000,000 VND</option>
+                                        <option value="70000000">More than 70,000,000 VND</option>
+                                    </select>
+                                </div>
+
+                                <div class="experience_chosen">
+                                    <select class="experience" id="experience">
+                                        <option value="none">Select Experience</option>
+                                        <option value="0-1">Under 1 year</option>
+                                        <option value="1-3">1-3 years</option>
+                                        <option value="3-5">3-5 years</option>
+                                        <option value="5-10">5-10 years</option>
+                                        <option value="10-15">10-15 years</option>
+                                        <option value="15-100">More than 15 years</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section class="post-section">
+                <div class="job_post_section">
+                        <div class="job_container" onclick = "jobDetail(${job.jobID})">
+                            <div class="company_logo"></div>
+                            <div class="job_content"></div>
+                        </div>
+                    </a>
+
+                        <div class="job_container" onclick = "jobDetail(${job.jobID})">
+                            <div class="company_logo"></div>
+                            <div class="job_content"></div>
+                        </div>
+                    
+
+                        <div class="job_container" onclick = "jobDetail(${job.jobID})">
+                            <div class="company_logo"></div>
+                            <div class="job_content"></div>
+                        </div>
+                    
+                </div>
+            </section>
+            <div class="pagination">
+                <button id="prevBtn">&lt;</button>
+                <span id="pageInfo">1 / 1</span>
+                <button id="nextBtn">&gt;</button>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-about" id="footer-col">
+                <h2>Work Hub</h2>
+                <p>
+                    Work Hub is your trusted job portal helping students and
+                    professionals find their dream careers quickly and easily.
+                </p>
+            </div>
+
+            <div class="footer-link" id="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Find Job</a></li>
+                    <li><a href="#">My CV</a></li>
+                    <li><a href="#">Notifications</a></li>
+                    <li><a href="#">Account</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact" id="footer-col">
+                <h3>Contact Us</h3>
+                <p><ion-icon class="icon" name="mail-outline"></ion-icon> support@workhub.com</p>
+                <p><ion-icon class="icon" name="call-outline"></ion-icon> +84 123 456 789</p>
+                <p><ion-icon class="icon" name="location-outline"></ion-icon> Hà Nội, Việt Nam</p>
+            </div>
+        </div>
+        <p style="text-align: center; padding-top: 20px">
+            © 2025 Work Hub | All rights reserved.
+        </p>
+    </footer>
+
+    <script src="Search_and_render_Job.js"></script>
+    <script src="Navbar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+[
+	{
+		"EmployerID": "EMP001",
+		"EmployerName": "Trần Quỳnh Hoa",
+		"CompanyName": "TechVision Co., Ltd",
+		"Birthday": "15/08/1985",
+		"Field": "Information Technology",
+		"Size": "200 employees",
+		"Address": "12 Tran Duy Hung, Hanoi, Vietnam",
+		"Phone Number": "02437778888",
+		"Avatar": "../image/techvisionlogo.png"
+	},
+	{
+		"EmployerID": "EMP002",
+		"EmployerName": "Nguyễn Thị Ngọc Bích",
+		"CompanyName": "GreenMart Corporation",
+		"Birthday": "22/03/1990",
+		"Field": "E-commerce & Retail",
+		"Size": "500 employees",
+		"Address": "45 Nguyen Thi Minh Khai, Ho Chi Minh City, Vietnam",
+		"Phone Number": "02839256666",
+		"Avatar": "../image/greenmart-logo.webp"
+	},
+	{
+		"EmployerID": "EMP003",
+		"EmployerName": "Phạm Nhật Vượng",
+		"CompanyName": "EduNext Academy",
+		"Birthday": "05/04/1975",
+		"Field": "Education & Training",
+		"Size": "100 employees",
+		"Address": "27 Le Thanh Tong, Da Nang, Vietnam",
+		"Phone Number": "02363888888",
+		"Avatar": "../image/edunextAcademy-logo.png"
+	},
+	{
+		"EmployerID": "EMP004",
+		"EmployerName": "Bùi Anh Tuấn",
+		"CompanyName": "FinNova Group",
+		"Birthday": "30/11/1982",
+		"Field": "Finance & Banking",
+		"Size": "350 employees",
+		"Address": "90 Hai Ba Trung, Hanoi, Vietnam",
+		"Phone Number": "02422223333",
+		"Avatar": "../image/finnova-log.png"
+	},
+	{
+		"EmployerID": "EMP005",
+		"EmployerName": "Ông Cao Thắng",
+		"CompanyName": "Meditech Vietnam",
+		"Birthday": "18/06/1978",
+		"Field": "Healthcare & Biotechnology",
+		"Size": "150 employees",
+		"Address": "102 Phan Chu Trinh, Ho Chi Minh City, Vietnam",
+		"Phone Number": "02839393399",
+		"Avatar": ""
+	}
+]

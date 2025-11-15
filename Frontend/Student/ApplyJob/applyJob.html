@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Apply Job</title>
+  <link rel="stylesheet" href="applyJob.css">
+</head>
+<body>
+  <div class="apply-form">
+    <h2>Apply for Job</h2>
+    <form id="applyForm">
+      <label>Họ và tên</label>
+      <input type="text" name="fullname" required placeholder="Nhập họ tên">
+
+      <label>Email</label>
+      <input type="email" name="email" required placeholder="Nhập email">
+
+      <label>Số điện thoại</label>
+      <input type="tel" name="phone" required placeholder="Nhập số điện thoại">
+
+      <label>Thư ứng tuyển</label>
+      <textarea name="coverletter" rows="4" placeholder="Viết thư ứng tuyển..."></textarea>
+
+      <label>CV (PDF)</label>
+      <input type="file" name="cv" accept=".pdf">
+
+      <button type="submit">Gửi ứng tuyển</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("applyForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Ứng tuyển thành công! Chúng tôi sẽ liên hệ sớm.");
+      this.reset();
+    });
+  </script>
+</body>
+</html>

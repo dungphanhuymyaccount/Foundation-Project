@@ -1,0 +1,188 @@
+{
+  "jobs": [
+    {
+      "jobId": "JD001",
+      "jobTitle": "Frontend Developer (ReactJS)",
+      "field": "IT",
+      "companyName": "TechVision Co., Ltd",
+      "description": "Develop and optimize website/web app interfaces using HTML, CSS, JavaScript, and modern frameworks (React, Angular, Vue, etc.). Collaborate with UI/UX designers and backend developers to deliver smooth and user-friendly experiences. Test, debug, and ensure performance, responsiveness, and cross-browser compatibility.",
+      "location": "Ha Noi, Vietnam",
+      "salary": {
+        "min": 6000000,
+        "max": 9000000,
+        "currency": "VND"
+      },
+      "experience": {
+        "min": 1,
+        "max": 3,
+        "currency": "years"
+      },
+      "requirement": "Proficient in HTML, CSS, JavaScript (ES6+). Familiar with ReactJS and RESTful APIs. Basic knowledge of Git and responsive design principles.",
+      "deadline": "2025-12-10",
+      "benefit": "13th month salary and annual bonuses, health insurance, wellness programs, opportunities for professional growth.",
+      "numberOfVacancy": 3,
+      "avatar": "/image/techvisionlogo.png"
+    },
+    {
+      "jobId": "JD002",
+      "jobTitle": "Backend Developer (NodeJS)",
+      "field": "IT",
+      "companyName": "GreenMart Corporation",
+      "description": "Design and implement server-side logic using NodeJS and Express framework. Manage databases and ensure data integrity across distributed systems.",
+      "location": "Ho Chi Minh City, Vietnam",
+      "salary": {
+        "min": 13000000,
+        "max": 16000000,
+        "currency": "VND"
+      },
+      "experience": {
+        "min": 3,
+        "max": 5,
+        "currency": "years"
+      },
+      "requirement": "Experience in NodeJS, Express, and MongoDB. Knowledge of RESTful API design and JWT authentication. Familiar with deployment tools like Docker or PM2.",
+      "deadline": "2025-11-30",
+      "benefit": "Hybrid working mode, performance bonuses, yearly company trip.",
+      "numberOfVacancy": 2,
+      "avatar": "/image/greenmart-logo.webp"
+    },
+    {
+      "jobId": "JD003",
+      "jobTitle": "Frontend Developer (Angular)",
+      "field": "IT",
+      "companyName": "EduNext Academy",
+      "description": "Build modern and scalable web applications using Angular framework. Work closely with backend teams to integrate APIs and ensure smooth data flow.",
+      "location": "Da Nang, Vietnam",
+      "salary": {
+        "min": 4000000,
+        "max": 7000000,
+        "currency": "VND"
+      },
+      "experience": {
+        "min": 0,
+        "max": 1,
+        "currency": "years"
+      },
+      "requirement": "Strong understanding of TypeScript, Angular components, and RxJS. Knowledge of SCSS and cross-browser compatibility issues.",
+      "deadline": "2025-12-15",
+      "benefit": "Annual health check, paid leave, on-site parking, team-building events.",
+      "numberOfVacancy": 4,
+      "avatar": "/image/edunextAcademy-logo.png"
+    },
+    {
+      "jobId": "JD004",
+      "jobTitle": "Full Stack Developer (MERN)",
+      "field": "IT",
+      "companyName": "FinNova Group",
+      "description": "Design and develop full-stack web applications using MongoDB, Express, React, and NodeJS. Responsible for both frontend and backend development tasks.",
+      "location": "Ho Chi Minh City, Vietnam",
+      "salary": {
+        "min": 48000000,
+        "max": 50000000,
+        "currency": "VND"
+      },
+      "experience": {
+        "min": 5,
+        "max": 10,
+        "currency": "years"
+      },
+      "requirement": "Proficient in MERN stack development. Strong understanding of API design, JWT authentication, and frontend optimization.",
+      "deadline": "2025-12-30",
+      "benefit": "Flexible schedule, 100% remote option, 13th month salary.",
+      "numberOfVacancy": 2,
+      "avatar": "/image/finnova-logo.png"
+    },
+    {
+      "jobId": "JD005",
+      "jobTitle": "Backend Developer (GoLang)",
+      "field": "IT",
+      "companyName": "Meditech Vietnam",
+      "description": "Develop efficient backend systems and microservices using GoLang. Work on scalable architectures handling high traffic web applications.",
+      "location": "Ha Noi, Vietnam",
+      "salary": {
+        "min": 90000000,
+        "max": 110000000,
+        "currency": "VND"
+      },
+      "experience": {
+        "min": 15,
+        "max": 100,
+        "currency": "years"
+      },
+      "requirement": "Strong experience in Go, REST APIs, and cloud deployment. Familiar with Kubernetes and CI/CD workflows.",
+      "deadline": "2025-12-31",
+      "benefit": "Stock options, yearly bonus, premium health insurance.",
+      "numberOfVacancy": 1,
+      "avatar": "/image/meditech-logo.png"
+    },
+    {
+      "jobId": "JD006",
+      "jobTitle": "Receivable Accountant",
+      "field": "Accountant",
+      "companyName": "Global Finance Ltd.",
+      "description": "Manage financial records, prepare monthly and annual reports, and ensure compliance with international accounting standards (IFRS).",
+      "location": "Singapore",
+      "salary": {
+        "min": 30000000,
+        "max": 40000000,
+        "currency": "VND"
+      },
+      "experience": {
+        "min": 5,
+        "max": 10,
+        "currency": "years"
+      },
+      "requirement": "Bachelor's degree in Accounting or Finance. Strong understanding of IFRS and tax regulations. Experience with ERP systems.",
+      "deadline": "2025-12-30",
+      "benefit": "Annual bonus, flexible working hours, health insurance, professional training programs.",
+      "numberOfVacancy": 1,
+      "avatar": "/image/global-finance-logo.avif"
+    },
+    {
+      "jobId": "JD007",
+      "jobTitle": "Payroll Accountant",
+      "field": "Accountant",
+      "companyName": "EuroBooks Co.",
+      "description": "Assist in daily accounting tasks, including invoice processing, bank reconciliations, and expense tracking.",
+      "location": "Berlin, Germany",
+      "salary": {
+        "min": 18000000,
+        "max": 25000000,
+        "currency": "VND"
+      },
+      "experience": {
+        "min": 1,
+        "max": 3,
+        "currency": "years"
+      },
+      "requirement": "Bachelor’s degree in Accounting or Business Administration. Attention to detail and proficiency in Excel.",
+      "deadline": "2025-11-30",
+      "benefit": "International working environment, mentorship from senior accountants, paid holidays.",
+      "numberOfVacancy": 2,
+      "avatar": "/image/eurobook-co-logo.png"
+    },
+    {
+      "jobId": "JD008",
+      "jobTitle": "Tax Accountant",
+      "field": "Accountant",
+      "companyName": "Apex Consulting Group",
+      "description": "Prepare and review corporate tax returns, handle audits, and provide tax planning advice for multinational clients.",
+      "location": "Sydney, Australia",
+      "salary": {
+        "min": 35000000,
+        "max": 45000000,
+        "currency": "VND"
+      },
+      "experience": {
+        "min": 3,
+        "max": 8,
+        "currency": "years"
+      },
+      "requirement": "CPA certification preferred. In-depth knowledge of international tax law and corporate finance.",
+      "deadline": "2026-01-15",
+      "benefit": "Relocation assistance, performance bonuses, flexible hybrid work model.",
+      "numberOfVacancy": 1,
+      "avatar": "/image/apex-logo.png"
+    }
+  ]
+}

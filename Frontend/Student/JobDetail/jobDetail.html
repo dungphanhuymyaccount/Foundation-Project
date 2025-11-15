@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chi tiết công việc</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 24px;
+      background: #f5f7fb
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+      margin-top: 0
+    }
+
+    ul {
+      margin-top: 8px
+    }
+
+    .back {
+      margin-bottom: 12px
+    }
+
+    .btn-apply {
+      background: #29c951;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .meta {
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .muted {
+      color: #888;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div id="job" class="card"></div>
+  </div>
+
+  <script>
+    // ========= Utility / small helper functions =========
+
+    /**
+     * Lấy jobId ưu tiên từ localStorage, nếu không có thì thử lấy từ query param ?id=...
+     * Trả về string hoặc null nếu không tìm thấy
+     */
+    function getSelectedJobId() {
+      const fromStorage = localStorage.getItem('selectedJobId');
+      if (fromStorage) return String(fromStorage);
+      // fallback: try url query param id
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const q = params.get('id');
+        return q ? String(q) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    /**
+     * Fetch jobs.json và trả về mảng jobs.
+     * Nếu lỗi, trả về mảng rỗng.
+     */
+    async function fetchJobsJson(path = '../../../json/jobs-data.json') {
+      try {
+        const res = await fetch(path, { cache: 'no-cache' });
+        if (!res.ok) throw new Error('Không tải được jobs.json: ' + res.status);
+        const data = await res.json();
+        // giả sử JSON có cấu trúc { jobs: [...] } hoặc [ ... ]
+        if (Array.isArray(data)) return data;
+        if (Array.isArray(data.jobs)) return data.jobs;
+        return [];
+      } catch (err) {
+        console.error(err);
+        return [];
+      }
+    }
+
+    /**
+     * Tìm job theo id. So sánh bằng string để tránh khác type (number/string).
+     * Nếu json dùng field khác (ví dụ id thay vì jobId) thì sửa ở đây.
+     */
+    function findJobById(jobs, id) {
+      if (!id) return null;
+      const idStr = String(id);
+      return jobs.find(j => String(j.jobId ?? j.id ?? '') === idStr) || null;
+    }
+
+    /**
+     * Format salary object thành chuỗi hiển thị.
+     * Hỗ trợ các dạng salary: { min, max, currency } hoặc salary = 'Thương lượng'
+     */
+    function formatSalary(salary) {
+      if (!salary && salary !== 0) return 'N/A';
+      if (typeof salary === 'string') return salary;
+      const min = (salary && (salary.min ?? salary.from)) ?? null;
+      const max = (salary && (salary.max ?? salary.to)) ?? null;
+      const cur = (salary && salary.currency) ? ' ' + salary.currency : '';
+      if (min == null && max == null) return 'N/A';
+      if (min != null && max != null) return `${min}${max ? ' - ' + max : ''}${cur}`;
+      return `${min ?? max}${cur}`;
+    }
+
+    /**
+     * Chuyển một trường có thể là string hoặc mảng thành mảng (dễ map)
+     */
+    function ensureArrayField(field) {
+      if (!field) return [];
+      if (Array.isArray(field)) return field;
+      return [String(field)];
+    }
+
+    /**
+     * Tạo HTML list từ mảng
+     */
+    function arrayToListHtml(arr) {
+      if (!arr || arr.length === 0) return '<li class="muted">Không có</li>';
+      return arr.map(item => `<li>${escapeHtml(String(item))}</li>`).join('');
+    }
+
+    /**
+     * Escape basic HTML để tránh injection khi hiển thị text từ JSON
+     */
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // ========= Render / action functions =========
+
+    /**
+     * Hiển thị job detail - nhận object job (hoặc null nếu không tìm thấy)
+     */
+    function renderJobDetail(job) {
+      const container = document.getElementById('job');
+      if (!job) {
+        container.innerHTML = `
+          <h1>Không tìm thấy công việc</h1>
+          <p class="muted">Không có thông tin job được chọn. Hãy quay lại trang danh sách và thử lại.</p>
+          <div style="margin-top:16px">
+            <button onclick="goBack()" class="btn-apply">Quay lại</button>
+          </div>
+        `;
+        return;
+      }
+
+      const salaryStr = formatSalary(job.salary);
+      const requirements = ensureArrayField(job.requirement ?? job.requirements ?? []);
+      const benefits = ensureArrayField(job.benefit ?? job.benefits ?? []);
+      const description = job.description ? escapeHtml(job.description) : 'Không có mô tả.';
+
+      container.innerHTML = `
+        <div class="back"><button onclick="goBack()" class="btn-apply" style="background: #2d9cff;">← Quay lại</button></div>
+        <h1>${escapeHtml(job.jobTitle ?? job.title ?? 'Không có tiêu đề')}</h1>
+        <div class="meta">
+          ${escapeHtml(job.companyName ?? job.company ?? 'Công ty ẩn danh')} • 
+          ${escapeHtml(job.location ?? 'Chưa rõ')} • ${escapeHtml(job.field ?? 'Chưa phân loại')} • 
+          ${escapeHtml(salaryStr)}
+        </div>
+        <hr/>
+        <h3>Mô tả công việc</h3>
+        <p>${description}</p>
+
+        <h3>Yêu cầu</h3>
+        <ul>${arrayToListHtml(requirements)}</ul>
+
+        <h3>Quyền lợi</h3>
+        <ul>${arrayToListHtml(benefits)}</ul>
+
+        <div style="margin-top:16px">
+          <button id="applyBtn" class="btn-apply">Ứng tuyển</button>
+        </div>
+      `;
+
+      // Gắn sự kiện apply (tách chức năng để dễ sửa về sau)
+      const applyBtn = document.getElementById('applyBtn');
+      if (applyBtn) {
+        applyBtn.addEventListener('click', () => applyNow(job));
+      }
+    }
+
+    /**
+     * Hành động khi nhấn Ứng tuyển.
+     * Hiện tại demo: alert. Bạn có thể mở modal, redirect hoặc gửi request apply ở đây.
+     */
+    function applyNow(job) {
+      // ví dụ có thể gửi jobId vào form apply
+      const jobTitle = job?.jobTitle ?? job?.title ?? 'công việc';
+      alert(`Demo: bạn đã nhấn Ứng tuyển cho "${jobTitle}". Thêm form hoặc chuyển hướng tới trang apply nếu cần.`);
+      // window.location.href = `apply.html?jobId=${encodeURIComponent(job.jobId)}`; // ví dụ redirect
+    }
+
+    function goBack() {
+      // nếu có trang trước (list), quay về; nếu không thì history.back()
+      if (document.referrer) {
+        window.history.back();
+      } else {
+        // fallback: chuyển tới index.html (nếu bạn có)
+        window.location.href = '../Student-homepage.html';
+      }
+    }
+
+    // ========= Main: load data và render =========
+
+    async function initJobDetail() {
+      const selectedId = getSelectedJobId();
+      const jobs = await fetchJobsJson('../../../json/jobs-data.json'); // đổi đường dẫn nếu cần
+      const job = findJobById(jobs, selectedId);
+
+      // nếu không có id (ví dụ mở trực tiếp), thử hiển thị bản demo đầu tiên
+      if (!selectedId && jobs.length > 0) {
+        console.warn('Không có selectedJobId trong localStorage hoặc query param. Hiển thị job đầu tiên làm ví dụ.');
+        renderJobDetail(jobs[0]);
+        return;
+      }
+
+      renderJobDetail(job);
+    }
+
+    // chạy init khi DOM sẵn sàng
+    document.addEventListener('DOMContentLoaded', initJobDetail);
+  </script>
+</body>
+
+</html>
