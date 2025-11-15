@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Job</title>
     <link rel="stylesheet" href="PostJob.css">
+    <script src="PostJob.js"></script>
 </head>
 <body>
     <main>
         <form action="">
             <h2>Post Job</h2>
             <div class="form-group">
-                <label for="title">Job Title:</label>
+                <label for="jobTitle">Job Title:</label>
                 <input type="text" id="jobTitle" name="jobTitle" placeholder="e.g. Senior Software Engineer" required>
+            </div>
+
+            <div class="form-group">
+                <label for="field">Job Field:</label>
+                <input type="text" id="field" name="field" placeholder="e.g. IT, Accountant, Marketing" required>
             </div>
 
             <div class="form-group">
@@ -22,27 +28,44 @@
 
             <div class="form-group">
                 <label for="companyName">Company Name:</label>
-                <input type="text" id="companyName" name="companyName" placeholder="e.g. SamSung" required></textarea>
+                <input type="text" id="companyName" name="companyName" placeholder="e.g. SamSung" required>
             </div>
 
             <div class="form-group">
-                <label for="salary">Salary:</label>
-                <input type="text" id="salary" name="salary" placeholder="e.g. $50,000 - $70,000" required>
+                <label for="salaryMin">Salary Min:</label>
+                <input type="number" id="salaryMin" name="salaryMin" placeholder="e.g. 10000000" required>
+            </div>
+            <div class="form-group">
+                <label for="salaryMax">Salary Max:</label>
+                <input type="number" id="salaryMax" name="salaryMax" placeholder="e.g. 15000000" required>
+            </div>
+            <div class="form-group">
+                <label for="salaryCurrency">Salary Currency:</label>
+                <input type="text" id="salaryCurrency" name="salaryCurrency" placeholder="e.g. VND, USD" required>
             </div>
 
             <div class="form-group">
                 <label for="location">Location:</label>
                 <input type="text" id="location" name="location" placeholder="e.g. Hanoi, Vietnam" required>
             </div>
-
+            
             <div class="form-group">
-                <label for="level">Position:</label>
-                <input type="text" id="level" name="level" placeholder="e.g. Full-time" required>
+                <label for="experienceMin">Experience Min (years):</label>
+                <input type="number" id="experienceMin" name="experienceMin" placeholder="e.g. 1" required>
+            </div>
+            <div class="form-group">
+                <label for="experienceMax">Experience Max (years):</label>
+                <input type="number" id="experienceMax" name="experienceMax" placeholder="e.g. 3" required>
+            </div>
+            <div class="form-group">
+                <label for="experienceCurrency">Experience Unit:</label>
+                <input type="text" id="experienceCurrency" name="experienceCurrency" value="years" required>
             </div>
 
+
             <div class="form-group">
-                <label for="studentReq">Student Requirement:</label>
-                <input type="text" id="studentReq" name="studentReq" placeholder="e.g. Bachelor's degree required">
+                <label for="requirement">Requirement:</label>
+                <input type="text" id="requirement" name="requirement" placeholder="e.g. Bachelor's degree required">
             </div>
 
             <div class="form-group">
@@ -52,13 +75,19 @@
             
             <div class="form-group">
                 <label for="benefit">Benefit:</label>
-                <input type="text" id="benefit" name="benefit" placeholder="e.g. annual bonus" required>
+                <input type="text" id="benefit" name="benefit" placeholder="e.g. annual bonus, health insurance" required>
             </div>
 
             <div class="form-group">
                 <label for="numberOfVacancy">Vacancy:</label>
                 <input type="number" id="numberOfVacancy" name="numberOfVacancy" placeholder="e.g. 3" required>
             </div>
+            
+            <div class="form-group">
+                <label for="avatar">Company Logo URL:</label>
+                <input type="text" id="avatar" name="avatar" placeholder="e.g. /image/company-logo.png">
+            </div>
+
 
             <input type="button" value="Submit" id="submit" onclick="handleSubmit()">
         </form>
@@ -67,25 +96,5 @@
     <footer>
         <p>&copy; 2025 . All rights reserved.</p>
     </footer>
-
-    <script>
-        function handleSubmit() {
-            const jobTitle = document.getElementById('jobTitle').value.trim();
-            const companyName = document.getElementById('companyName').value.trim();
-            const studentReq = document.getElementById('studentReq').value.trim();
-            const deadline = document.getElementById('deadline').value.trim();
-            const salary = document.getElementById('salary').value.trim();
-            const benefit = document.getElementById('benefit').value.trim();
-            const level = document.getElementById('level').value.trim();
-            const description = document.getElementById('description').value.trim();
-    
-            if (!jobTitle || !companyName || !studentReq || !deadline || !salary || !benefit || !level || !description) {
-                alert('You need to fill all the information!');
-                return;
-            }
-    
-            alert('Information has been sent!');
-        }
-    </script>
 </body>
 </html>
