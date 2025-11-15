@@ -76,10 +76,7 @@ nav ul {
 .submenu li a {
     padding: 8px 20px;
 }
-.account-name-and-email{
-    color: #fff;
-    padding-left: 20px;
-}
+
 
 .submenu li a:hover {
     background: #555;
