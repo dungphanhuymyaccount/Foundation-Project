@@ -1,391 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Detail - WorkHub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <title>Job Detail</title>
+    <link rel="stylesheet" href="jobDetail.css">
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f5f5;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo h2 {
-            font-size: 1.8rem;
-        }
-
-        .navi ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .navi a {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .navi a:hover {
-            color: #3498db;
-        }
-
-        main {
-            flex: 1;
-            padding: 2rem;
-        }
-
-        .wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .back-btn {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .back-btn:hover {
-            background-color: #2980b9;
-        }
-
-        .job-detail-container {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .job-header {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            padding-bottom: 2rem;
-            border-bottom: 2px solid #ecf0f1;
-        }
-
-        .company-logo-detail {
-            flex-shrink: 0;
-        }
-
-        .company-logo-detail img {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            border-radius: 10px;
-            border: 1px solid #ecf0f1;
-        }
-
-        .job-header-info h1 {
-            color: #2c3e50;
-            margin-bottom: 0.5rem;
-        }
-
-        .company-name {
-            color: #7f8c8d;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-
-        .job-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #34495e;
-        }
-
-        .meta-item ion-icon {
-            color: #3498db;
-            font-size: 1.2rem;
-        }
-
-        .job-section {
-            margin-bottom: 2rem;
-        }
-
-        .job-section h2 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #3498db;
-        }
-
-        .job-section p,
-        .job-section ul {
-            color: #34495e;
-            line-height: 1.8;
-        }
-
-        .job-section ul {
-            list-style-position: inside;
-            padding-left: 1rem;
-        }
-
-        .job-section li {
-            margin-bottom: 0.5rem;
-        }
-
-        .btn-apply {
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            padding: 1rem 3rem;
-            font-size: 1.1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            max-width: 300px;
-            display: block;
-            margin: 2rem auto 0;
-        }
-
-        .btn-apply:hover {
-            background-color: #229954;
-        }
-
-        .error-message {
-            text-align: center;
-            padding: 3rem;
-            color: #e74c3c;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: #7f8c8d;
-        }
-
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            padding: 2rem;
-            margin-top: auto;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .footer-content h2,
-        .footer-content h3 {
-            margin-bottom: 1rem;
-        }
-
-        .footer-content ul {
-            list-style: none;
-        }
-
-        .footer-content a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .footer-content a:hover {
-            color: #3498db;
-        }
-    </style>
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-            <h2>Work Hub</h2>
-        </div>
-        <nav class="navi">
-            <ul>
-                <li><a href="../Student-homepage/Student-homepage.html" class="menu_btn">Find Job</a></li>
-                <li><a href="#" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My CV</a></li>
-                <li><a href="../../General/GetNotification/GetNotification.html" class="menu_btn">
-                        <ion-icon class="icon" name="notifications-outline"></ion-icon> Notification</a></li>
-                <li><a href="#" class="menu_btn" id="current-user">
-                        <ion-icon class="icon" name="person-circle-outline"></ion-icon>Account</a>
-                </li>
-            </ul>
-        </nav>
-    </header>
+    <div class="wrap">
+        <div id="job" class="card">Đang tải...</div>
+    </div>
 
-    <main>
-        <div class="wrapper">
-            <button onclick="goBack()" class="back-btn">
-                <ion-icon name="arrow-back-outline"></ion-icon> Back to Jobs
-            </button>
-
-            <div id="jobDetailContainer" class="job-detail-container">
-                <p class="loading">Loading job details...</p>
-            </div>
-        </div>
-    </main>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-about">
-                <h2>Work Hub</h2>
-                <p>Work Hub is your trusted job portal helping students and professionals find their dream careers
-                    quickly and easily.</p>
-            </div>
-            <div class="footer-link">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="../Student-homepage/Student-homepage.html">Find Job</a></li>
-                    <li><a href="#">My CV</a></li>
-                    <li><a href="#">Notifications</a></li>
-                    <li><a href="#">Account</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact">
-                <h3>Contact Us</h3>
-                <p><ion-icon class="icon" name="mail-outline"></ion-icon> support@workhub.com</p>
-                <p><ion-icon class="icon" name="call-outline"></ion-icon> +84 123 456 789</p>
-                <p><ion-icon class="icon" name="location-outline"></ion-icon> Hà Nội, Việt Nam</p>
-            </div>
-        </div>
-        <p style="text-align: center; padding-top: 20px">© 2025 Work Hub | All rights reserved.</p>
-    </footer>
+    </div>
 
     <script>
-        let allJobs = []; // chứa danh sách job
-        const selectedJobID = JSON.parse(localStorage.getItem("selected_job_ID"));// lấy id của thằng được lưu trong localstorage
-
-        //lấy dữ liệu các jobs 
-        fetch("../../../json/jobs-data.json")
-            .then((res) => res.json())
-            .then((data) => {
-                allJobs = data.jobs || [];
-            });
-        //tìm job có cùng id với job card vừa bấm vào
-        function findJob(jobID) {
-            let selectedJob = allJobs.find(job => job.jobId === jobID);
-            if(selectedJob) {
-                renderDetail();
-            } else{
-                alert("đéo lấy được thông tin!");
+        const jobId = localStorage.getItem('selected_job_id');
+        let allJobs = [];
+        if (!jobId) {
+            document.getElementById('job').innerText = 'Không có job được chọn. Vui lòng quay lại trang danh sách.';
+        } else {
+            fetch('../../../json/jobs-data.json')
+                .then(res => res.json())
+                .then(data => {
+                    allJobs = data.jobs || [];
+                    if(!allJobs) {
+                        console.log("như cứt")
+                    }
+                    else {
+                        allJobs.find (job => job.jobId === jobId)
+                    }
+                })
             }
-        }
-
+        
         function renderDetail(job) {
-            const container = document.getElementById('jobDetailContainer');
-            
-            if (!job) {
-                container.innerHTML = `
-                    <div class="error-message">
-                        <h2>Job not found!</h2>
-                        <p>The job you are looking for does not exist or has been removed.</p>
-                        <button onclick="goBack()" class="back-btn" style="margin: 2rem auto;">
-                            <ion-icon name="arrow-back-outline"></ion-icon> Back to Jobs
-                        </button>
-                    </div>
-                `;
-                return;
-            }
+            const salary = job.salary || {};
+            const salaryMin = salary.min ?? 'N/A';
+            const salaryMax = salary.max ?? '';
+            const salaryCurrency = salary.currency ? ' ' + salary.currency : '';
 
-            // Format salary
-            const salaryText = job.salary && job.salary.min && job.salary.max 
-                ? `${job.salary.min.toLocaleString()} - ${job.salary.max.toLocaleString()} ${job.salary.currency}`
-                : 'Negotiable';
+            const requirementList = Array.isArray(job.requirement) ? job.requirement : (job.requirement ? [job.requirement] : []);
+            const benefitList = Array.isArray(job.benefit) ? job.benefit : (job.benefit ? [job.benefit] : []);
 
-            // Format experience
-            const experienceText = job.experience && job.experience.min && job.experience.max
-                ? `${job.experience.min} - ${job.experience.max} years`
-                : 'Not specified';
+            document.getElementById('job').innerHTML = `
+            <h1>${job.jobTitle ?? 'Không có tiêu đề'}</h1>
+            <div class="meta">${job.companyName ?? 'Công ty ẩn danh'} • ${job.location ?? 'Chưa rõ'} • ${job.field ?? 'Chưa phân loại'} • ${salaryMin}${salaryMax ? ' - ' + salaryMax : ''}${salaryCurrency}</div>
+            <hr/>
+            <h3>Mô tả công việc</h3>
+            <p>${job.description ?? 'Không có mô tả.'}</p>
 
-            // Render HTML
-            container.innerHTML = `
-                <div class="job-header">
-                    <div class="company-logo-detail">
-                        <img src="${job.avatar || 'default-logo.png'}" alt="${job.companyName}">
-                    </div>
-                    <div class="job-header-info">
-                        <h1>${job.jobTitle}</h1>
-                        <p class="company-name">${job.companyName}</p>
-                        <div class="job-meta">
-                            <div class="meta-item">
-                                <ion-icon name="location-outline"></ion-icon>
-                                <span>${job.location}</span>
-                            </div>
-                            <div class="meta-item">
-                                <ion-icon name="cash-outline"></ion-icon>
-                                <span>${salaryText}</span>
-                            </div>
-                            <div class="meta-item">
-                                <ion-icon name="briefcase-outline"></ion-icon>
-                                <span>${experienceText}</span>
-                            </div>
-                            <div class="meta-item">
-                                <ion-icon name="bookmark-outline"></ion-icon>
-                                <span>${job.field || 'N/A'}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <h3>Yêu cầu</h3>
+            <ul>
+              ${requirementList.map(r => `<li>${r}</li>`).join('')}
+            </ul>
 
-                <div class="job-section">
-                    <h2>Job Description</h2>
-                    <p>${job.description || 'No description available.'}</p>
-                </div>
+            <h3>Quyền lợi</h3>
+            <ul>
+              ${benefitList.map(b => `<li>${b}</li>`).join('')}
+            </ul>
 
-                <div class="job-section">
-                    <h2>Requirements</h2>
-                    <ul>${job.requirement}</ul>
-                </div>
-
-                <div class="job-section">
-                    <h2>Benefits</h2>
-                    <ul>${job.benefit}</ul>
-                </div>
-
-                <button id="applyBtn" class="btn-apply">Apply Now</button>
-            `;
-
-            // Gắn sự kiện cho nút Apply
-            document.getElementById('applyBtn').addEventListener('click', () => {
-                applyForJob(job);
-            });
+            <div style="margin-top:16px">
+              <button onclick="applyNow()" class="btn-apply">Ứng tuyển</button>
+            </div>
+          `;
         }
 
+        function applyNow() {
+            alert('Demo: bạn đã nhấn Ứng tuyển. Thêm form hoặc chuyển hướng tới trang apply nếu cần.');
+        }
     </script>
 </body>
 
