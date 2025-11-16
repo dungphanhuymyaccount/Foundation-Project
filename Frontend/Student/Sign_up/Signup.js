@@ -94,7 +94,7 @@ document.getElementById('signup-form-step1').addEventListener('submit', function
     }
 
     let user = ({
-        fullName: fullName,
+        fullName : fullName,
         email: email,
         password: password,
         role: "Student"

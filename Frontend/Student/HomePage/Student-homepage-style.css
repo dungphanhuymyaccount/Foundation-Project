@@ -87,6 +87,12 @@ nav ul {
     display: block;
 }
 
+.account-name-and-email{
+    color: #fff;
+    white-space: pre-line;
+    padding-left: 20px;
+}
+
 .wrapper {
     width: 100%;
 }
