@@ -1,18 +1,12 @@
 let jobContainer = document.querySelector(".job_post_section");
-let allJobs = []; // chứa danh sách job
 let searchedJobs = []; // biến chứa danh sách post sau khi tìm kiếm
 let jobsPerPage = 6; //số job 1 trang
 let currentPage = 1; //trang hiện tại
 let displayedJob = []; //chứa các job đang hiển thị trên màn hình
+let postedJobs = JSON.parse(localStorage.getItem('postedJobs')) || []; //lấy dữ liệu jobpost ở local
 
-//lấy dữ liệu từ file job-data
-fetch("../../../json/jobs-data.json")
-    .then((res) => res.json())
-    .then((data) => {
-        allJobs = data.jobs || [];
-        renderJob(allJobs);
-    });
-
+//render các job ra khi khởi tạo trang
+renderJob(postedJobs);
 //hàm ghi dữ liệu ra các jobposts
 function renderJob(jobList) {
     displayedJob = jobList;
@@ -26,8 +20,14 @@ function renderJob(jobList) {
     const end = start + jobsPerPage;
     const jobsToShow = jobList.slice(start, end);
 
-    //template của jobpost
     jobsToShow.forEach((job) => {
+        // Kiểm tra xem salary có tồn tại và có đầy đủ dữ liệu không
+        let salaryText = "Negotiable";
+        if (job.salary && job.salary.min && job.salary.max) {
+            salaryText = job.salary.min.toLocaleString() + " - " + 
+                        job.salary.max.toLocaleString() + " " + (job.salary.currency || "");
+        }
+        //template của job card
         let jobPost = `
                 <div class="job_container" onclick = "jobDetail('${job.jobId}')">
                     <div class="company_logo"><img src = "${job.avatar}"></div>
@@ -35,8 +35,7 @@ function renderJob(jobList) {
                         <h3>${job.jobTitle}</h3>
                         <p>${job.companyName}</p>
                         <p>${job.location}</p>
-                        <p>Salary: ${job.salary && job.salary.min && job.salary.max ? job.salary.min.toLocaleString() + " - " +
-                job.salary.max.toLocaleString() + " " + job.salary.currency : "Negotiable"}</p>
+                        <p>Salary: ${salaryText}</p>
                     </div>
                 </div>`;
         jobContainer.innerHTML += jobPost;
@@ -45,7 +44,7 @@ function renderJob(jobList) {
 }
 
 function jobDetail(jobId) {
-    let selectedJob = allJobs.find(job => job.jobId === jobId);
+    let selectedJob = postedJobs.find(job => job.jobId === jobId);
     if (selectedJob) {
         localStorage.setItem("selected_job_ID", JSON.stringify(jobId));
         window.location.href = "../JobDetail/jobDetail.html";
@@ -71,7 +70,7 @@ document.getElementById("prevBtn").addEventListener("click", () => {
 });
 
 document.getElementById("nextBtn").addEventListener("click", () => {
-    const totalPages = Math.ceil(allJobs.length / jobsPerPage);
+    const totalPages = Math.ceil(displayedJob.length / jobsPerPage);
     if (currentPage < totalPages) {
         currentPage++;
         renderJob(displayedJob);
@@ -82,11 +81,11 @@ function searchJob() {
     const searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
 
     if (searchTerm === "") {
-        renderJob(allJobs);
+        renderJob(postedJobs);
         return;
     }
 
-    searchedJobs = allJobs.filter(
+    searchedJobs = postedJobs.filter(
         (job) =>
             job.jobTitle.toLowerCase().includes(searchTerm) ||
             job.location.toLowerCase().includes(searchTerm) ||
@@ -113,11 +112,11 @@ function advanceSearch() {
         searchSalary === "none" &&
         searchExperience === "none"
     ) {
-        renderJob(allJobs);
+        renderJob(postedJobs);
         return;
     }
 
-    searchedJobs = allJobs.filter((job) => {
+    searchedJobs = postedJobs.filter((job) => {
         //lọc bằng field
         let matchField;
         if (searchField === "none") {
@@ -145,34 +144,30 @@ function advanceSearch() {
         }
 
         //lọc bằng salary: min của filter < max của post <= max của filter
+        let matchSalary;
+        if (searchSalary === "none" || !job.salary || !job.salary.max) {
+            matchSalary = searchSalary === "none";
+        } else {
         let compareSalary = searchSalary.split("-");
         const minFilterSalary = parseInt(compareSalary[0]);
         const maxFilterSalary = parseInt(compareSalary[1]);
-        let matchSalary;
-        if (searchSalary === "none") {
-            matchSalary = true
-        } else {
             matchSalary = job.salary.max > minFilterSalary && job.salary.max <= maxFilterSalary;
         }
-
-
         //lọc bằng experience: như lọc salary
+        let matchExperience;
+        if (searchExperience === "none" || !job.experience || !job.experience.max) {
+            matchExperience = searchExperience === "none";
+        } else {
         let compareExp = searchExperience.split("-");
         const minExp = parseInt(compareExp[0]);
         const maxExp = parseInt(compareExp[1]);
-        let matchExperience;
-        if (searchExperience === "none") {
-            matchExperience = true;
-        } else {
             matchExperience = job.experience.max <= maxExp && job.experience.max > minExp;
         }
 
         return matchField && matchExperience && matchLocation && matchSalary;
-    }
-    )
+    });
     //hiện các job được filter
     renderJob(searchedJobs);
-
 }
 
 //hàm xóa dấu tiếng việt
