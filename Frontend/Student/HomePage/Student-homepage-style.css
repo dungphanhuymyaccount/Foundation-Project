@@ -76,10 +76,7 @@ nav ul {
 .submenu li a {
     padding: 8px 20px;
 }
-.account-name-and-email{
-    color: #fff;
-    padding-left: 20px;
-}
+
 
 .submenu li a:hover {
     background: #555;
@@ -88,6 +85,12 @@ nav ul {
 
 .navi li:hover>.submenu {
     display: block;
+}
+
+.account-name-and-email{
+    color: #fff;
+    white-space: pre-line;
+    padding-left: 20px;
 }
 
 .wrapper {

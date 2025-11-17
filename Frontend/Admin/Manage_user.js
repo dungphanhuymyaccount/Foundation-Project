@@ -92,16 +92,9 @@ function validate(email, password, employerName, companyName) {
 }
 //kiểm tra email tồn tại
 function existEmail(email) {
-	list_user = JSON.parse(localStorage.getItem('list_user')) ||
-	{
-		list_student: [],
-		list_employer: []
-	}
-
-	if (email) {
-		return list_user.list_employer.some(user => user.email === email);
-	}
-	return false;
+    if (email) {
+        return checkEmail = allUser.some(user => user.email === email);
+    }
 }
 // chức năng tạo employer
 document.getElementById("employerForm").addEventListener("submit", function (e) {

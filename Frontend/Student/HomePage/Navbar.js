@@ -20,8 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentUserEmail = document.getElementById("current-user-name");
     if (currentUser) {
         accountName.textContent = `Hi, ${currentUser.fullName}`;
-        currentUserEmail.textContent = `Hi, ${currentUser.fullName}
-                                        ${currentUser.email}`
+        currentUserEmail.textContent = `Hi, ${currentUser.fullName}\n${currentUser.email}`;
         //nếu chưa đăng nhập thì sẽ hiện là account
     } else {
         accountName.textContent = "Account";
