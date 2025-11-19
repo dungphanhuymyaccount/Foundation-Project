@@ -6,70 +6,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Detail</title>
     <link rel="stylesheet" href="jobDetail.css">
-
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 
 <body>
-    <div class="wrap">
-        <div id="job" class="card">Đang tải...</div>
-    </div>
+
+    <div class="container">
+        <div class="wrap">
+            <div id="job" class="card">Loading Job...</div>
+        </div>
 
     </div>
 
     <script>
-        const jobId = localStorage.getItem('selected_job_id');
-        let allJobs = [];
-        if (!jobId) {
-            document.getElementById('job').innerText = 'Không có job được chọn. Vui lòng quay lại trang danh sách.';
-        } else {
-            fetch('../../../json/jobs-data.json')
-                .then(res => res.json())
-                .then(data => {
-                    allJobs = data.jobs || [];
-                    if(!allJobs) {
-                        console.log("như cứt")
-                    }
-                    else {
-                        allJobs.find (job => job.jobId === jobId)
-                    }
-                })
+        const selectedJobID = JSON.parse(localStorage.getItem('selected_job_ID'));
+        let postedJobs = JSON.parse(localStorage.getItem('postedJobs')) || [];
+        findJobToRender(selectedJobID)
+        function findJobToRender(jobID) {
+            let clickedJob = postedJobs.findIndex(job => job.jobId === jobID);
+            if (clickedJob === -1) {
+                alert('del có job');
             }
-        
+            else {
+                console.log("đã tìm thấy việc! để render")
+                renderDetail(postedJobs[clickedJob]);
+            }
+        }
+
         function renderDetail(job) {
             const salary = job.salary || {};
             const salaryMin = salary.min ?? 'N/A';
             const salaryMax = salary.max ?? '';
             const salaryCurrency = salary.currency ? ' ' + salary.currency : '';
 
-            const requirementList = Array.isArray(job.requirement) ? job.requirement : (job.requirement ? [job.requirement] : []);
-            const benefitList = Array.isArray(job.benefit) ? job.benefit : (job.benefit ? [job.benefit] : []);
+            const experience = job.experience || {};
+            const experienceMin = experience.min ?? 'N/A';
+            const experienceMax = experience.max ?? '';
+            const experienceCurrency = experience.currency ? ' ' + experience.currency : '';
 
             document.getElementById('job').innerHTML = `
-            <h1>${job.jobTitle ?? 'Không có tiêu đề'}</h1>
-            <div class="meta">${job.companyName ?? 'Công ty ẩn danh'} • ${job.location ?? 'Chưa rõ'} • ${job.field ?? 'Chưa phân loại'} • ${salaryMin}${salaryMax ? ' - ' + salaryMax : ''}${salaryCurrency}</div>
-            <hr/>
-            <h3>Mô tả công việc</h3>
-            <p>${job.description ?? 'Không có mô tả.'}</p>
-
-            <h3>Yêu cầu</h3>
-            <ul>
-              ${requirementList.map(r => `<li>${r}</li>`).join('')}
-            </ul>
-
-            <h3>Quyền lợi</h3>
-            <ul>
-              ${benefitList.map(b => `<li>${b}</li>`).join('')}
-            </ul>
-
-            <div style="margin-top:16px">
-              <button onclick="applyNow()" class="btn-apply">Ứng tuyển</button>
+        <div class="detail">
+            <div class="company_logo">
+                <img src="${job.avatar || ''}" alt="logo công ty">
             </div>
-          `;
+            <div class="Name_Company">
+            <div>
+                <h1 class="job-title">${job.jobTitle ?? 'Không có tiêu đề'}</h1>
+            </div>
+            <div>
+            <h3 class="company_title">${job.companyName ?? 'Công ty'}</h3>
+            </div>
+            </div>
+        </div>
+
+        
+        <hr/>
+        <div class="info">
+            <div>
+                <h3><span><ion-icon name="location-outline"></ion-icon></span>Location</h3>
+                <p>${job.location ?? 'Chưa rõ'}</p>
+            </div>
+            <div>
+                <h3><span><ion-icon name="briefcase-outline"></ion-icon></span>Field</h3>
+                <p>${job.field ?? 'Chưa phân loại'}</p>
+            </div>
+            
+        </div>
+        <div class="info">
+            <div>
+                <h3><span><ion-icon name="people-outline"></ion-icon></span>Number of Vacancies</h3>
+                <p>${job.numberOfVacancy ?? 'Chưa rõ'}</p>
+            </div>
+            <div>
+                <h3><span><ion-icon name="cash-outline"></ion-icon></span>Salary</h3>
+                <p>${salaryMin}${salaryMax ? ' - ' + salaryMax : ''}${salaryCurrency}</p>
+            </div>
+        </div>
+        <div class="info">
+            <div>
+                <h3><span><ion-icon name="calendar-outline"></ion-icon></span>Deadline</h3>
+                <p>${job.deadline ?? 'Chưa rõ'}</p>
+            </div>
+            <div>
+                <h3><span><ion-icon name="star-outline"></ion-icon></span>Experience</h3>
+                <p>${experienceMin}${experienceMax ? ' - ' + experienceMax : ''}${experienceCurrency}</p>            
+            </div>
+            
+        </div>
+        <hr/>
+        <h3>Description</h3>
+        <p>${job.description ?? 'Không có mô tả.'}</p>
+
+        <h3>Requirements</h3>
+        <p>${job.requirement ?? 'không có yêu cầu'}</p>
+
+        <h3>Benefits</h3>
+        <p>${job.benefit ?? 'không có quyền lợi'}</p>
+
+        <div style="margin-top:16px">
+            <button onclick="applyNow()" class="btn-apply">Ứng tuyển</button>
+        </div>
+    `;
         }
 
         function applyNow() {
             alert('Demo: bạn đã nhấn Ứng tuyển. Thêm form hoặc chuyển hướng tới trang apply nếu cần.');
-        }
+        }   
     </script>
 </body>
 
