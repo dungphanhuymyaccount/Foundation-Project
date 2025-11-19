@@ -76,6 +76,27 @@ function existEmail(email) {
     }
 }
 
+//hàm tạo ID cho Student
+function getStudentID() {
+
+    // gom tất cả studentID
+    let allStudents = list_user.list_student;
+
+    if (allStudents.length === 0) {
+        return "S001";
+    }
+
+    // lấy ID lớn nhất hiện có
+    let maxID = allStudents.reduce((max, user) => {
+        let num = parseInt(user.StudentID?.replace("S", "")) || 0;
+        return Math.max(max, num);
+    }, 0);
+
+    let nextID = maxID + 1;
+
+    return "S" + String(nextID).padStart(3, "0");
+}
+
 //lắng nghe sụ kiện lưu thông tin vào localStorage khi bấm submit sau khi bấm submit
 document.getElementById('signup-form-step1').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -94,6 +115,7 @@ document.getElementById('signup-form-step1').addEventListener('submit', function
     }
 
     let user = ({
+        StudentID : getStudentID(),
         fullName : fullName,
         email: email,
         password: password,

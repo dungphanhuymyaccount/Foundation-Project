@@ -106,7 +106,6 @@ function getPasswordInputs() {
 // ==================== KHỞI TẠO TRANG ====================
 function initializePage() {
 	console.log("Khởi tạo trang...");
-
 	let loggedInEmail = localStorage.getItem("loggedInEmail");
 
 	if (!loggedInEmail) {
