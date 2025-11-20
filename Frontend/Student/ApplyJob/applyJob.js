@@ -7,7 +7,7 @@ const msg = document.getElementById("error-message-cv");
 document.addEventListener("DOMContentLoaded", () => {
     if (!currentUser) {
         setTimeout(() => {
-            alert("Bạn cần đăng nhập trước khi ứng tuyển!");
+            alert("You need to log in before applying.!");
             window.location.href = "../../General/Login/Login.html";
         }, 300);
         return;
@@ -22,7 +22,7 @@ function fileToBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject("Lỗi đọc file");
+        reader.onerror = () => reject("File reading error.");
         reader.readAsDataURL(file);
     });
 }
@@ -47,25 +47,25 @@ document.getElementById("applyForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     msg.innerHTML = ""; // Reset lỗi
 
-    const fullName = document.querySelector("input[name='fullname']").value.trim();
-    const email = document.querySelector("input[name='email']").value.trim();
+    const fullName = document.getElementById('fullname').value.trim();
+    const email = document.getElementById('email').value.trim();
     const cvFile = document.getElementById("cvFile").files[0];
 
     // Check trùng ứng tuyển
     if (alreadyApplied(currentUser.StudentID, selectedJobId)) {
-        alert ("Bạn đã ứng tuyển công việc này rồi!");
+        alert ("You’ve already applied for this job.!");
         return;
     }
 
     // Check CV khi submit
     if (!cvFile) {
-        msg.innerHTML = "<p>Bạn cần chọn CV trước khi gửi</p>";
+        msg.innerHTML = "<p>You need to choose a CV before submitting.</p>";
         return;
     }
 
     const MAX_SIZE = 5 * 1024 * 1024;
     if (cvFile.size > MAX_SIZE) {
-        msg.innerHTML = "<p>File vượt quá 5MB. Bạn hãy chọn file khác!</p>";
+        msg.innerHTML = "<p>The file exceeds 5MB. Please choose another one!</p>";
         return;
     }
 
@@ -85,6 +85,6 @@ document.getElementById("applyForm").addEventListener("submit", async (e) => {
     applications.push(app);
     localStorage.setItem("applications", JSON.stringify(applications));
 
-    alert("Ứng tuyển thành công!");
+    alert("Application submitted successfully!");
     window.location.href = "../HomePage/Student-homepage.html";
 });
