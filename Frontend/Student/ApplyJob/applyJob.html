@@ -9,31 +9,20 @@
   <div class="apply-form">
     <h2>Apply for Job</h2>
     <form id="applyForm">
-      <label>Họ và tên</label>
-      <input type="text" name="fullname" required placeholder="Nhập họ tên">
+      <label>Full name</label>
+      <input type="text" id="fullname" name="fullname" required placeholder="Nhập họ tên">
 
       <label>Email</label>
-      <input type="email" name="email" required placeholder="Nhập email">
-
-      <label>Số điện thoại</label>
-      <input type="tel" name="phone" required placeholder="Nhập số điện thoại">
-
-      <label>Thư ứng tuyển</label>
-      <textarea name="coverletter" rows="4" placeholder="Viết thư ứng tuyển..."></textarea>
+      <input type="email" id="email" name="email" required placeholder="Nhập email">
 
       <label>CV (PDF)</label>
-      <input type="file" name="cv" accept=".pdf">
+      <input type="file" id="cvFile" name="cv" accept=".pdf">
+      <div id="error-message-cv" class="error-message"></div>
 
       <button type="submit">Gửi ứng tuyển</button>
     </form>
   </div>
 
-  <script>
-    document.getElementById("applyForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      alert("Ứng tuyển thành công! Chúng tôi sẽ liên hệ sớm.");
-      this.reset();
-    });
-  </script>
+<script src="applyJob.js"></script>
 </body>
 </html>

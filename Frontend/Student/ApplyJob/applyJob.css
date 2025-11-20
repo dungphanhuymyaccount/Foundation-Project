@@ -1,8 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     background: #f9f9f9;
-    padding: 30px;
-    background: #17c4ca;
+    padding: 100px;
   }
   .apply-form {
     background: white;
@@ -43,3 +42,11 @@ body {
   button:hover {
     background: #005bb5;
   }
+
+/*error message của cv*/
+.error-message {
+    color: red;
+    font-size: 12px;
+    font-style: italic;
+
+}
