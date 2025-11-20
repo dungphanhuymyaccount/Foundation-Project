@@ -26,7 +26,7 @@
         function findJobToRender(jobID) {
             let clickedJob = postedJobs.findIndex(job => job.jobId === jobID);
             if (clickedJob === -1) {
-                alert('del có job');
+                alert('không tìm thấy job');
             }
             else {
                 console.log("đã tìm thấy việc! để render")
@@ -111,7 +111,7 @@
         }
 
         function applyNow() {
-            alert('Demo: bạn đã nhấn Ứng tuyển. Thêm form hoặc chuyển hướng tới trang apply nếu cần.');
+            window.location.href = '../ApplyJob/applyJob.html'
         }   
     </script>
 </body>
