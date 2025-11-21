@@ -34,6 +34,7 @@ function generateCvId() {
     return "CV" + num.toString().padStart(3, "0");
 }
 
+
 function alreadyApplied(studentId, jobId) {
     return applications.some(a => a.studentId === studentId && a.jobId === jobId);
 }
@@ -79,7 +80,8 @@ document.getElementById("applyForm").addEventListener("submit", async (e) => {
         fullName,
         email,
         cvFile: cvBase64,
-        applyDate: new Date().toLocaleString()
+        applyDate: new Date().toLocaleString(),
+        status: "Pending"
     };
 
     applications.push(app);
