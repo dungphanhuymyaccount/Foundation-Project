@@ -195,7 +195,7 @@ nav ul {
 .job_post_section {
     display: grid;
     grid-template-columns: repeat(3,1fr);
-    margin: 50px 0;
+    margin: 50px 50px;
     gap: 50px;
     justify-content: flex-start;
     max-width: 1600px;
@@ -211,6 +211,7 @@ nav ul {
     border-radius: 10px;
     transition: all 0.2s ease;
     background-color: #ffffff;
+    font-size: 14px;
 }
 .company_logo{
     width: 120px;
