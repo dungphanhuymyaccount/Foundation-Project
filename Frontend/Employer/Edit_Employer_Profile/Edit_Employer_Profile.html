@@ -6,33 +6,47 @@
 		<title>Edit Employer Profile</title>
 		<link href="style.css" rel="stylesheet" />
 		<link href="bootstrap.css" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 	</head>
-	<script>
-		window.onload = initializePage();
-	</script>
 	<body>
-		  <header>
-        <div class="logo">
-            <h2><a href="../../Employer/HomePage_Employee/Homepage_Screen1.html" style="text-decoration: none; color: #fff;">Work Hub</a></h2>
-        </div>
-				
-        <nav class="navi">
-            <ul>
-                <li><a href="#">Find Job</a></li>
-                <li><a href="#" ><ion-icon name="reader-outline"></ion-icon> My Post</a></li>
-                <li><a href="#"><ion-icon name="notifications-outline"></ion-icon> Notification</a>
-                </li>
-                <li>
-                    <a href="#" ><ion-icon name="person-circle-outline"></ion-icon> Account</a>
-                    <ul class="submenu">
-                        <li><a href="#">Edit profile</a></li>
-                        <li><a href="#">Log out</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-				
-    </header>
+		<header>
+			<div class="logo">
+				<h2>
+					<a href="/Frontend/Employer/HomePage_Employee/Homepage_Screen1.html"
+						>Work Hub</a
+					>
+				</h2>
+			</div>
+
+			<nav class="navi">
+				<ul>
+					<li><a href="#">Find Job</a></li>
+					<li>
+						<a href="#"><ion-icon name="reader-outline"></ion-icon> My Post</a>
+					</li>
+					<li>
+						<a href="/Frontend/General/GetNotification/GetNotification.html"
+							><ion-icon name="notifications-outline"></ion-icon>
+							Notification</a
+						>
+					</li>
+					<li>
+						<a href="#"
+							><ion-icon name="person-circle-outline"></ion-icon> Account</a
+						>
+						<ul class="submenu">
+							<li>
+								<a
+									href="/Frontend/Employer/Edit_Employer_Profile/Edit_Company_Information.html"
+									>Edit profile</a
+								>
+							</li>
+							<li><a href="/Frontend/General/Login/Login.html">Log out</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</header>
 
 		<div class="container light-style flex-grow-1 container-p-y">
 			<h3 class="font-weight-bold py-3 mb-4">
@@ -163,17 +177,13 @@
 				<button type="button" class="btn btn-primary" onclick="saveProfile()">
 					Save changes</button
 				>&nbsp;
-				<button type="button" class="btn btn-default">Cancel</button>
+				<button type="button" class="btn btn-default" onclick="cancelChanges()">
+					Cancel
+				</button>
 			</div>
 		</div>
 	</body>
-	<script
-		data-cfasync="false"
-		src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
-	></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script type="text/javascript"></script>
-
-	<script src="edit-employer-profile_json.js"></script>
+	<script src="edit_employer_profile_json.js"></script>
 </html>
