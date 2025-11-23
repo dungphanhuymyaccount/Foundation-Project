@@ -1,23 +1,35 @@
+// ==================== APPLY JOB ====================
+
 let currentUser = JSON.parse(localStorage.getItem("current_user"));
 let selectedJobId = JSON.parse(localStorage.getItem("selected_job_ID"));
 let applications = JSON.parse(localStorage.getItem("applications")) || [];
 
 const msg = document.getElementById("error-message-cv");
 
+/**
+ * Khởi tạo form khi load trang
+ */
 document.addEventListener("DOMContentLoaded", () => {
+    // Kiểm tra login
     if (!currentUser) {
         setTimeout(() => {
-            alert("You need to log in before applying.!");
+            alert("You need to log in before applying!");
             window.location.href = "../../General/Login/Login.html";
         }, 300);
         return;
     }
 
-    // Tự động điền
+    // Tự động điền thông tin user
     document.getElementById("fullname").value = currentUser.fullName || "";
     document.getElementById("email").value = currentUser.email || "";
+    
+    console.log("Current User:", currentUser);
+    console.log("Selected Job ID:", selectedJobId);
 });
 
+/**
+ * Convert File thành Base64
+ */
 function fileToBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -27,66 +39,130 @@ function fileToBase64(file) {
     });
 }
 
+/**
+ * Generate CV ID mới
+ */
 function generateCvId() {
     if (applications.length === 0) return "CV001";
-    const last = applications[applications.length - 1].CvId;
-    const num = parseInt(last.replace("CV", "")) + 1;
-    return "CV" + num.toString().padStart(3, "0");
+    
+    // Tìm ID lớn nhất
+    const maxNum = applications.reduce((max, app) => {
+        const num = parseInt(app.CvId.replace("CV", "")) || 0;
+        return Math.max(max, num);
+    }, 0);
+    
+    const nextNum = maxNum + 1;
+    return "CV" + nextNum.toString().padStart(3, "0");
 }
 
-
+/**
+ * Kiểm tra đã apply job này chưa
+ */
 function alreadyApplied(studentId, jobId) {
     return applications.some(a => a.studentId === studentId && a.jobId === jobId);
 }
 
-// Xoá lỗi khi đổi file
+/**
+ * Lưu CV Base64 vào localStorage riêng
+ */
+function saveCvData(cvId, cvBase64) {
+    let cvData = JSON.parse(localStorage.getItem("cvData")) || [];
+    cvData.push({ 
+        CvId: cvId, 
+        cvFileBase64: cvBase64 
+    });
+    localStorage.setItem("cvData", JSON.stringify(cvData));
+    console.log("CV saved with ID:", cvId);
+}
+
+/**
+ * Xóa lỗi khi đổi file
+ */
 document.getElementById("cvFile").addEventListener("change", () => {
     msg.innerHTML = "";
 });
 
+/**
+ * Xử lý submit form (CHỈ MỘT LẦN!)
+ */
 document.getElementById("applyForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     msg.innerHTML = ""; // Reset lỗi
+
+    console.log("Form submitted!");
 
     const fullName = document.getElementById('fullname').value.trim();
     const email = document.getElementById('email').value.trim();
     const cvFile = document.getElementById("cvFile").files[0];
 
-    // Check trùng ứng tuyển
+    // 1. Kiểm tra đã apply chưa
     if (alreadyApplied(currentUser.StudentID, selectedJobId)) {
-        alert ("You’ve already applied for this job.!");
+        alert("You've already applied for this job!");
         return;
     }
 
-    // Check CV khi submit
+    // 2. Kiểm tra CV
     if (!cvFile) {
         msg.innerHTML = "<p>You need to choose a CV before submitting.</p>";
         return;
     }
 
-    const MAX_SIZE = 5 * 1024 * 1024;
+    // 3. Kiểm tra kích thước file
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
     if (cvFile.size > MAX_SIZE) {
         msg.innerHTML = "<p>The file exceeds 5MB. Please choose another one!</p>";
         return;
     }
 
-    // Convert Base64
-    const cvBase64 = await fileToBase64(cvFile);
+    // 4. Kiểm tra định dạng file
+    if (cvFile.type !== 'application/pdf') {
+        msg.innerHTML = "<p>Only PDF files are allowed!</p>";
+        return;
+    }
 
-    const app = {
-        CvId: generateCvId(),
-        studentId: currentUser.StudentID,
-        jobId: selectedJobId,
-        fullName,
-        email,
-        cvFile: cvBase64,
-        applyDate: new Date().toLocaleString(),
-        status: "Pending"
-    };
+    try {
+        // 5. Convert CV thành Base64
+        console.log("Converting CV to Base64...");
+        const cvBase64 = await fileToBase64(cvFile);
+        
+        // 6. Generate CV ID mới
+        const newCvId = generateCvId();
+        console.log("Generated CV ID:", newCvId);
 
-    applications.push(app);
-    localStorage.setItem("applications", JSON.stringify(applications));
+        // 7. Lưu CV Base64 vào cvData (riêng biệt)
+        saveCvData(newCvId, cvBase64);
 
-    alert("Application submitted successfully!");
-    window.location.href = "../HomePage/Student-homepage.html";
+        // 8. Tạo application object (CHỈ LƯU METADATA)
+        const app = {
+            CvId: newCvId,
+            studentId: currentUser.StudentID,
+            jobId: selectedJobId,
+            fullName: fullName,
+            email: email,
+            // ⚠️ KHÔNG lưu cvFile ở đây nữa
+            applyDate: new Date().toLocaleString('vi-VN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            }),
+            status: "Pending"
+        };
+
+        // 9. Lưu application vào localStorage
+        applications.push(app);
+        localStorage.setItem("applications", JSON.stringify(applications));
+        
+        console.log("Application submitted successfully!", app);
+
+        alert("Application submitted successfully!");
+        
+        // 10. Redirect về trang chủ
+        window.location.href = "../HomePage/Student-homepage.html";
+        
+    } catch (error) {
+        console.error("Error submitting application:", error);
+        msg.innerHTML = "<p>An error occurred while submitting. Please try again.</p>";
+    }
 });
