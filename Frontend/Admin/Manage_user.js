@@ -98,22 +98,20 @@ function existEmail(email) {
 }
 
 function getEmployerID() {
-    // lấy list_user hiện tại
     let list = JSON.parse(localStorage.getItem('list_user')) || {
         list_student: [],
         list_employer: []
     };
 
-    // gom tất cả studentID
     let allEmployers = list.list_employer;
 
     if (allEmployers.length === 0) {
         return "EMP001";
     }
 
-    // lấy ID lớn nhất hiện có
     let maxID = allEmployers.reduce((max, user) => {
-        let num = parseInt(user.StudentID?.replace("EMP", "")) || 0;
+        // ✅ SỬA LỖI: Dùng user.EmployerID
+        let num = parseInt(user.EmployerID?.replace("EMP", "")) || 0; 
         return Math.max(max, num);
     }, 0);
 
