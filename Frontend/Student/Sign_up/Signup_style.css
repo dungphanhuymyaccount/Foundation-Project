@@ -7,75 +7,7 @@
     font-family: 'Poppins', sans-serif;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #222;
-    padding: 5px 60px;
-    position: fixed;
-    top: 0;            /* Giữ header ở trên cùng */
-    left: 0;           /* Căn từ mép trái */
-    width: 100%;       /* Trải rộng toàn màn hình */
-    z-index: 1000;
-}
 
-.logo h2 {
-    color: #fff;
-    font-weight: bold;
-}
-
-nav ul {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 10px 40px;
-    background: #222;
-}
-
-.navi li {
-    position: relative;
-    margin-right: 20px;
-}
-
-.navi a {
-    color: #fff;
-    text-decoration: none;
-    padding: 6px 10px;
-    display: block;
-}
-
-.navi a:hover {
-    color: #00bcd4;
-    border-radius: 4px;
-}
-
-
-.submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #333;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-radius: 4px;
-    min-width: 150px;
-}
-
-.submenu li a {
-    padding: 8px 12px;
-}
-
-.submenu li a:hover {
-    background: #555;
-}
-
-
-.navi li:hover>.submenu {
-    display: block;
-}
 
 body {
     min-height: 100vh;

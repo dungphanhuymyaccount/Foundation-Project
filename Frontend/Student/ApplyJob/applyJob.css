@@ -1,8 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f9f9f9;
-    padding: 100px;
-  }
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 60px;
+}
   .apply-form {
     background: white;
     padding: 20px;
