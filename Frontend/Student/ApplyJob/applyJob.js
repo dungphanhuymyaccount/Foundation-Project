@@ -18,6 +18,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 300);
         return;
     }
+    if(currentUser.role !== "Student") {
+        setTimeout(() => {
+            alert("You need to log in before applying!");
+            window.location.href = "../../General/Login/Login.html";
+        }, 300);
+        return;
+    
+    }
 
     // Tự động điền thông tin user
     document.getElementById("fullname").value = currentUser.fullName || "";
