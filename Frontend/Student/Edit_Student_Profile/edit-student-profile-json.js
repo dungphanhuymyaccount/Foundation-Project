@@ -1,98 +1,164 @@
-// ==================== DỮ LIỆU NGƯỜI DÙNG (GIẢ LẬP CSDL) ====================
-const STUDENTS_DATA = [
-	{
-		Email: "vantuan@gmail.com",
-		Password: "tuan1234",
-		StudentName: "Nguyễn Văn Tuấn",
-		Birthday: "10/20/2002", // MM/DD/YYYY
-		"Phone Number": "0987654321",
-		Address: "123 Đường Cầu Giấy, Hà Nội",
-		University: "Đại học FPT",
-		Avatar: "images/student1.jpg",
-	},
-	{
-		Email: "minhanh@gmail.com",
-		Password: "anh5678",
-		StudentName: "Trần Thị Minh Anh",
-		Birthday: "05/15/2001", // MM/DD/YYYY
-		"Phone Number": "0123456789",
-		Address: "456 Đường Lê Lợi, TP. HCM",
-		University: "Đại học RMIT",
-		Avatar: "images/student2.jpg",
-	},
-];
+// ==================== CẤU HÌNH VÀ BIẾN TOÀN CỤC ====================
+const ALL_STUDENTS_STORAGE_KEY = "list_user";
+const LOGGED_IN_EMAIL_KEY = "loggedInEmail"; // Vẫn giữ, nhưng ít quan trọng hơn
+const CURRENT_USER_STORAGE_KEY = "current_user"; // Key mới được sử dụng
+const DEFAULT_AVATAR = "image/OIP.jpg";
 
-// ==================== BIẾN TOÀN CỤC ====================
-let currentUser = null; // Sẽ chứa thông tin user (gồm cả Password)
-let currentStudent = null; // Sẽ chứa thông tin student
-let originalData = {}; // Chứa cả Personal Info
+let allStudents = [];
+let currentUser = null;
+let originalData = {}; // Dữ liệu ban đầu để kiểm tra sự thay đổi (ví dụ: thay đổi email)
 
-// ==================== HÀM CHUYỂN ĐỔI NGÀY THÁNG (FIX LỖI FORMAT) ====================
-function convertToDDMMYYY(ddmmyyyy) {
-	if (!ddmmyyyy) return "";
-	// Dữ liệu gốc là MM/DD/YYYY, chuyển sang YYYY-MM-DD
-	const parts = ddmmyyyy.split("/");
+// ==================== CÁC HÀM XỬ LÝ DỮ LIỆU CHUNG (LOCAL STORAGE) ====================
+
+/**
+ * Lấy toàn bộ dữ liệu CSDL từ Local Storage, bao gồm cả list_student.
+ * @returns {object} - Đối tượng chứa list_student và list_employer.
+ */
+const getDatabaseObject = () => {
+	const storedData = localStorage.getItem(ALL_STUDENTS_STORAGE_KEY);
+	if (storedData) {
+		try {
+			return JSON.parse(storedData);
+		} catch (e) {
+			console.error("Lỗi phân tích CSDL Local Storage:", e);
+		}
+	}
+	// Trả về cấu trúc mặc định nếu không có hoặc lỗi
+	return { list_student: [], list_employer: [] };
+};
+
+/**
+ * Khởi tạo CSDL: Đọc mảng sinh viên từ Local Storage.
+ * BUG FIX: Đảm bảo email trong CSDL được chuyển sang chữ thường khi tải lần đầu
+ */
+function initializeDatabase() {
+	const db = getDatabaseObject();
+	allStudents = db.list_student || [];
+	allStudents = allStudents.map((student) => ({
+		...student,
+		email: student.email ? student.email.toLowerCase() : "",
+	}));
+	console.log(
+		`Đã tải CSDL sinh viên (${allStudents.length} mục) từ Local Storage.`,
+	);
+}
+
+/**
+ * Lưu toàn bộ mảng allStudents vào Local Storage (trong trường list_student).
+ */
+function saveAllStudents() {
+	const db = getDatabaseObject();
+	// Cập nhật list_student
+	db.list_student = allStudents;
+	localStorage.setItem(ALL_STUDENTS_STORAGE_KEY, JSON.stringify(db));
+	console.log("Đã lưu toàn bộ CSDL sinh viên vào Local Storage.");
+}
+
+/**
+ * Tìm student theo Email trong mảng allStudents (để kiểm tra trùng lặp).
+ * @param {string} email - Email cần tìm (đã được chuẩn hóa chữ thường)
+ * @returns {object|null} - Đối tượng sinh viên nếu tìm thấy, ngược lại là null.
+ */
+const findStudentByEmail = (email) => {
+	// BUG FIX: Đảm bảo email tìm kiếm cũng được chuẩn hóa chữ thường
+	const normalizedEmail = email ? email.toLowerCase() : "";
+	const student = allStudents.find((s) => s.email === normalizedEmail);
+	return student ? { ...student } : null;
+};
+
+// ==================== HÀM LẤY CURRENT_USER (LOGIC MỚI) ====================
+
+/**
+ * Lấy dữ liệu người dùng hiện tại được lưu trực tiếp dưới key 'current_user'.
+ * @returns {object|null} - Đối tượng người dùng nếu tồn tại và phân tích thành công.
+ */
+function getCurrentUserFromLocalStorage() {
+	const storedData = localStorage.getItem(CURRENT_USER_STORAGE_KEY);
+
+	if (storedData) {
+		try {
+			const userData = JSON.parse(storedData);
+
+			// Xử lý trường hợp dữ liệu được lưu dưới dạng mảng (như trong ảnh chụp)
+			const finalUserData = Array.isArray(userData) ? userData[0] : userData;
+
+			if (finalUserData && finalUserData.email) {
+				// BUG FIX: Chuẩn hóa email thành chữ thường ngay sau khi đọc
+				finalUserData.email = finalUserData.email.toLowerCase();
+			}
+
+			return finalUserData || null;
+		} catch (e) {
+			console.error(
+				`Lỗi phân tích JSON từ key "${CURRENT_USER_STORAGE_KEY}":`,
+				e,
+			);
+			return null;
+		}
+	}
+	console.log(
+		`Không tìm thấy dữ liệu dưới key "${CURRENT_USER_STORAGE_KEY}" trong Local Storage.`,
+	);
+	return null;
+}
+
+// ==================== HÀM CHUYỂN ĐỔI NGÀY THÁNG ====================
+
+/**
+ * Chuyển đổi định dạng MM/DD/YYYY (từ CSDL) sang YYYY-MM-DD (cho input type="date")
+ * @param {string} dateString - Ngày tháng ở định dạng MM/DD/YYYY
+ * @returns {string} - Ngày tháng ở định dạng YYYY-MM-DD
+ */
+function convertToYYYYMMDD(dateString) {
+	if (!dateString) return "";
+	const parts = dateString.split("/");
 	if (parts.length === 3) {
 		const [month, day, year] = parts;
-		// Đảm bảo month và day có 2 chữ số
 		const formattedMonth = month.padStart(2, "0");
 		const formattedDay = day.padStart(2, "0");
 		return `${year}-${formattedMonth}-${formattedDay}`;
 	}
-	return ddmmyyyy;
+	return "";
 }
 
-// ==================== TÌM STUDENT THEO EMAIL ====================
-function findStudentByEmail(email) {
-	console.log("Tìm kiếm student cho email:", email);
-	// Tìm thẳng trong STUDENTS_DATA
-	const student = STUDENTS_DATA.find((s) => s.Email === email);
-
-	if (!student) {
-		console.log("Không tìm thấy student");
-		return null;
+/**
+ * Chuyển đổi định dạng YYYY-MM-DD (từ input type="date") sang MM/DD/YYYY (cho CSDL)
+ * @param {string} dateString - Ngày tháng ở định dạng YYYY-MM-DD
+ * @returns {string} - Ngày tháng ở định dạng MM/DD/YYYY
+ */
+function convertToMMDDYYYY(dateString) {
+	if (!dateString) return "";
+	const parts = dateString.split("-");
+	if (parts.length === 3) {
+		const [year, month, day] = parts;
+		return `${month}/${day}/${year}`;
 	}
-
-	console.log("Tìm thấy:", student.StudentName);
-	// Trả về đối tượng tương thích
-	return { user: { ...student }, student: student };
+	return dateString;
 }
 
-// ==================== LẤY FORM INPUTS (PERSONAL / GENERAL) ====================
-function getPersonalInputs() {
+// ==================== LẤY FORM INPUTS ====================
+// (Giữ nguyên)
+const getPersonalInputs = () => {
 	const generalSection = document.querySelector("#account-general");
-	if (!generalSection) {
-		console.error("Không tìm thấy #account-general");
-		return {};
-	}
-	// Lấy tất cả input trong tab General
-	const allInputs = generalSection.querySelectorAll(
+	if (!generalSection) return {};
+
+	const inputs = generalSection.querySelectorAll(
 		'.card-body input:not([type="file"])',
 	);
 
-	if (allInputs.length < 6) {
-		console.error("Cấu trúc HTML không khớp, không đủ 6 input.");
-		return {};
-	}
-
 	return {
-		fullName: allInputs[0], // 1. Full Name
-		dob: allInputs[1], // 2. Birthday
-		phone: allInputs[2], // 3. Phonenumber
-		address: allInputs[3], // 4. Personal Address
-		email: allInputs[4], // 5. E-mail
-		university: allInputs[5], // 6. University
+		fullName: inputs[0],
+		dob: inputs[1],
+		phone: inputs[2],
+		address: inputs[3],
+		email: inputs[4],
+		university: inputs[5],
 	};
-}
+};
 
-// ==================== LẤY FORM INPUTS (PASSWORD) ====================
-function getPasswordInputs() {
+const getPasswordInputs = () => {
 	const passwordSection = document.querySelector("#account-change-password");
-	if (!passwordSection) {
-		console.error("Không tìm thấy #account-change-password");
-		return {};
-	}
-	// Lấy theo thứ tự: Current (0), New (1), Repeat (2)
+	if (!passwordSection) return {};
 	const allInputs = passwordSection.querySelectorAll(
 		".card-body input[type='password']",
 	);
@@ -101,69 +167,76 @@ function getPasswordInputs() {
 		newPassword: allInputs[1],
 		repeatPassword: allInputs[2],
 	};
-}
+};
 
-// ==================== KHỞI TẠO TRANG ====================
+// ==================== KHỞI TẠO TRANG CHÍNH (LOGIC MỚI) ====================
 function initializePage() {
 	console.log("Khởi tạo trang...");
-	let loggedInEmail = localStorage.getItem("loggedInEmail");
 
-	if (!loggedInEmail) {
-		// Dùng email student mặc định
-		loggedInEmail = "vantuan@gmail.com";
-		localStorage.setItem("loggedInEmail", loggedInEmail);
-		console.log("Sử dụng email mặc định:", loggedInEmail);
+	// 1. Khởi tạo CSDL (Đọc list_user - cần thiết cho việc cập nhật và kiểm tra trùng lặp)
+	initializeDatabase();
+
+	// 2. LẤY DATA NGƯỜI DÙNG TỪ KEY "current_user" (LOGIC MỚI)
+	const studentData = getCurrentUserFromLocalStorage();
+
+	if (studentData) {
+		// Dữ liệu đã được chuẩn hóa chữ thường trong getCurrentUserFromLocalStorage()
+		currentUser = studentData;
+		loadPersonalProfile();
+
+		// Reset form mật khẩu
+		const passInputs = getPasswordInputs();
+		if (passInputs.currentPassword) passInputs.currentPassword.value = "";
+		if (passInputs.newPassword) passInputs.newPassword.value = "";
+		if (passInputs.repeatPassword) passInputs.repeatPassword.value = "";
+
+		console.log("User hiện tại (từ current_user):", currentUser);
+
+		// BUG FIX: Cần đảm bảo currentUser này tồn tại trong allStudents để có thể Save
+		const foundInDB = findStudentByEmail(currentUser.email);
+		if (!foundInDB) {
+			// Trường hợp user đang đăng nhập nhưng không có trong list_user, cần xử lý để Save
+			// Nếu bạn muốn Save được, bạn phải thêm user này vào allStudents
+			allStudents.push(currentUser);
+			saveAllStudents();
+			console.warn(
+				"Cảnh báo: Đã thêm currentUser vào allStudents để đảm bảo chức năng Save.",
+			);
+		}
 	} else {
-		console.log("Email đã đăng nhập:", loggedInEmail);
-	}
-
-	const result = findStudentByEmail(loggedInEmail);
-
-	if (result) {
-		currentUser = result.user; // Chứa cả password
-		currentStudent = result.student; // Chứa info
-
-		loadPersonalProfile(); // Tải Personal Info
-
-		console.log("User (chứa pass):", currentUser);
-		console.log("Student (chứa info):", currentStudent);
-	} else {
+		// Trường hợp không tìm thấy key "current_user"
 		showNotification(
-			"Không tìm thấy thông tin student cho email: " + loggedInEmail,
+			"Không tìm thấy dữ liệu người dùng đang đăng nhập (key 'current_user' trống/lỗi). Vui lòng đăng nhập lại.",
 			"error",
 		);
-		console.log(
-			'Tip: Dùng setLoggedInUser("vantuan@gmail.com") trong Console để đổi user',
-		);
+		// Xóa loggedInEmail/current_user để tránh lỗi lặp nếu có
+		localStorage.removeItem(LOGGED_IN_EMAIL_KEY);
+		localStorage.removeItem(CURRENT_USER_STORAGE_KEY);
 	}
 }
 
 // ==================== LOAD PERSONAL PROFILE ====================
+// (Giữ nguyên)
 function loadPersonalProfile() {
-	if (!currentStudent) {
-		console.error("Không có dữ liệu student");
+	if (!currentUser) {
+		console.error("Không có dữ liệu currentUser");
 		return;
 	}
 	console.log("Đang load personal profile...");
 	const profileImage = document.querySelector(".ui-w-80");
 	const inputs = getPersonalInputs();
 
-	// Kiểm tra local edits
-	const localPersonalData = localStorage.getItem(
-		"studentPersonalProfile_" + currentUser.Email,
-	);
-
-	const personalData = localPersonalData
-		? JSON.parse(localPersonalData)
-		: {
-				fullName: currentStudent.StudentName || "",
-				dob: convertToDDMMYYY(currentStudent.Birthday) || "", // Fix format date
-				phone: currentStudent["Phone Number"] || "",
-				address: currentStudent.Address || "",
-				email: currentStudent.Email || "",
-				university: currentStudent.University || "", // Thêm University
-				profileImage: currentStudent.Avatar || "image/OIP.jpg",
-		  };
+	// Chuẩn bị dữ liệu cho form (sử dụng key chữ thường thống nhất)
+	const personalData = {
+		fullName: currentUser.fullName || "",
+		// Chuyển đổi MM/DD/YYYY sang YYYY-MM-DD
+		dob: convertToYYYYMMDD(currentUser.Birthday) || "",
+		phone: currentUser["Phone Number"] || "",
+		address: currentUser.Address || "",
+		email: currentUser.email || "",
+		university: currentUser.University || "",
+		profileImage: currentUser.Avatar || DEFAULT_AVATAR,
+	};
 
 	// Điền dữ liệu vào form
 	if (inputs.fullName) inputs.fullName.value = personalData.fullName;
@@ -171,13 +244,13 @@ function loadPersonalProfile() {
 	if (inputs.phone) inputs.phone.value = personalData.phone;
 	if (inputs.address) inputs.address.value = personalData.address;
 	if (inputs.email) inputs.email.value = personalData.email;
-	if (inputs.university) inputs.university.value = personalData.university; // Thêm University
+	if (inputs.university) inputs.university.value = personalData.university;
 	if (profileImage) profileImage.src = personalData.profileImage;
 
-	// Lưu bản sao vào originalData
-	originalData = { ...originalData, ...personalData };
+	// Lưu bản gốc của dữ liệu (quan trọng để so sánh thay đổi email)
+	originalData = { ...personalData };
 
-	// Xóa các viền đỏ (nếu có)
+	// Xóa các thông báo lỗi cũ
 	document
 		.querySelectorAll(".is-invalid")
 		.forEach((el) => el.classList.remove("is-invalid"));
@@ -189,45 +262,47 @@ function loadPersonalProfile() {
 	);
 }
 
-// ==================== LƯU PROFILE CHUNG (CẬP NHẬT) ====================
-function saveProfile() {
+// ==================== LƯU PROFILE CHUNG ====================
+// (Giữ nguyên)
+window.saveProfile = function () {
 	console.log("Đang lưu tất cả thay đổi...");
+	if (!currentUser) {
+		showNotification("Lỗi: Không có người dùng đang đăng nhập.", "error");
+		return false;
+	}
 
-	// 1. Luôn lưu Personal
 	const isPersonalSaved = savePersonalProfile();
-
-	// 2. Kiểm tra xem có cần lưu mật khẩu không
 	const passInputs = getPasswordInputs();
-	const isPasswordChangeAttempted =
-		passInputs.currentPassword.value.trim() !== "" ||
-		passInputs.newPassword.value.trim() !== "" ||
-		passInputs.repeatPassword.value.trim() !== "";
 
-	let isPasswordSaved = true; // Mặc định là true nếu không cố gắng đổi
+	const isPasswordChangeAttempted =
+		passInputs.currentPassword?.value.trim() !== "" ||
+		passInputs.newPassword?.value.trim() !== "" ||
+		passInputs.repeatPassword?.value.trim() !== "";
+
+	let isPasswordSaved = true;
 
 	if (isPasswordChangeAttempted) {
 		console.log("Phát hiện nỗ lực thay đổi mật khẩu...");
-		isPasswordSaved = savePassword(); // Hàm này sẽ tự validate và thông báo
+		isPasswordSaved = savePassword();
 	}
 
-	// 3. Thông báo tổng
-	if (isPersonalSaved && isPasswordSaved) {
+	if (isPersonalSaved) {
 		if (isPasswordChangeAttempted) {
-			// savePassword() đã thông báo
+			if (isPasswordSaved) {
+				// Đã đổi mật khẩu thành công (thông báo đã có trong savePassword)
+			} else {
+				showNotification(
+					"Lưu thông tin cá nhân thành công! (Đổi mật khẩu thất bại)",
+					"info",
+				);
+			}
 		} else {
-			// Chỉ lưu thông tin chung
 			showNotification("Lưu thông tin cá nhân thành công!", "success");
 		}
-	} else if (isPersonalSaved && !isPasswordSaved) {
-		showNotification(
-			"Lưu thông tin cá nhân thành công! (Đổi mật khẩu thất bại)",
-			"info",
-		);
 	}
-	// Nếu isPersonalSaved = false, hàm validatePersonalForm đã báo lỗi
 
 	return isPersonalSaved && isPasswordSaved;
-}
+};
 
 // ==================== LƯU PERSONAL PROFILE ====================
 function savePersonalProfile() {
@@ -238,27 +313,58 @@ function savePersonalProfile() {
 	const inputs = getPersonalInputs();
 	const profileImage = document.querySelector(".ui-w-80");
 
-	const personalData = {
+	// Chuẩn bị dữ liệu mới, sử dụng key giống trong CSDL
+	const newPersonalData = {
 		fullName: inputs.fullName?.value.trim() || "",
-		dob: inputs.dob?.value.trim() || "",
-		phone: inputs.phone?.value.trim() || "",
-		address: inputs.address?.value.trim() || "",
-		email: inputs.email?.value.trim() || "",
-		university: inputs.university?.value.trim() || "", // Thêm University
-		profileImage: profileImage?.src || "image/OIP.jpg",
+		Birthday: convertToMMDDYYYY(inputs.dob?.value.trim()) || "",
+		"Phone Number": inputs.phone?.value.trim() || "",
+		Address: inputs.address?.value.trim() || "",
+		// BUG FIX: Email mới luôn được chuyển về chữ thường trước khi lưu
+		email: inputs.email?.value.trim().toLowerCase() || "",
+		University: inputs.university?.value.trim() || "",
+		Avatar: profileImage?.src || DEFAULT_AVATAR,
 	};
 
-	// Lưu vào localStorage
-	localStorage.setItem(
-		"studentPersonalProfile_" + currentUser.Email,
-		JSON.stringify(personalData),
-	);
+	// 1. Tìm index của người dùng trong CSDL (list_user)
+	const userIndex = allStudents.findIndex((s) => s.email === currentUser.email);
 
-	// Cập nhật originalData
-	originalData = { ...originalData, ...personalData };
+	if (userIndex !== -1) {
+		// 2. Cập nhật các trường trong CSDL (list_user)
+		allStudents[userIndex] = {
+			...allStudents[userIndex],
+			...newPersonalData,
+		};
 
-	console.log("Đã lưu personal:", personalData);
-	return true;
+		// 3. Cập nhật biến currentUser
+		currentUser = { ...allStudents[userIndex] };
+
+		// CẬP NHẬT KEY "current_user" TRONG LOCAL STORAGE (LOGIC MỚI)
+		localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(currentUser));
+
+		// 4. Lưu toàn bộ CSDL vào Local Storage
+		saveAllStudents();
+
+		// 5. Cập nhật lại email đăng nhập nếu email bị thay đổi
+		if (originalData.email !== newPersonalData.email) {
+			// Email mới (đã là chữ thường) được lưu vào LOGGED_IN_EMAIL_KEY
+			localStorage.setItem(LOGGED_IN_EMAIL_KEY, newPersonalData.email);
+			showNotification(
+				`Email đã thay đổi từ ${originalData.email} sang ${newPersonalData.email}. Trang sẽ tải lại.`,
+				"info",
+			);
+			// Tải lại trang sau 500ms để áp dụng email mới
+			setTimeout(initializePage, 500);
+		}
+
+		console.log("Đã lưu personal:", newPersonalData);
+		return true;
+	} else {
+		showNotification(
+			"Lỗi: Không tìm thấy người dùng trong CSDL để cập nhật. Hãy kiểm tra key 'current_user' có trong list_user không.",
+			"error",
+		);
+		return false;
+	}
 }
 
 // ==================== LƯU PASSWORD ====================
@@ -266,25 +372,31 @@ function savePassword() {
 	console.log("Đang lưu mật khẩu...");
 
 	if (!validatePasswordForm()) {
-		return false; // Dừng lại nếu validation thất bại
+		return false;
 	}
 
 	const inputs = getPasswordInputs();
 	const newPassword = inputs.newPassword.value.trim();
 
-	// Cập nhật STUDENTS_DATA
-	const userInData = STUDENTS_DATA.find((s) => s.Email === currentUser.Email);
+	// Tìm index của người dùng trong CSDL
+	const userIndex = allStudents.findIndex((s) => s.email === currentUser.email);
 
-	if (userInData) {
-		// Cập nhật "database"
-		userInData.Password = newPassword;
-		// Cập nhật biến session
-		currentUser.Password = newPassword;
+	if (userIndex !== -1) {
+		// Cập nhật "database" - Dùng key 'password'
+		allStudents[userIndex].password = newPassword;
+		// Cập nhật biến session - Dùng key 'password'
+		currentUser.password = newPassword;
 
-		console.log("Đã cập nhật mật khẩu cho:", currentUser.Email);
+		// CẬP NHẬT KEY "current_user" TRONG LOCAL STORAGE (LOGIC MỚI)
+		localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(currentUser));
+
+		// Lưu toàn bộ CSDL vào Local Storage
+		saveAllStudents();
+
+		console.log("Đã cập nhật mật khẩu cho:", currentUser.email);
 		showNotification("Đổi mật khẩu thành công!", "success");
 
-		// Xóa trắng các ô input
+		// Xóa input sau khi thành công
 		inputs.currentPassword.value = "";
 		inputs.newPassword.value = "";
 		inputs.repeatPassword.value = "";
@@ -306,55 +418,64 @@ function validatePersonalForm() {
 	let errors = [];
 	const inputs = getPersonalInputs();
 
-	// Xóa lỗi cũ
+	// Xóa trạng thái lỗi cũ
 	Object.values(inputs).forEach(
 		(input) => input && input.classList.remove("is-invalid"),
 	);
 
-	// Validate Full Name
 	if (inputs.fullName && inputs.fullName.value.trim() === "") {
-		errors.push("Vui lòng nhập tên đầy đủ");
+		errors.push("Vui lòng nhập tên đầy đủ.");
 		inputs.fullName.classList.add("is-invalid");
 		isValid = false;
 	}
 
-	// Validate Email
 	const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	if (inputs.email && inputs.email.value.trim() === "") {
-		errors.push("Vui lòng nhập email");
+	const currentInputEmail = inputs.email?.value.trim().toLowerCase();
+	const currentStudentEmail = currentUser.email?.toLowerCase();
+
+	if (inputs.email && currentInputEmail === "") {
+		errors.push("Vui lòng nhập email.");
 		inputs.email.classList.add("is-invalid");
 		isValid = false;
-	} else if (inputs.email && !emailPattern.test(inputs.email.value.trim())) {
-		errors.push("Email không hợp lệ");
+	} else if (inputs.email && !emailPattern.test(currentInputEmail)) {
+		errors.push("Email không hợp lệ.");
 		inputs.email.classList.add("is-invalid");
 		isValid = false;
 	}
+	// Check trùng email khi thay đổi email
+	else if (inputs.email && currentInputEmail !== currentStudentEmail) {
+		const isDuplicate = allStudents.some(
+			(s) => s.email === currentInputEmail && s.email !== currentStudentEmail,
+		);
+		if (isDuplicate) {
+			errors.push("Email này đã được sử dụng bởi người khác.");
+			inputs.email.classList.add("is-invalid");
+			isValid = false;
+		}
+	}
 
-	// Validate Phone
 	if (
 		inputs.phone &&
 		inputs.phone.value.trim() !== "" &&
 		inputs.phone.value.trim().length < 10
 	) {
-		errors.push("Số điện thoại phải có ít nhất 10 chữ số");
+		errors.push("Số điện thoại phải có ít nhất 10 chữ số.");
 		inputs.phone.classList.add("is-invalid");
 		isValid = false;
 	}
 
-	// Validate DoB
 	if (inputs.dob && inputs.dob.value !== "") {
 		const dob = new Date(inputs.dob.value);
 		const today = new Date();
-		if (dob > today) {
-			errors.push("Ngày sinh không thể ở tương lai");
+		if (dob.getTime() > today.getTime()) {
+			errors.push("Ngày sinh không thể ở tương lai.");
 			inputs.dob.classList.add("is-invalid");
 			isValid = false;
 		}
 	}
 
-	// Validate University
 	if (inputs.university && inputs.university.value.trim() === "") {
-		errors.push("Vui lòng nhập trường đại học");
+		errors.push("Vui lòng nhập trường đại học.");
 		inputs.university.classList.add("is-invalid");
 		isValid = false;
 	}
@@ -367,19 +488,19 @@ function validatePersonalForm() {
 }
 
 // ==================== VALIDATE PASSWORD FORM ====================
+// (Giữ nguyên)
 function validatePasswordForm() {
 	let isValid = true;
 	let errors = [];
 	const inputs = getPasswordInputs();
 
-	// Xóa các lỗi cũ
 	Object.values(inputs).forEach(
 		(input) => input && input.classList.remove("is-invalid"),
 	);
 
-	const currentPass = inputs.currentPassword.value.trim();
-	const newPass = inputs.newPassword.value.trim();
-	const repeatPass = inputs.repeatPassword.value.trim();
+	const currentPass = inputs.currentPassword?.value.trim() || "";
+	const newPass = inputs.newPassword?.value.trim() || "";
+	const repeatPass = inputs.repeatPassword?.value.trim() || "";
 
 	if (!currentUser) {
 		errors.push("Lỗi: Không tìm thấy thông tin người dùng.");
@@ -388,38 +509,37 @@ function validatePasswordForm() {
 		return false;
 	}
 
-	// Check password từ currentUser
 	if (currentPass === "") {
 		errors.push("Vui lòng nhập mật khẩu hiện tại.");
-		inputs.currentPassword.classList.add("is-invalid");
+		inputs.currentPassword?.classList.add("is-invalid");
 		isValid = false;
-	} else if (currentPass !== currentUser.Password) {
+	} else if (currentPass !== currentUser.password) {
 		errors.push("Mật khẩu hiện tại không đúng.");
-		inputs.currentPassword.classList.add("is-invalid");
+		inputs.currentPassword?.classList.add("is-invalid");
 		isValid = false;
 	}
 
 	if (newPass === "") {
 		errors.push("Vui lòng nhập mật khẩu mới.");
-		inputs.newPassword.classList.add("is-invalid");
+		inputs.newPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else if (newPass.length < 6) {
 		errors.push("Mật khẩu mới phải có ít nhất 6 ký tự.");
-		inputs.newPassword.classList.add("is-invalid");
+		inputs.newPassword?.classList.add("is-invalid");
 		isValid = false;
-	} else if (newPass === currentPass) {
+	} else if (newPass === currentUser.password) {
 		errors.push("Mật khẩu mới phải khác mật khẩu cũ.");
-		inputs.newPassword.classList.add("is-invalid");
+		inputs.newPassword?.classList.add("is-invalid");
 		isValid = false;
 	}
 
 	if (repeatPass === "") {
 		errors.push("Vui lòng nhập lại mật khẩu mới.");
-		inputs.repeatPassword.classList.add("is-invalid");
+		inputs.repeatPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else if (newPass !== repeatPass) {
 		errors.push("Mật khẩu lặp lại không khớp.");
-		inputs.repeatPassword.classList.add("is-invalid");
+		inputs.repeatPassword?.classList.add("is-invalid");
 		isValid = false;
 	}
 
@@ -429,11 +549,11 @@ function validatePasswordForm() {
 	return isValid;
 }
 
-// ==================== UPLOAD ẢNH ====================
+// ==================== UPLOAD VÀ RESET ẢNH ====================
+// (Giữ nguyên)
 function handleImageUpload(event) {
 	const file = event.target.files[0];
 	if (!file) return;
-	console.log("Upload ảnh:", file.name, file.size + " bytes");
 	const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
 	if (!allowedTypes.includes(file.type)) {
 		showNotification("Chỉ chấp nhận JPG, PNG hoặc GIF!", "error");
@@ -449,28 +569,26 @@ function handleImageUpload(event) {
 		const profileImage = document.querySelector(".ui-w-80");
 		if (profileImage) {
 			profileImage.src = e.target.result;
-			console.log("Đã load ảnh");
 			showNotification("Đã tải ảnh lên. Nhấn Save để lưu.", "info");
 		}
 	};
 	reader.readAsDataURL(file);
 }
 
-// ==================== RESET ẢNH ====================
-function resetPhoto() {
+window.resetPhoto = function () {
 	const profileImage = document.querySelector(".ui-w-80");
 	const uploadInput = document.querySelector(".account-settings-fileinput");
 	if (profileImage) {
-		profileImage.src = originalData.profileImage || "image/OIP.jpg";
+		profileImage.src = currentUser?.Avatar || DEFAULT_AVATAR; // Dùng optional chaining
 	}
 	if (uploadInput) {
 		uploadInput.value = "";
 	}
-	console.log("Reset ảnh");
 	showNotification("Đã reset ảnh", "info");
-}
+};
 
 // ==================== HIỂN THỊ THÔNG BÁO ====================
+// (Giữ nguyên)
 function showNotification(message, type = "info") {
 	const notification = document.createElement("div");
 	const bgColor =
@@ -518,32 +636,33 @@ function showNotification(message, type = "info") {
 }
 
 // ==================== EVENT LISTENERS ====================
-// Gán sự kiện (File HTML không tự gán các sự kiện này)
 
-// 1. Gán sự kiện Upload ảnh
-const uploadInput = document.querySelector(".account-settings-fileinput");
-if (uploadInput) {
-	uploadInput.addEventListener("change", handleImageUpload);
-}
+document.addEventListener("DOMContentLoaded", () => {
+	window.initializePage = initializePage;
 
-// 2. Gán sự kiện Reset ảnh
-const resetPhotoBtn = document.querySelector(".btn-default.md-btn-flat");
-if (resetPhotoBtn) {
-	resetPhotoBtn.addEventListener("click", resetPhoto);
-}
+	const uploadInput = document.querySelector(".account-settings-fileinput");
+	if (uploadInput) {
+		uploadInput.addEventListener("change", handleImageUpload);
+	}
 
-// (LƯU Ý: Nút Save và Cancel đã được gán 'onclick' trực tiếp trong HTML,
-// nên chúng ta không cần gán lại ở đây)
+	const resetPhotoBtn = document.querySelector(".btn-default.md-btn-flat");
+	if (resetPhotoBtn) {
+		resetPhotoBtn.addEventListener("click", window.resetPhoto);
+	}
 
-console.log("edit-student-profile-json.js đã được load và sẵn sàng.");
+	// Bắt đầu khởi tạo trang
+	initializePage();
+});
 
 // ==================== DEBUG FUNCTIONS ====================
-// Thêm hàm debug vào window để có thể gọi từ Console
 window.setLoggedInUser = function (email) {
-	if (STUDENTS_DATA.find((s) => s.Email === email)) {
-		localStorage.setItem("loggedInEmail", email);
+	if (allStudents.find((s) => s.email === email)) {
+		// LOGIC MỚI: Nếu bạn dùng hàm này để debug, bạn phải set current_user
+		const student = allStudents.find((s) => s.email === email);
+		localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(student));
+		localStorage.setItem(LOGGED_IN_EMAIL_KEY, email); // Vẫn set loggedInEmail cho đồng bộ
 		console.log("Đã đổi user thành:", email);
-		initializePage(); // Tải lại trang với user mới
+		initializePage();
 		showNotification("Đã đổi user thành: " + email, "success");
 	} else {
 		console.error("Lỗi: Không tìm thấy student với email:", email);
@@ -555,6 +674,9 @@ window.clearAllData = function () {
 	localStorage.clear();
 	console.log("Đã xóa tất cả localStorage.");
 	showNotification("Đã reset tất cả dữ liệu.", "info");
-	// Tải lại trang với email mặc định
 	setTimeout(() => window.location.reload(), 1000);
 };
+
+console.log(
+	"edit-student-profile-json.js đã được refactor và sẵn sàng (Sử dụng 'current_user').",
+);
