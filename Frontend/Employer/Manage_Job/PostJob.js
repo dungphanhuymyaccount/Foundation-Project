@@ -5,7 +5,7 @@
  * Xóa nội dung form
  */
 function clearForm() {
-    const formElements = document.querySelectorAll('#jobTitle, #field, #description, #companyName, #salaryMin, #salaryMax, #salaryCurrency, #location, #experienceMin, #experienceMax, #experienceCurrency, #requirement, #deadline, #benefit, #numberOfVacancy, #avatar');
+    const formElements = document.querySelectorAll('#jobTitle, #field, #description, #companyName, #salary, #location, #experienceMin, #experienceMax, #experienceCurrency, #requirement, #deadline, #benefit, #numberOfVacancy, #avatar');
 
     formElements.forEach(element => {
         if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
@@ -29,9 +29,7 @@ async function handleSubmit() {
     const description = document.getElementById('description').value.trim();
     const companyName = document.getElementById('companyName').value.trim();
     
-    const salaryMin = document.getElementById('salaryMin').value.trim();
-    const salaryMax = document.getElementById('salaryMax').value.trim();
-    const salaryCurrency = document.getElementById('salaryCurrency').value.trim();
+    const salary = document.getElementById('salary').value.trim();
     
     const location = document.getElementById('location').value.trim();
     
@@ -50,7 +48,7 @@ async function handleSubmit() {
     // Validation
     if (
         !jobTitle || !field || !description || !companyName || 
-        !salaryMin || !salaryMax || !salaryCurrency || !location ||
+        !salary || !location ||
         !experienceMin || !experienceMax || !experienceCurrency || 
         !requirement || !deadline || !benefit || !numberOfVacancy
     ) {
@@ -58,19 +56,10 @@ async function handleSubmit() {
         return;
     }
     
-    const minSal = parseInt(salaryMin);
-    const maxSal = parseInt(salaryMax);
+    const Sal = parseInt(salary);
+
     const minExp = parseInt(experienceMin);
     const maxExp = parseInt(experienceMax);
-
-    if (minSal >= maxSal) {
-        alert('Salary Min must be less than Salary Max.');
-        return;
-    }
-    if (minExp > maxExp) {
-        alert('Experience Min must be less than or equal to Experience Max.');
-        return;
-    }
 
     // Đọc file avatar
     let avatarBase64 = null;
@@ -90,11 +79,7 @@ async function handleSubmit() {
         companyName: companyName,
         description: description,
         location: location,
-        salary: {
-            min: minSal,
-            max: maxSal,
-            currency: salaryCurrency
-        },
+        salary: Sal,
         experience: {
             min: minExp,
             max: maxExp,

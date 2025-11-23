@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Jobs</title>
     <link rel="stylesheet" href="ManageJob.css">
+    <link rel="stylesheet" href="../../General/header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="shared.js"></script> <!-- ✅ Load shared trước -->
+    <script src="ManageJob.js"></script> <!-- ✅ XÓA dòng import PostJob.js -->
+    
     <style>
         /* CSS cơ bản cho Modal */
         .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1001; 
+            display: none;
+            position: fixed;
+            z-index: 1001;
             left: 0;
             top: 0;
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.4); 
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
             padding-top: 50px;
         }
 
         .modal-content {
             background-color: #fefefe;
-            margin: 5% auto; 
+            margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 80%; 
+            width: 80%;
             max-width: 600px;
             border-radius: 10px;
             position: relative;
@@ -44,22 +52,27 @@
             text-decoration: none;
             cursor: pointer;
         }
+
         /* Style cho form trong Modal (tái sử dụng từ PostJob.css nếu có) */
         .form-group {
             margin-bottom: 15px;
         }
+
         .form-group label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
-        .form-group input, .form-group textarea {
+
+        .form-group input,
+        .form-group textarea {
             width: 100%;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
         }
+
         /* Dùng flexbox cho các trường trên cùng một hàng (như Salary/Experience) */
         .edit-row {
             display: flex;
@@ -67,131 +80,154 @@
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Manage Posted Jobs</h1>
-        
-        <div class="search-bar">
-            <input type="text" id="searchJob" placeholder="Find Job">
-            <button onclick="filterJobs()">Tìm kiếm</button>
+    <header>
+        <div class="logo">
+            <h2><a href="../../Employer/HomePage_Employee/Homepage_Screen1.html"
+                    style="text-decoration: none; color: #fff;">Work Hub</a></h2>
         </div>
+        <nav class="navi">
+            <ul>
+                <li><a href="#" class="menu_btn">Find Job</a></li>
+                <li><a href="#" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My Post</a></li>
+                <li><a href="#" class="menu_btn"><ion-icon name="notifications-outline"></ion-icon> Notification</a>
+                </li>
+                <li>
+                    <a href="#" class="menu_btn" id="current-user"><ion-icon class="icon"
+                            name="person-circle-outline"></ion-icon>Account</a>
+                    <ul class="submenu">
+                        <li class="account-name-and-email" id="current-user-name"></li>
+                        <hr>
+                        <li><a href="../Edit_Employer_Profile/Edit_Company_Information.html"><ion-icon class="icon"
+                                    name="person-outline"></ion-icon>Edit profile</a></li>
+                        <li><a href="#" id="log-out"><ion-icon class="icon" name="log-out-outline"></ion-icon>Log
+                                out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
-        <table class="job-table">
-            <thead>
-                <tr>
-                    <th class="job-title-header">Job Title</th>
-                    <th class="post-date-header">Post Date</th>
-                    <th class="crud-header">Crud</th>
-                </tr>
-            </thead>
-            <tbody id="jobListBody">
+    <main>
+        <div class="container">
+            <h1>Manage Posted Jobs</h1>
+
+            <div class="search-bar">
+                <input type="text" id="searchJob" placeholder="Find Job">
+                <button onclick="filterJobs()">Tìm kiếm</button>
+            </div>
+
+            <table class="job-table">
+                <thead>
+                    <tr>
+                        <th class="job-title-header">Job Title</th>
+                        <th class="post-date-header">Post Date</th>
+                        <th class="crud-header">Crud</th>
+                    </tr>
+                </thead>
+                <tbody id="jobListBody">
                 </tbody>
-        </table>
+            </table>
 
-        <div id="jobDetailModal" class="modal">
-            <div class="modal-content">
-                <span class="close-button" onclick="closeModal('jobDetailModal')">&times;</span>
-                <h2 id="modalJobTitle"></h2>
-                <div id="jobDetails"></div>
+            <div id="jobDetailModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" onclick="closeModal('jobDetailModal')">&times;</span>
+                    <h2 id="modalJobTitle"></h2>
+                    <div id="jobDetails"></div>
+                </div>
+            </div>
+
+            <div id="editJobModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" onclick="closeModal('editJobModal')">&times;</span>
+                    <h2>Edit Job: <span id="editJobIdDisplay"></span></h2>
+
+                    <form id="editJobForm">
+                        <input type="hidden" id="editJobId" name="editJobId">
+
+                        <div class="form-group">
+                            <label for="editJobTitle">Job Title:</label>
+                            <input type="text" id="editJobTitle" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editField">Job Field:</label>
+                            <input type="text" id="editField" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editDescription">Description:</label>
+                            <textarea id="editDescription" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editCompanyName">Company Name:</label>
+                            <input type="text" id="editCompanyName" required>
+                        </div>
+
+                        <div class="edit-row">
+                            <div class="form-group" style="flex: 1;">
+                                <label for="editSalary">Salary:</label>
+                                <input type="number" id="editSalary" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editLocation">Location:</label>
+                            <input type="text" id="editLocation" required>
+                        </div>
+
+                        <div class="edit-row">
+                            <div class="form-group" style="flex: 1;">
+                                <label for="editExperienceMin">Experience Min (years):</label>
+                                <input type="number" id="editExperienceMin" required>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label for="editExperienceMax">Experience Max (years):</label>
+                                <input type="number" id="editExperienceMax" required>
+                            </div>
+                            <div class="form-group" style="flex: 0.5;">
+                                <label for="editExperienceCurrency">Unit:</label>
+                                <input type="text" id="editExperienceCurrency" value="years" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editRequirement">Requirement:</label>
+                            <input type="text" id="editRequirement">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editDeadline">Application Deadline:</label>
+                            <input type="date" id="editDeadline" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editBenefit">Benefit:</label>
+                            <input type="text" id="editBenefit" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editNumberOfVacancy">Vacancy:</label>
+                            <input type="number" id="editNumberOfVacancy" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editAvatar">Company Logo (Leave blank to keep old):</label>
+                            <input type="file" id="editAvatar" accept="image/jpeg, image/png">
+                            <div id="currentLogoDisplay" style="margin-top: 10px;"></div>
+                        </div>
+
+
+                        <button type="button" onclick="saveEditedJob()">Update Job</button>
+                    </form>
+                </div>
             </div>
         </div>
-
-        <div id="editJobModal" class="modal">
-            <div class="modal-content">
-                <span class="close-button" onclick="closeModal('editJobModal')">&times;</span>
-                <h2>Edit Job: <span id="editJobIdDisplay"></span></h2>
-                
-                <form id="editJobForm">
-                    <input type="hidden" id="editJobId" name="editJobId">
-                    
-                    <div class="form-group">
-                        <label for="editJobTitle">Job Title:</label>
-                        <input type="text" id="editJobTitle" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editField">Job Field:</label>
-                        <input type="text" id="editField" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editDescription">Description:</label>
-                        <textarea id="editDescription" required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editCompanyName">Company Name:</label>
-                        <input type="text" id="editCompanyName" required>
-                    </div>
-
-                    <div class="edit-row">
-                        <div class="form-group" style="flex: 1;">
-                            <label for="editSalaryMin">Salary Min:</label>
-                            <input type="number" id="editSalaryMin" required>
-                        </div>
-                        <div class="form-group" style="flex: 1;">
-                            <label for="editSalaryMax">Salary Max:</label>
-                            <input type="number" id="editSalaryMax" required>
-                        </div>
-                        <div class="form-group" style="flex: 0.5;">
-                            <label for="editSalaryCurrency">Currency:</label>
-                            <input type="text" id="editSalaryCurrency" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editLocation">Location:</label>
-                        <input type="text" id="editLocation" required>
-                    </div>
-                    
-                    <div class="edit-row">
-                        <div class="form-group" style="flex: 1;">
-                            <label for="editExperienceMin">Experience Min (years):</label>
-                            <input type="number" id="editExperienceMin" required>
-                        </div>
-                        <div class="form-group" style="flex: 1;">
-                            <label for="editExperienceMax">Experience Max (years):</label>
-                            <input type="number" id="editExperienceMax" required>
-                        </div>
-                        <div class="form-group" style="flex: 0.5;">
-                            <label for="editExperienceCurrency">Unit:</label>
-                            <input type="text" id="editExperienceCurrency" value="years" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editRequirement">Requirement:</label>
-                        <input type="text" id="editRequirement">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editDeadline">Application Deadline:</label>
-                        <input type="date" id="editDeadline" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editBenefit">Benefit:</label>
-                        <input type="text" id="editBenefit" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="editNumberOfVacancy">Vacancy:</label>
-                        <input type="number" id="editNumberOfVacancy" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editAvatar">Company Logo (Leave blank to keep old):</label>
-                        <input type="file" id="editAvatar" accept="image/jpeg, image/png">
-                        <div id="currentLogoDisplay" style="margin-top: 10px;"></div>
-                    </div>
+    </main>
 
 
-                    <button type="button" onclick="saveEditedJob()">Update Job</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <script src="shared.js"></script>  <!-- ✅ Load shared trước -->
-    <script src="ManageJob.js"></script>  <!-- ✅ XÓA dòng import PostJob.js -->            
 </body>
+
 </html>

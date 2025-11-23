@@ -3,7 +3,7 @@ header {
     justify-content: space-between;
     align-items: center;
     background: #222;
-    padding: 5px 60px;
+    padding: 5px 50px;
     position: fixed;
     top: 0;            /* Giữ header ở trên cùng */
     left: 0;           /* Căn từ mép trái */
