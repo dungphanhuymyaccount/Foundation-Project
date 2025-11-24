@@ -1,16 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+  height: 100%;
+}
 body {
-  font-family: "Segoe UI", sans-serif;
-  background: #f0f2f5;
+  font-family: 'Poppins', sans-serif;
+  background: #f3f3f3;
   display: flex;
-  justify-content: center;
-  padding: 40px;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  min-height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #222;
+    padding: 5px 60px;
+    position: fixed;
+    top: 0;
+    left: 0; 
+    width: 100%; 
+    z-index: 1000;
+}
+    /*icon*/
+.icon{
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.logo h2 {
+    color: #fff;
+    font-weight: 600;
+}
+
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 10px 40px;
+    background: #222;
+}
+
+.navi li {
+    position: relative;
+}
+
+.navi a {
+    color: #fff;
+    text-decoration: none;
+    padding: 6px 10px;
+    display: block;
+}
+
+.navi a:hover {
+    color: #00bcd4;
+    border-radius: 4px;
+}
+
+/*menu cấp 2*/
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #333;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 4px;
+    width: 100%;
+    min-width: 250px;
+}
+
+.submenu li a {
+    padding: 8px 20px;
+}
+
+
+.submenu li a:hover {
+    background: #555;
+}
+
+
+.navi li:hover>.submenu {
+    display: block;
 }
 
 .notification-box {
+  margin-top: 100px;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  width: 400px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  width: 800px;
   overflow: hidden;
 }
 
@@ -59,7 +146,6 @@ body {
 
 .notification:hover {
   background: #f5f6f7;
-  cursor: pointer;
 }
 
 .avatar {
@@ -98,18 +184,13 @@ body {
   margin-top: 6px;
 }
 
-.accept,
-.decline {
+.accept, .decline {
   border: none;
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
   margin-right: 6px;
   font-size: 13px;
-}
-
-.accept:active {
-  background: #1979f7b8;
 }
 
 .accept {
@@ -122,10 +203,132 @@ body {
   color: #333;
 }
 
-.decline:active {
-  background: #e4e6eb77;
+.footer {
+  border-top: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
 }
 
+.footer button {
+  background: #e4e6eb;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.job-modal {
+  position: fixed;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.job-modal-content {
+  background: #fff;
+  width: 90%; 
+  max-width: 800px;
+  padding: 30px; 
+  border-radius: 8px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+#job-detail h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+}
+#job-detail p {
+    line-height: 1.6; 
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+#job-detail b {
+    display: inline-block; 
+    min-width: 100px;
+    font-weight: 600;
+    color: #333;
+}
+.close-modal {
+  float: right;
+  font-size: 30px;
+  cursor: pointer;
+}
+/* ... (phần CSS hiện có) ... */
+
+/* footer (đã đổi tên từ .footer) */
+.web-footer {
+    background-color: #1f1f1f;
+    color: #ddd;
+    padding: 40px 0 20px;
+    font-family: 'Poppins', sans-serif;
+    width: 100%; /* Đảm bảo footer chiếm toàn bộ chiều rộng */
+    margin-top: auto; /* Thêm khoảng cách với phần notification box */
+}
+
+.web-footer-content { /* Đã đổi tên từ .footer-content */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+}
+
+#footer-col {
+    flex: 0 0 25%;
+}
+
+.footer-about h2,
+.footer-link h3,
+.footer-contact h3 { /* Thêm .footer-contact h3 */
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.footer-about p { /* Đổi .footer- thành .footer-about p */
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-link ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-link ul li { /* Đổi .footer- thành .footer-link ul li */
+    margin: 8px 0;
+}
+
+.footer-link ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-link ul li a:hover {
+    color: #00bcd4;
+}
+
+.footer-contact p { /* Thêm .footer-contact p */
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-contact p ion-icon {
+    color: #00bcd4;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* ... (phần CSS hiện có cho .footer ở cuối) ... */
 .footer {
   border-top: 1px solid #ddd;
   text-align: center;

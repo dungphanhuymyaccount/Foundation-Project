@@ -1,0 +1,15 @@
+[
+  {
+    "jobId": "JD001",
+    "title": "Marketing Executive",
+    "company": "Viettel",
+    "location": "Hà Nội",
+    "salary": "1000 - 2000 USD",
+    "experience": "1 - 3 years",
+    "vacancy": "3",
+    "deadline": "20/12/2025",
+    "requirement": "Have experience in marketing",
+    "benefit": "BHXH + Bonus",
+    "logo": "Viettel_logo.svg.png"
+  }
+]

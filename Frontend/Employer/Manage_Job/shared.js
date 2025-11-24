@@ -1,6 +1,65 @@
 // ==================== SHARED FUNCTIONS ====================
 // File này chứa các hàm dùng chung cho PostJob và ManageJob
 
+// Hàm quy định cấu trúc LocalStorage cho Notification
+const MAX_RECENT_NOTIFICATIONS = 5;
+function initNotificationStorage() {
+    const defaultStructure = {
+        recent: [],
+        older: []
+    };
+
+    if (!localStorage.getItem("notifications")) {
+        localStorage.setItem("notifications", JSON.stringify(defaultStructure));
+    } else {
+        let data = JSON.parse(localStorage.getItem("notifications"));
+        let changed = false;
+
+        if (!Array.isArray(data.recent)) { data.recent = []; changed = true; }
+        if (!Array.isArray(data.older)) { data.older = []; changed = true; }
+
+        if (data.recent.length > MAX_RECENT_NOTIFICATIONS) {
+            // Lấy các thông báo cũ hơn 5 thông báo đầu tiên
+            const itemsToMove = data.recent.splice(MAX_RECENT_NOTIFICATIONS);
+            data.older.unshift(...itemsToMove);
+            changed = true;
+        }
+
+        if (changed) {
+            localStorage.setItem("notifications", JSON.stringify(data));
+        }
+    }
+}
+
+// Hàm tạo Notification
+function createNotification(data) {
+    return {
+        avatar: data.avatar || "default-logo.png",
+        content: data.content || "",
+        time: new Date().toLocaleString(),
+        jobId: data.jobId || null,
+        dot: true
+    };
+}
+
+//Hàm lưu notification vào localStorage
+function addNotificationToStorage(noti) {
+    let storage = JSON.parse(localStorage.getItem("notifications"));
+
+    storage.recent.unshift(createNotification(noti));
+
+    if (storage.recent.length > MAX_RECENT_NOTIFICATIONS) {
+        const oldestNotification = storage.recent.pop();
+        
+        storage.older.unshift(oldestNotification);
+        
+        console.log("Notification moved to older list:", oldestNotification);
+    }
+
+    localStorage.setItem("notifications", JSON.stringify(storage));
+}
+
+
 /**
  * Lấy thông tin user hiện tại từ localStorage
  * @returns {object|null} User object hoặc null
