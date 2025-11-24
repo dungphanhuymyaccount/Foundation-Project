@@ -111,6 +111,15 @@ async function handleSubmit() {
 
     // ✅ Lưu vào localStorage bằng hàm shared
     saveJobToLocalStorage(newJobData);
+
+    // Tạo Notification
+    initNotificationStorage(); // Đảm bảo storage đúng cấu trúc
+
+addNotificationToStorage({
+    avatar: newJobData.avatar, // logo công ty (base64)
+    content: `<b>${newJobData.companyName}</b> posted a new job: <b>${newJobData.jobTitle}</b>.`,
+    jobId: newJobData.jobId
+});
     
     alert('Job posted successfully! Data saved locally.');
     clearForm();
