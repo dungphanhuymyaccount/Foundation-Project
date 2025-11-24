@@ -31,7 +31,7 @@ function renderJob(jobList) {
                         <h3>${job.jobTitle}</h3>
                         <p>${job.companyName}</p>
                         <p>${job.location}</p>
-                        <p>Salary: ${salaryText} + "VND"</p>
+                        <p>Salary: ${salaryText} VND</p>
                     </div>
                 </div>`;
         jobContainer.innerHTML += jobPost;
@@ -145,7 +145,7 @@ function advanceSearch() {
         const minFilterSalary = parseInt(compareSalary[0]);
         const maxFilterSalary = parseInt(compareSalary[1]);
             matchSalary = job.salary >= minFilterSalary && job.salary <= maxFilterSalary;
-        }
+
         //lọc bằng experience: như lọc salary
         let matchExperience;
         if (searchExperience === "none" || !job.experience || !job.experience.max) {

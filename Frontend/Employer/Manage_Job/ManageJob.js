@@ -94,9 +94,9 @@ function renderJobList(jobsToDisplay) {
         const crudCell = row.insertCell();
         crudCell.classList.add('crud-buttons');
         crudCell.innerHTML = `
-            <button class="manage-btn" onclick="manageCandidates('${job.jobId}')">👥</button> 
-            <button class="edit-btn" onclick="openEditModal('${job.jobId}')">✅</button> 
-            <button class="delete-btn" onclick="deleteJob('${job.jobId}')">❌</button>
+            <button class="manage-btn" title = "Manage candidate" onclick="manageCandidates('${job.jobId}')">👥</button> 
+            <button class="edit-btn" title = "Edit job post" onclick="openEditModal('${job.jobId}')">✅</button> 
+            <button class="delete-btn" title = "Delete job post" onclick="deleteJob('${job.jobId}')">❌</button>
         `;
     });
     
@@ -123,9 +123,7 @@ function openEditModal(jobId) {
     document.getElementById('editDescription').value = job.description;
     document.getElementById('editCompanyName').value = job.companyName;
     
-    document.getElementById('editSalaryMin').value = job.salary.min;
-    document.getElementById('editSalaryMax').value = job.salary.max;
-    document.getElementById('editSalaryCurrency').value = job.salary.currency;
+    document.getElementById('editSalary').value = job.salary;
     
     document.getElementById('editLocation').value = job.location;
     
@@ -166,9 +164,8 @@ async function saveEditedJob() {
     const description = document.getElementById('editDescription').value.trim();
     const companyName = document.getElementById('editCompanyName').value.trim();
     
-    const salaryMin = document.getElementById('editSalaryMin').value.trim();
-    const salaryMax = document.getElementById('editSalaryMax').value.trim();
-    const salaryCurrency = document.getElementById('editSalaryCurrency').value.trim();
+    const salary = document.getElementById('editSalary').value.trim();
+
     
     const location = document.getElementById('editLocation').value.trim();
     
@@ -186,7 +183,7 @@ async function saveEditedJob() {
 
     if (
         !jobTitle || !field || !description || !companyName || 
-        !salaryMin || !salaryMax || !salaryCurrency || !location ||
+        !salary || !location ||
         !experienceMin || !experienceMax || !experienceCurrency || 
         !deadline || !benefit || !numberOfVacancy
     ) {
@@ -194,14 +191,13 @@ async function saveEditedJob() {
         return;
     }
     
-    const minSal = parseInt(salaryMin);
-    const maxSal = parseInt(salaryMax);
+    const Sal = parseInt(salary);
     const minExp = parseInt(experienceMin);
     const maxExp = parseInt(experienceMax);
     const numVacancy = parseInt(numberOfVacancy);
 
-    if (minSal >= maxSal || minExp > maxExp || isNaN(numVacancy) || numVacancy <= 0) {
-        alert('Check salary/experience ranges and vacancy number.');
+    if (minExp > maxExp || isNaN(numVacancy) || numVacancy <= 0) {
+        alert('Check experience ranges and vacancy number.');
         return;
     }
 
@@ -217,11 +213,7 @@ async function saveEditedJob() {
         companyName: companyName,
         description: description,
         location: location,
-        salary: {
-            min: minSal,
-            max: maxSal,
-            currency: salaryCurrency
-        },
+        salary: Sal,
         experience: {
             min: minExp,
             max: maxExp,
@@ -294,7 +286,7 @@ function showJobDetails(jobId) {
         <p><strong>Company:</strong> ${job.companyName}</p>
         <p><strong>Field:</strong> ${job.field}</p>
         <p><strong>Location:</strong> ${job.location}</p>
-        <p><strong>Salary:</strong> ${job.salary.min.toLocaleString()} - ${job.salary.max.toLocaleString()} ${job.salary.currency}</p>
+        <p><strong>Salary:</strong> ${job.salary}</p>
         <p><strong>Experience:</strong> ${job.experience.min} to ${job.experience.max} ${job.experience.currency}</p>
         <p><strong>Vacancy:</strong> ${job.numberOfVacancy}</p>
         <p><strong>Deadline:</strong> ${new Date(job.deadline).toLocaleDateString('vi-VN')}</p>
