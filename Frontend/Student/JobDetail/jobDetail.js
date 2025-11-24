@@ -1,95 +1,89 @@
+const selectedJobID = JSON.parse(localStorage.getItem('selected_job_ID'));
+let postedJobs = JSON.parse(localStorage.getItem('postedJobs')) || [];
+findJobToRender(selectedJobID)
 
-        const selectedJobID = JSON.parse(localStorage.getItem('selected_job_ID'));
-        let postedJobs = JSON.parse(localStorage.getItem('postedJobs')) || [];
-        findJobToRender(selectedJobID)
-        function findJobToRender(jobID) {
-            let clickedJob = postedJobs.findIndex(job => job.jobId === jobID);
-            if (clickedJob === -1) {
-                alert('không tìm thấy job');
-            }
-            else {
-                console.log("đã tìm thấy việc! để render")
-                renderDetail(postedJobs[clickedJob]);
-            }
-        }
+function findJobToRender(jobID) {
+    let clickedJob = postedJobs.findIndex(job => job.jobId === jobID);
+    if (clickedJob === -1) {
+        alert('Job not found');
+    }
+    else {
+        console.log("Job found! Rendering...");
+        renderDetail(postedJobs[clickedJob]);
+    }
+}
 
-        function renderDetail(job) {
-            const salary = job.salary || {};
-            const salaryMin = salary.min ?? 'N/A';
-            const salaryMax = salary.max ?? '';
-            const salaryCurrency = salary.currency ? ' ' + salary.currency : '';
+function renderDetail(job) {
+    const experience = job.experience || {};
+    const experienceMin = experience.min ?? 'N/A';
+    const experienceMax = experience.max ?? '';
+    const experienceCurrency = experience.currency ? ' ' + experience.currency : '';
 
-            const experience = job.experience || {};
-            const experienceMin = experience.min ?? 'N/A';
-            const experienceMax = experience.max ?? '';
-            const experienceCurrency = experience.currency ? ' ' + experience.currency : '';
-
-            document.getElementById('job').innerHTML = `
-        <div class="detail">
-            <div class="company_logo">
-                <img src="${job.avatar || ''}" alt="logo công ty">
-            </div>
-            <div class="Name_Company">
+    document.getElementById('job').innerHTML = `
+    <div class="detail">
+        <div class="company_logo">
+            <img src="${job.avatar || ''}" alt="company logo">
+        </div>
+        <div class="Name_Company">
             <div>
-                <h1 class="job-title">${job.jobTitle ?? 'Không có tiêu đề'}</h1>
+                <h1 class="job-title">${job.jobTitle ?? 'No title'}</h1>
             </div>
             <div>
-            <h3 class="company_title">${job.companyName ?? 'Công ty'}</h3>
-            </div>
+                <h3 class="company_title">${job.companyName ?? 'Company'}</h3>
             </div>
         </div>
+    </div>
 
-        
-        <hr/>
-        <div class="info">
-            <div>
-                <h3><span><ion-icon name="location-outline"></ion-icon></span>Location</h3>
-                <p>${job.location ?? 'Chưa rõ'}</p>
-            </div>
-            <div>
-                <h3><span><ion-icon name="briefcase-outline"></ion-icon></span>Field</h3>
-                <p>${job.field ?? 'Chưa phân loại'}</p>
-            </div>
-            
+    <hr/>
+    <div class="info">
+        <div>
+            <h3><span><ion-icon name="location-outline"></ion-icon></span>Location</h3>
+            <p>${job.location ?? 'Unknown'}</p>
         </div>
-        <div class="info">
-            <div>
-                <h3><span><ion-icon name="people-outline"></ion-icon></span>Number of Vacancies</h3>
-                <p>${job.numberOfVacancy ?? 'Chưa rõ'}</p>
-            </div>
-            <div>
-                <h3><span><ion-icon name="cash-outline"></ion-icon></span>Salary</h3>
-                <p>${salaryMin}${salaryMax ? ' - ' + salaryMax : ''}${salaryCurrency}</p>
-            </div>
+        <div>
+            <h3><span><ion-icon name="briefcase-outline"></ion-icon></span>Field</h3>
+            <p>${job.field ?? 'Uncategorized'}</p>
         </div>
-        <div class="info">
-            <div>
-                <h3><span><ion-icon name="calendar-outline"></ion-icon></span>Deadline</h3>
-                <p>${job.deadline ?? 'Chưa rõ'}</p>
-            </div>
-            <div>
-                <h3><span><ion-icon name="star-outline"></ion-icon></span>Experience</h3>
-                <p>${experienceMin}${experienceMax ? ' - ' + experienceMax : ''}${experienceCurrency}</p>            
-            </div>
-            
-        </div>
-        <hr/>
-        <h3>Description</h3>
-        <p>${job.description ?? 'Không có mô tả.'}</p>
+    </div>
 
-        <h3>Requirements</h3>
-        <p>${job.requirement ?? 'không có yêu cầu'}</p>
-
-        <h3>Benefits</h3>
-        <p>${job.benefit ?? 'không có quyền lợi'}</p>
-
-        <div style="margin-top:16px">
-            <button onclick="applyNow()" class="btn-apply">Ứng tuyển</button>
+    <div class="info">
+        <div>
+            <h3><span><ion-icon name="people-outline"></ion-icon></span>Number of Vacancies</h3>
+            <p>${job.numberOfVacancy ?? 'Unknown'}</p>
         </div>
+        <div>
+            <h3><span><ion-icon name="cash-outline"></ion-icon></span>Salary</h3>
+            <p>${job.salary ?? 'Unknown'}</p>
+        </div>
+    </div>
+
+    <div class="info">
+        <div>
+            <h3><span><ion-icon name="calendar-outline"></ion-icon></span>Deadline</h3>
+            <p>${job.deadline ?? 'Unknown'}</p>
+        </div>
+        <div>
+            <h3><span><ion-icon name="star-outline"></ion-icon></span>Experience</h3>
+            <p>${experienceMin}${experienceMax ? ' - ' + experienceMax : ''}${experienceCurrency}</p>
+        </div>
+    </div>
+
+    <hr/>
+    <h3>Description</h3>
+    <p>${job.description ?? 'No description.'}</p>
+
+    <h3>Requirements</h3>
+    <p>${job.requirement ?? 'No requirements'}</p>
+
+    <h3>Benefits</h3>
+    <p>${job.benefit ?? 'No benefits'}</p>
+
+    <div style="margin-top:16px">
+        <button onclick="applyNow()" class="btn-apply">Apply Now</button>
+    </div>
     `;
-        }
+}
 
-        function applyNow() {
-            window.location.href = '../ApplyJob/applyJob.html'
-        }   
-    
+function applyNow() {
+    window.location.href = '../ApplyJob/applyJob.html'
+}
