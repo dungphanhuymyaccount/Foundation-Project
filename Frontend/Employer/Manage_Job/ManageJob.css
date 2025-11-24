@@ -1,8 +1,21 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+@import url(<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">);
+
+* {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f3f3f3;
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+    min-height: 100vh;
+}
+
+main {
+    margin-top: 100px; /* khoảng cách từ header xuống nội dung */
+    width: 100%;
     display: flex;
     justify-content: center;
 }

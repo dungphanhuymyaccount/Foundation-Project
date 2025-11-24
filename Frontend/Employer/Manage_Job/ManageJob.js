@@ -1,18 +1,58 @@
 // Biến toàn cục để lưu trữ dữ liệu công việc
 let allJobs = []; 
+let currentUser = null;
+
+// Hàm khởi tạo currentUser an toàn
+function initCurrentUser() {
+    try {
+        const userData = localStorage.getItem('current_user');
+        if (userData) {
+            currentUser = JSON.parse(userData);
+            console.log('Current user loaded:', currentUser);
+        } else {
+            console.log('No current user found in localStorage');
+        }
+    } catch (e) {
+        console.error('Error parsing current_user:', e);
+        currentUser = null;
+    }
+}
 
 /**
- * 1. Tải TẤT CẢ dữ liệu công việc từ localStorage (Tạm thời không lọc theo người dùng)
+ * 1. Tải TẤT CẢ dữ liệu công việc từ localStorage
  * @returns {Array} Mảng tất cả các đối tượng công việc
  */
 function loadJobsFromLocalStorage() {
     const storedJobsJSON = localStorage.getItem('postedJobs');
     
+    console.log('Loading jobs from localStorage...');
+    console.log('Raw data:', storedJobsJSON);
+    
     try {
-        // Tải toàn bộ job vào allJobs
-        allJobs = storedJobsJSON ? JSON.parse(storedJobsJSON) : [];
+        const allJobsRaw = storedJobsJSON ? JSON.parse(storedJobsJSON) : [];
+        console.log('All jobs parsed:', allJobsRaw);
+        
+        // Kiểm tra currentUser
+        if (!currentUser) {
+            console.warn('No current user - showing all jobs (or none if filtering is required)');
+            allJobs = allJobsRaw; // Tạm thời hiển thị tất cả để debug
+            return allJobs;
+        }
+        
+        // Lọc job theo userId
+        if (currentUser.role === 'Employer' && currentUser.EmployerID) {
+            allJobs = allJobsRaw.filter(job => {
+                console.log(`Checking job ${job.jobId}: userId="${job.userId}" vs EmployerID="${currentUser.EmployerID}"`);
+                return job.userId === currentUser.EmployerID;
+            });
+            console.log('Filtered jobs for employer:', allJobs);
+        } else {
+            console.warn('User is not an Employer or missing EmployerID');
+            allJobs = [];
+        }
+        
     } catch (e) {
-        console.error("Lỗi khi phân tích cú pháp dữ liệu localStorage.", e);
+        console.error("Lỗi khi phân tích cú pháp dữ liệu localStorage:", e);
         allJobs = [];
     }
     
@@ -25,6 +65,12 @@ function loadJobsFromLocalStorage() {
  */
 function renderJobList(jobsToDisplay) {
     const tbody = document.getElementById('jobListBody');
+    
+    if (!tbody) {
+        console.error('Element jobListBody not found!');
+        return;
+    }
+    
     tbody.innerHTML = ''; // Xóa nội dung cũ
 
     if (jobsToDisplay.length === 0) {
@@ -39,7 +85,7 @@ function renderJobList(jobsToDisplay) {
         const titleCell = row.insertCell();
         titleCell.innerHTML = `<a href="#" class="job-title-link" onclick="showJobDetails('${job.jobId}'); event.preventDefault();">${job.jobTitle}</a>`;
         
-        // Cột Post Date (Sử dụng postDate mới, hoặc giả lập từ jobId cũ nếu thiếu)
+        // Cột Post Date
         const dateCell = row.insertCell();
         const timestamp = job.postDate ? job.postDate : parseInt(job.jobId.replace('JD', ''));
         const date = new Date(timestamp);
@@ -48,15 +94,14 @@ function renderJobList(jobsToDisplay) {
         const crudCell = row.insertCell();
         crudCell.classList.add('crud-buttons');
         crudCell.innerHTML = `
-            <button class="manage-btn" onclick="manageCandidates('${job.jobId}')">👥</button> 
-            <button class="edit-btn" onclick="openEditModal('${job.jobId}')">✅</button> 
-            <button class="delete-btn" onclick="deleteJob('${job.jobId}')">❌</button>
+            <button class="manage-btn" title = "Manage candidate" onclick="manageCandidates('${job.jobId}')">👥</button> 
+            <button class="edit-btn" title = "Edit job post" onclick="openEditModal('${job.jobId}')">✅</button> 
+            <button class="delete-btn" title = "Delete job post" onclick="deleteJob('${job.jobId}')">❌</button>
         `;
     });
+    
+    console.log(`Rendered ${jobsToDisplay.length} jobs to table`);
 }
-
-
-// POPUP EDIT (MỚI)
 
 /**
  * Mở Modal chỉnh sửa và điền dữ liệu
@@ -70,19 +115,15 @@ function openEditModal(jobId) {
         return;
     }
 
-    // Lưu ID vào trường ẩn
     document.getElementById('editJobId').value = jobId;
     document.getElementById('editJobIdDisplay').textContent = jobId;
     
-    // Điền dữ liệu vào form
     document.getElementById('editJobTitle').value = job.jobTitle;
     document.getElementById('editField').value = job.field;
     document.getElementById('editDescription').value = job.description;
     document.getElementById('editCompanyName').value = job.companyName;
     
-    document.getElementById('editSalaryMin').value = job.salary.min;
-    document.getElementById('editSalaryMax').value = job.salary.max;
-    document.getElementById('editSalaryCurrency').value = job.salary.currency;
+    document.getElementById('editSalary').value = job.salary;
     
     document.getElementById('editLocation').value = job.location;
     
@@ -96,7 +137,6 @@ function openEditModal(jobId) {
     document.getElementById('editBenefit').value = job.benefit;
     document.getElementById('editNumberOfVacancy').value = job.numberOfVacancy;
 
-    // Hiển thị logo hiện tại (nếu có)
     const currentLogoDiv = document.getElementById('currentLogoDisplay');
     if (job.avatar) {
         currentLogoDiv.innerHTML = `<img src="${job.avatar}" style="max-width: 80px; max-height: 80px;"> <small>(Current Logo)</small>`;
@@ -119,15 +159,13 @@ async function saveEditedJob() {
         return;
     }
     
-    // Lấy dữ liệu mới từ form
     const jobTitle = document.getElementById('editJobTitle').value.trim();
     const field = document.getElementById('editField').value.trim();
     const description = document.getElementById('editDescription').value.trim();
     const companyName = document.getElementById('editCompanyName').value.trim();
     
-    const salaryMin = document.getElementById('editSalaryMin').value.trim();
-    const salaryMax = document.getElementById('editSalaryMax').value.trim();
-    const salaryCurrency = document.getElementById('editSalaryCurrency').value.trim();
+    const salary = document.getElementById('editSalary').value.trim();
+
     
     const location = document.getElementById('editLocation').value.trim();
     
@@ -143,10 +181,9 @@ async function saveEditedJob() {
     const avatarInput = document.getElementById('editAvatar');
     const avatarFile = avatarInput.files.length > 0 ? avatarInput.files[0] : null;
 
-    // 1. Validation (Tối thiểu)
     if (
         !jobTitle || !field || !description || !companyName || 
-        !salaryMin || !salaryMax || !salaryCurrency || !location ||
+        !salary || !location ||
         !experienceMin || !experienceMax || !experienceCurrency || 
         !deadline || !benefit || !numberOfVacancy
     ) {
@@ -154,25 +191,21 @@ async function saveEditedJob() {
         return;
     }
     
-    const minSal = parseInt(salaryMin);
-    const maxSal = parseInt(salaryMax);
+    const Sal = parseInt(salary);
     const minExp = parseInt(experienceMin);
     const maxExp = parseInt(experienceMax);
     const numVacancy = parseInt(numberOfVacancy);
 
-    if (minSal >= maxSal || minExp > maxExp || isNaN(numVacancy) || numVacancy <= 0) {
-        alert('Check salary/experience ranges and vacancy number.');
+    if (minExp > maxExp || isNaN(numVacancy) || numVacancy <= 0) {
+        alert('Check experience ranges and vacancy number.');
         return;
     }
 
-    // 2. Xử lý Logo (Sử dụng hàm từ PostJob.js)
-    let avatarBase64 = job.avatar; // Giữ lại avatar cũ
+    let avatarBase64 = job.avatar;
     if (avatarFile) {
-        // LƯU Ý: Phải đảm bảo hàm convertFileToBase64() có thể được truy cập
         avatarBase64 = await convertFileToBase64(avatarFile); 
     }
     
-    // 3. Tạo đối tượng dữ liệu đã cập nhật
     const updatedJobData = {
         jobId: jobId, 
         jobTitle: jobTitle,
@@ -180,11 +213,7 @@ async function saveEditedJob() {
         companyName: companyName,
         description: description,
         location: location,
-        salary: {
-            min: minSal,
-            max: maxSal,
-            currency: salaryCurrency
-        },
+        salary: Sal,
         experience: {
             min: minExp,
             max: maxExp,
@@ -195,25 +224,23 @@ async function saveEditedJob() {
         benefit: benefit,
         numberOfVacancy: numVacancy,
         avatar: avatarBase64,
-        postDate: job.postDate || Date.now(), // Giữ nguyên ngày đăng bài
-        userId: job.userId || 'unknown' // Giữ nguyên ID người dùng (nếu có)
+        postDate: job.postDate || Date.now(),
+        userId: job.userId || 'unknown'
     };
 
-    // 4. CẬP NHẬT DỮ LIỆU VÀO LOCALSTORAGE
     if (updateJobInLocalStorage(updatedJobData)) {
         alert(`Job ID: ${jobId} updated successfully!`);
         closeModal('editJobModal');
-        // Tải lại dữ liệu và render bảng
         loadJobsFromLocalStorage(); 
         renderJobList(allJobs);
     }
 }
 
 /**
- * Cập nhật job đã chỉnh sửa vào Local Storage (Ghi đè)
+ * Cập nhật job đã chỉnh sửa vào Local Storage
  */
 function updateJobInLocalStorage(updatedJobData) {
-    let postedJobs = loadAllJobsFromStorageForDeletion();
+    let postedJobs = getAllJobsRaw();
     const index = postedJobs.findIndex(job => job.jobId === updatedJobData.jobId);
     
     if (index !== -1) {
@@ -224,23 +251,19 @@ function updateJobInLocalStorage(updatedJobData) {
     return false;
 }
 
-
 /**
- * Đóng Modal chi tiết hoặc Modal chỉnh sửa
- * @param {string} modalId - ID của Modal cần đóng
+ * Đóng Modal
  */
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
 
 /**
- * 3. Hiển thị chi tiết công việc trong Modal
- * @param {string} jobId - ID của công việc cần hiển thị
+ * Hiển thị chi tiết công việc trong Modal
  */
 function showJobDetails(jobId) {
-    console.log("Job ID đang được kiểm tra:", jobId); 
+    console.log("Showing details for Job ID:", jobId); 
 
-    // Tìm job trong mảng chung allJobs
     const job = allJobs.find(j => j.jobId === jobId);
     
     if (!job) {
@@ -251,7 +274,6 @@ function showJobDetails(jobId) {
     document.getElementById('modalJobTitle').textContent = job.jobTitle;
     const detailsDiv = document.getElementById('jobDetails');
     
-    // Xử lý hiển thị logo từ Base64
     let logoHtml = '';
     if (job.avatar) {
         logoHtml = `<img src="${job.avatar}" alt="${job.companyName} Logo" style="max-width: 100px; max-height: 100px; display: block; margin-top: 5px; border: 1px solid #ddd; padding: 5px; background-color: white;">`;
@@ -259,13 +281,12 @@ function showJobDetails(jobId) {
         logoHtml = 'N/A';
     }
     
-    // Format nội dung chi tiết ĐẦY ĐỦ
     detailsDiv.innerHTML = `
         <p><strong>Job ID:</strong> ${job.jobId}</p>
         <p><strong>Company:</strong> ${job.companyName}</p>
         <p><strong>Field:</strong> ${job.field}</p>
         <p><strong>Location:</strong> ${job.location}</p>
-        <p><strong>Salary:</strong> ${job.salary.min.toLocaleString()} - ${job.salary.max.toLocaleString()} ${job.salary.currency}</p>
+        <p><strong>Salary:</strong> ${job.salary}</p>
         <p><strong>Experience:</strong> ${job.experience.min} to ${job.experience.max} ${job.experience.currency}</p>
         <p><strong>Vacancy:</strong> ${job.numberOfVacancy}</p>
         <p><strong>Deadline:</strong> ${new Date(job.deadline).toLocaleDateString('vi-VN')}</p>
@@ -279,11 +300,6 @@ function showJobDetails(jobId) {
 
     document.getElementById('jobDetailModal').style.display = 'block';
 }
-
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-}
-
 
 function filterJobs() {
     const searchTerm = document.getElementById('searchJob').value.toLowerCase().trim();
@@ -302,13 +318,14 @@ function filterJobs() {
     renderJobList(filteredJobs);
 }
 
-function manageCandidates(jobId) {
-    alert(`Chức năng Quản lý ứng viên cho Job ID: ${jobId} sẽ được phát triển sau!`);
+function manageCandidates(jobId) {    
+    localStorage.setItem("managing_job_ID", JSON.stringify(jobId)); 
+    window.location.href = "../Manage_Job/manage_candicate.html"; 
 }
 
 function deleteJob(jobId) {
     if (confirm(`Bạn có chắc chắn muốn xóa Job ID: ${jobId} không?`)) {
-        const allStoredJobs = loadAllJobsFromStorageForDeletion();
+        const allStoredJobs = getAllJobsRaw();
         const jobIndex = allStoredJobs.findIndex(j => j.jobId === jobId);
 
         if (jobIndex > -1) {
@@ -325,16 +342,24 @@ function deleteJob(jobId) {
     }
 }
 
-function loadAllJobsFromStorageForDeletion() {
+function getAllJobsRaw() {
     const storedJobsJSON = localStorage.getItem('postedJobs');
     try {
         return storedJobsJSON ? JSON.parse(storedJobsJSON) : [];
     } catch (e) {
+        console.error('Error parsing postedJobs:', e);
         return [];
     }
 }
 
+// Khởi tạo khi trang load
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('ManageJob page loaded');
+    
+    // Khởi tạo currentUser trước
+    initCurrentUser();
+    
+    // Load và render jobs
     loadJobsFromLocalStorage();
     renderJobList(allJobs);
     

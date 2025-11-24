@@ -5,12 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Job</title>
     <link rel="stylesheet" href="PostJob.css">
+    <link rel="stylesheet" href="../../General/header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="shared.js"></script>  <!-- ✅ Load shared trước -->
     <script src="PostJob.js"></script>
 </head>
 <body>
+    <header>
+        <div class="logo">
+            <h2><a href="../../Employer/HomePage_Employee/Homepage_Screen1.html"
+                    style="text-decoration: none; color: #fff;">Work Hub</a></h2>
+        </div>
+        <nav class="navi">
+            <ul>
+                <li><a href="#" class="menu_btn">Find Job</a></li>
+                <li><a href="#" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My Post</a></li>
+                <li><a href="#" class="menu_btn"><ion-icon name="notifications-outline"></ion-icon> Notification</a>
+                </li>
+                <li>
+                    <a href="#" class="menu_btn" id="current-user"><ion-icon class="icon"
+                            name="person-circle-outline"></ion-icon>Account</a>
+                    <ul class="submenu">
+                        <li class="account-name-and-email" id="current-user-name"></li>
+                        <hr>
+                        <li><a href="../Edit_Employer_Profile/Edit_Company_Information.html"><ion-icon class="icon"
+                                    name="person-outline"></ion-icon>Edit profile</a></li>
+                        <li><a href="#" id="log-out"><ion-icon class="icon" name="log-out-outline"></ion-icon>Log
+                                out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
     <main>
         <form action="">
-            <h2>Post Job</h2>
+            <h2 class="title">Post Job</h2>
             <div class="form-group">
                 <label for="jobTitle">Job Title:</label>
                 <input type="text" id="jobTitle" name="jobTitle" placeholder="e.g. Senior Software Engineer" required>
@@ -32,16 +63,8 @@
             </div>
 
             <div class="form-group">
-                <label for="salaryMin">Salary Min:</label>
-                <input type="number" id="salaryMin" name="salaryMin" placeholder="e.g. 10000000" required>
-            </div>
-            <div class="form-group">
-                <label for="salaryMax">Salary Max:</label>
-                <input type="number" id="salaryMax" name="salaryMax" placeholder="e.g. 15000000" required>
-            </div>
-            <div class="form-group">
-                <label for="salaryCurrency">Salary Currency:</label>
-                <input type="text" id="salaryCurrency" name="salaryCurrency" placeholder="e.g. VND, USD" required>
+                <label for="salary">Salary:</label>
+                <input type="number" id="salary" name="salary" placeholder="e.g. 10000000" required>
             </div>
 
             <div class="form-group">

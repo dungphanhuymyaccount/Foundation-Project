@@ -92,34 +92,32 @@ function validate(email, password, employerName, companyName) {
 }
 //kiểm tra email tồn tại
 function existEmail(email) {
-    if (email) {
-        return checkEmail = allUser.some(user => user.email === email);
-    }
+	if (email) {
+		return checkEmail = allUser.some(user => user.email === email);
+	}
 }
 
 function getEmployerID() {
-    // lấy list_user hiện tại
     let list = JSON.parse(localStorage.getItem('list_user')) || {
         list_student: [],
         list_employer: []
     };
 
-    // gom tất cả studentID
     let allEmployers = list.list_employer;
 
-    if (allEmployers.length === 0) {
-        return "EMP001";
-    }
+	if (allEmployers.length === 0) {
+		return "EMP001";
+	}
 
-    // lấy ID lớn nhất hiện có
     let maxID = allEmployers.reduce((max, user) => {
-        let num = parseInt(user.StudentID?.replace("EMP", "")) || 0;
+        // ✅ SỬA LỖI: Dùng user.EmployerID
+        let num = parseInt(user.EmployerID?.replace("EMP", "")) || 0; 
         return Math.max(max, num);
     }, 0);
 
-    let nextID = maxID + 1;
+	let nextID = maxID + 1;
 
-    return "EMP" + String(nextID).padStart(3, "0");
+	return "EMP" + String(nextID).padStart(3, "0");
 }
 // chức năng tạo employer
 document.getElementById("employerForm").addEventListener("submit", function (e) {
@@ -237,7 +235,7 @@ renderUserTable();//hiện  lần đầu
 // gọi popup khi bấm delete
 function deleteUser(email) {
 	pendingDeleteEmail = email;
-	document.getElementById("confirmModal").style.display="flex";
+	document.getElementById("confirmModal").classList.remove("hidden");
 }
 
 // xóa user
@@ -256,19 +254,18 @@ document.getElementById("Yes").addEventListener("click", function () {
 	localStorage.setItem("list_user", JSON.stringify(list_user));
 
 	renderUserTable(document.getElementById("searchUser").value.toLowerCase());
-	updateStatistics();
+	//updateStatistics();
 
 	// Đóng popup
-	document.getElementById("confirmModal").style.display="none";
+	document.getElementById("confirmModal").classList.add("hidden");
 	pendingDeleteEmail = null;
-	
+
 });
 
 // NẾU BẤM NO → ĐÓNG POPUP
 document.getElementById("No").addEventListener("click", function () {
 	pendingDeleteEmail = null;
-
-	document.getElementById("confirmModal").style.display = "none";
+	document.getElementById("confirmModal").classList.add("hidden");
 });
 
 

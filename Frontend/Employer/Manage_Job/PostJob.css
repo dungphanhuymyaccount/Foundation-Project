@@ -1,3 +1,5 @@
+@import url(<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">);
+
 * {
     margin: 0;
     padding: 0;
@@ -5,22 +7,17 @@
 }
 
 body {
+    background-color: #f3f3f3;
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-image: url(../Sign_up/background.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    font-family: Arial, sans-serif;
 }
 
 main {
-    flex: 1;
+    margin-top: 100px; /* khoảng cách từ header xuống nội dung */
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
 }
 
 form {
@@ -33,7 +30,7 @@ form {
     max-width: 600px;
 }
 
-h2 {
+.title {
     text-align: center;
     margin-bottom: 30px;
     color: #333;

@@ -22,11 +22,7 @@ function renderJob(jobList) {
 
     jobsToShow.forEach((job) => {
         // Kiểm tra xem salary có tồn tại và có đầy đủ dữ liệu không
-        let salaryText = "Negotiable";
-        if (job.salary && job.salary.min && job.salary.max) {
-            salaryText = job.salary.min.toLocaleString() + " - " + 
-                        job.salary.max.toLocaleString() + " " + (job.salary.currency || "");
-        }
+        let salaryText = job.salary|| "Negotiable";
         //template của job card
         let jobPost = `
                 <div class="job_container" onclick = "jobDetail('${job.jobId}')">
@@ -35,7 +31,7 @@ function renderJob(jobList) {
                         <h3>${job.jobTitle}</h3>
                         <p>${job.companyName}</p>
                         <p>${job.location}</p>
-                        <p>Salary: ${salaryText}</p>
+                        <p>Salary: ${salaryText} VND</p>
                     </div>
                 </div>`;
         jobContainer.innerHTML += jobPost;
@@ -145,14 +141,11 @@ function advanceSearch() {
 
         //lọc bằng salary: min của filter < max của post <= max của filter
         let matchSalary;
-        if (searchSalary === "none" || !job.salary || !job.salary.max) {
-            matchSalary = searchSalary === "none";
-        } else {
         let compareSalary = searchSalary.split("-");
         const minFilterSalary = parseInt(compareSalary[0]);
         const maxFilterSalary = parseInt(compareSalary[1]);
-            matchSalary = job.salary.max > minFilterSalary && job.salary.max <= maxFilterSalary;
-        }
+            matchSalary = job.salary >= minFilterSalary && job.salary <= maxFilterSalary;
+
         //lọc bằng experience: như lọc salary
         let matchExperience;
         if (searchExperience === "none" || !job.experience || !job.experience.max) {
