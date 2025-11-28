@@ -172,6 +172,7 @@ function initializePage() {
 		// Dữ liệu đã được chuẩn hóa chữ thường trong getCurrentUserFromLocalStorage()
 		currentUser = employerData;
 		loadPersonalProfile();
+		loadCompanyProfile();
 
 		// Reset form mật khẩu
 		const passInputs = getPasswordInputs();
@@ -220,6 +221,7 @@ function loadPersonalProfile() {
 		phone: currentUser["Phone Number"] || "",
 		address: currentUser.Address || "",
 		email: currentUser.email || "", // Key Email
+		companyName: currentUser.CompanyName || "",
 		profileImage: currentUser.Avatar || DEFAULT_AVATAR,
 	};
 
@@ -228,6 +230,7 @@ function loadPersonalProfile() {
 	if (inputs.phone) inputs.phone.value = personalData.phone;
 	if (inputs.address) inputs.address.value = personalData.address;
 	if (inputs.email) inputs.email.value = personalData.email;
+	if (inputs.companyName) inputs.companyName.value = personalData.companyName;
 	if (profileImage) profileImage.src = personalData.profileImage;
 
 	// Lưu bản gốc của dữ liệu (quan trọng để so sánh thay đổi email)
@@ -271,6 +274,7 @@ window.saveProfile = function () {
 	const isPersonalSaved = savePersonalProfile();
 	const isCompanySaved = saveCompanyProfile();
 	const passInputs = getPasswordInputs();
+
 	const isPasswordChangeAttempted =
 		passInputs.currentPassword.value.trim() !== "" ||
 		passInputs.newPassword.value.trim() !== "" ||
@@ -280,20 +284,17 @@ window.saveProfile = function () {
 		isPasswordSaved = savePassword();
 	}
 
-	if (isPersonalSaved && isCompanySaved) {
-		if (
-			!isPasswordChangeAttempted ||
-			(isPasswordChangeAttempted && isPasswordSaved)
-		) {
-			showNotification(
-				"Lưu **Thông tin hồ sơ** và **Công ty** thành công!",
-				"success",
-			);
-		} else if (isPasswordChangeAttempted && !isPasswordSaved) {
-			showNotification(
-				"Lưu Thông tin hồ sơ & Công ty thành công! (Đổi mật khẩu thất bại)",
-				"info",
-			);
+	if (isPersonalSaved || isCompanySaved) {
+		if (isPasswordChangeAttempted) {
+			if (isPasswordSaved) {
+				// Đã đổi mật khẩu thành công (thông báo đã có trong savePassword)
+			} else {
+				showNotification(
+					"Lưu thông tin cá nhân thành công! (Đổi mật khẩu thất bại)",
+				);
+			}
+		} else {
+			showNotification("Lưu thông tin cá nhân thành công!", "success");
 		}
 	}
 	return isPersonalSaved && isCompanySaved && isPasswordSaved;
@@ -306,12 +307,12 @@ function savePersonalProfile() {
 	const profileImage = document.querySelector(".ui-w-80");
 
 	const newPersonalData = {
-		EmployerName: inputs.fullName?.value.trim() || "",
-		Birthday: convertToMMDDYYYY(inputs.dob?.value.trim()) || "",
-		"Phone Number": inputs.phone?.value.trim() || "",
-		Address: inputs.address?.value.trim() || "",
-		Email: inputs.email?.value.trim().toLowerCase() || "",
-		Avatar: profileImage?.src || DEFAULT_AVATAR,
+		employerName: inputs.fullName?.value.trim() || "",
+		birthday: convertToMMDDYYYY(inputs.dob?.value.trim()) || "",
+		phoneNumber: inputs.phone?.value.trim() || "",
+		address: inputs.address?.value.trim() || "",
+		email: inputs.email?.value.trim().toLowerCase() || "",
+		avatar: profileImage?.src || DEFAULT_AVATAR,
 	};
 	const userIndex = allEmployers.findIndex(
 		(e) => e.Email === currentUser.Email,
@@ -350,9 +351,9 @@ function saveCompanyProfile() {
 	const inputs = getCompanyInputs();
 
 	const newCompanyData = {
-		CompanyName: inputs.companyName?.value.trim() || "",
-		Field: inputs.field?.value.trim() || "",
-		Size: inputs.size?.value.trim() || "",
+		companyName: inputs.companyName?.value.trim() || "",
+		field: inputs.field?.value.trim() || "",
+		size: inputs.size?.value.trim() || "",
 	};
 	const userIndex = allEmployers.findIndex(
 		(e) => e.Email === currentUser.Email,
@@ -383,8 +384,8 @@ function savePassword() {
 	);
 
 	if (userIndex !== -1) {
-		allEmployers[userIndex].Password = newPassword;
-		currentUser.Password = newPassword;
+		allEmployers[userIndex].password = newPassword;
+		currentUser.password = newPassword;
 		localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(currentUser));
 		saveAllEmployers();
 		showNotification("Đã cập nhật mật khẩu thành công!", "success");
@@ -404,13 +405,53 @@ function savePassword() {
 // ==================== VALIDATE FORMS (CƠ BẢN) ====================
 function validatePersonalForm() {
 	let isValid = true;
-	// *LƯU Ý: THÊM LOGIC VALIDATE THỰC TẾ CỦA BẠN VÀO ĐÂY*
-	if (!isValid) {
-		showNotification(
-			"Lỗi Personal Info. Vui lòng kiểm tra các trường đã tô đỏ.",
-			"error",
-		);
+	let errors = [];
+	const inputs = getPersonalInputs();
+	const errorFullName = document.getElementById("error-full-name");
+	const errorPhone = document.getElementById("error-phone");
+	const errorDob = document.getElementById("error-dob");
+
+	// Xóa trạng thái lỗi cũ
+	Object.values(inputs).forEach(
+		(input) => input && input.classList.remove("is-invalid"),
+	);
+
+	if (inputs.fullName && inputs.fullName.value.trim() === "") {
+		errorFullName.innerHTML = "<p>Vui lòng nhập họ và tên.</p>";
+		inputs.fullName.classList.add("is-invalid");
+		isValid = false;
+	} else {
+		errorFullName.innerHTML = "";
 	}
+
+	if (
+		inputs.phone &&
+		inputs.phone.value.trim() !== "" &&
+		inputs.phone.value.trim().length < 10
+	) {
+		errorPhone.innerHTML = "<p>Số điện thoại phải có ít nhất 10 chữ số.</p>";
+		inputs.phone.classList.add("is-invalid");
+		isValid = false;
+	} else {
+		errorPhone.innerHTML = "";
+	}
+
+	if (inputs.dob && inputs.dob.value !== "") {
+		const dob = new Date(inputs.dob.value);
+		const today = new Date();
+		if (dob.getTime() > today.getTime()) {
+			errorDob.innerHTML = "<p>Ngày sinh không được trong tương lai.</p>";
+			inputs.dob.classList.add("is-invalid");
+			isValid = false;
+		} else {
+			errorDob.innerHTML = "";
+		}
+	}
+
+	if (!isValid) {
+		showNotification("Lỗi Thông Tin Cá Nhân:\n" + errors.join("\n"), "error");
+	}
+
 	return isValid;
 }
 
@@ -428,12 +469,72 @@ function validateCompanyForm() {
 
 function validatePasswordForm() {
 	let isValid = true;
-	// *LƯU Ý: THÊM LOGIC VALIDATE THỰC TẾ CỦA BẠN VÀO ĐÂY*
+	let errors = [];
+	const inputs = getPasswordInputs();
+
+	Object.values(inputs).forEach(
+		(input) => input && input.classList.remove("is-invalid"),
+	);
+
+	const currentPass = inputs.currentPassword?.value.trim() || "";
+	const newPass = inputs.newPassword?.value.trim() || "";
+	const repeatPass = inputs.repeatPassword?.value.trim() || "";
+	const errorNewPassword = document.getElementById("error-new-password");
+	const errorCurrentPassword = document.getElementById(
+		"error-current-password",
+	);
+	const errorRepeatPassword = document.getElementById("error-repeat-password");
+
+	if (!currentUser) {
+		errors.push("Lỗi: Không tìm thấy thông tin người dùng.");
+		isValid = false;
+		showNotification("Lỗi nghiêm trọng: Không có currentUser", "error");
+		return false;
+	}
+
+	if (currentPass === "") {
+		errorCurrentPassword.innerHTML = "<p>Vui lòng nhập mật khẩu hiện tại.</p>";
+		inputs.currentPassword?.classList.add("is-invalid");
+		isValid = false;
+	} else if (currentPass !== currentUser.password) {
+		errorCurrentPassword.innerHTML = "<p>Mật khẩu hiện tại không đúng.</p>";
+		inputs.currentPassword?.classList.add("is-invalid");
+		isValid = false;
+	} else {
+		errorCurrentPassword.innerHTML = "";
+	}
+
+	if (newPass === "") {
+		errorNewPassword.innerHTML = "<p>Vui lòng nhập mật khẩu mới.</p>";
+		inputs.newPassword?.classList.add("is-invalid");
+		isValid = false;
+	} else if (newPass.length < 6) {
+		errorNewPassword.innerHTML = "<p>Mật khẩu mới phải có ít nhất 6 kí tự.</p>";
+		inputs.newPassword?.classList.add("is-invalid");
+		isValid = false;
+	} else if (newPass === currentUser.password) {
+		errorNewPassword.innerHTML =
+			"<p>Mật khẩu mới không được trùng mật khẩu cũ.</p>";
+		inputs.newPassword?.classList.add("is-invalid");
+		isValid = false;
+	} else {
+		errorNewPassword.innerHTML = "";
+	}
+
+	if (repeatPass === "") {
+		errorRepeatPassword.innerHTML = "<p>Vui lòng nhập lại mật khẩu mới.</p>";
+		inputs.repeatPassword?.classList.add("is-invalid");
+		isValid = false;
+	} else if (newPass !== repeatPass) {
+		errorRepeatPassword.innerHTML = "<p>Mật khẩu nhập lại không khớp.</p>";
+		inputs.repeatPassword?.classList.add("is-invalid");
+		isValid = false;
+	} else {
+		errorRepeatPassword.innerHTML = "";
+	}
+
 	if (!isValid) {
-		showNotification(
-			"Lỗi Đổi Mật Khẩu. Vui lòng kiểm tra các trường đã tô đỏ.",
-			"error",
-		);
+		showNotification("Lỗi Đổi Mật Khẩu:\n" + errors.join("\n"), "error");
 	}
 	return isValid;
 }
