@@ -265,7 +265,6 @@ function loadPersonalProfile() {
 // ==================== LƯU PROFILE CHUNG ====================
 // (Giữ nguyên)
 window.saveProfile = function () {
-	console.log("Đang lưu tất cả thay đổi...");
 	if (!currentUser) {
 		showNotification("Lỗi: Không có người dùng đang đăng nhập.", "error");
 		return false;
@@ -293,7 +292,6 @@ window.saveProfile = function () {
 			} else {
 				showNotification(
 					"Lưu thông tin cá nhân thành công! (Đổi mật khẩu thất bại)",
-					"info",
 				);
 			}
 		} else {
@@ -316,13 +314,13 @@ function savePersonalProfile() {
 	// Chuẩn bị dữ liệu mới, sử dụng key giống trong CSDL
 	const newPersonalData = {
 		fullName: inputs.fullName?.value.trim() || "",
-		Birthday: convertToMMDDYYYY(inputs.dob?.value.trim()) || "",
-		"Phone Number": inputs.phone?.value.trim() || "",
-		Address: inputs.address?.value.trim() || "",
+		birthday: convertToMMDDYYYY(inputs.dob?.value.trim()) || "",
+		phoneNumber: inputs.phone?.value.trim() || "",
+		address: inputs.address?.value.trim() || "",
 		// BUG FIX: Email mới luôn được chuyển về chữ thường trước khi lưu
 		email: inputs.email?.value.trim().toLowerCase() || "",
-		University: inputs.university?.value.trim() || "",
-		Avatar: profileImage?.src || DEFAULT_AVATAR,
+		university: inputs.university?.value.trim() || "",
+		avatar: profileImage?.src || DEFAULT_AVATAR,
 	};
 
 	// 1. Tìm index của người dùng trong CSDL (list_user)
@@ -417,6 +415,9 @@ function validatePersonalForm() {
 	let isValid = true;
 	let errors = [];
 	const inputs = getPersonalInputs();
+	const errorFullName = document.getElementById("error-full-name");
+	const errorPhone = document.getElementById("error-phone");
+	const errorDob = document.getElementById("error-dob");
 
 	// Xóa trạng thái lỗi cũ
 	Object.values(inputs).forEach(
@@ -424,34 +425,11 @@ function validatePersonalForm() {
 	);
 
 	if (inputs.fullName && inputs.fullName.value.trim() === "") {
-		errors.push("Vui lòng nhập tên đầy đủ.");
+		errorFullName.innerHTML = "<p>Vui lòng nhập họ và tên.</p>";
 		inputs.fullName.classList.add("is-invalid");
 		isValid = false;
-	}
-
-	const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	const currentInputEmail = inputs.email?.value.trim().toLowerCase();
-	const currentStudentEmail = currentUser.email?.toLowerCase();
-
-	if (inputs.email && currentInputEmail === "") {
-		errors.push("Vui lòng nhập email.");
-		inputs.email.classList.add("is-invalid");
-		isValid = false;
-	} else if (inputs.email && !emailPattern.test(currentInputEmail)) {
-		errors.push("Email không hợp lệ.");
-		inputs.email.classList.add("is-invalid");
-		isValid = false;
-	}
-	// Check trùng email khi thay đổi email
-	else if (inputs.email && currentInputEmail !== currentStudentEmail) {
-		const isDuplicate = allStudents.some(
-			(s) => s.email === currentInputEmail && s.email !== currentStudentEmail,
-		);
-		if (isDuplicate) {
-			errors.push("Email này đã được sử dụng bởi người khác.");
-			inputs.email.classList.add("is-invalid");
-			isValid = false;
-		}
+	} else {
+		errorFullName.innerHTML = "";
 	}
 
 	if (
@@ -459,25 +437,23 @@ function validatePersonalForm() {
 		inputs.phone.value.trim() !== "" &&
 		inputs.phone.value.trim().length < 10
 	) {
-		errors.push("Số điện thoại phải có ít nhất 10 chữ số.");
+		errorPhone.innerHTML = "<p>Số điện thoại phải có ít nhất 10 chữ số.</p>";
 		inputs.phone.classList.add("is-invalid");
 		isValid = false;
+	} else {
+		errorPhone.innerHTML = "";
 	}
 
 	if (inputs.dob && inputs.dob.value !== "") {
 		const dob = new Date(inputs.dob.value);
 		const today = new Date();
 		if (dob.getTime() > today.getTime()) {
-			errors.push("Ngày sinh không thể ở tương lai.");
+			errorDob.innerHTML = "<p>Ngày sinh không được trong tương lai.</p>";
 			inputs.dob.classList.add("is-invalid");
 			isValid = false;
+		} else {
+			errorDob.innerHTML = "";
 		}
-	}
-
-	if (inputs.university && inputs.university.value.trim() === "") {
-		errors.push("Vui lòng nhập trường đại học.");
-		inputs.university.classList.add("is-invalid");
-		isValid = false;
 	}
 
 	if (!isValid) {
@@ -501,6 +477,11 @@ function validatePasswordForm() {
 	const currentPass = inputs.currentPassword?.value.trim() || "";
 	const newPass = inputs.newPassword?.value.trim() || "";
 	const repeatPass = inputs.repeatPassword?.value.trim() || "";
+	const errorNewPassword = document.getElementById("error-new-password");
+	const errorCurrentPassword = document.getElementById(
+		"error-current-password",
+	);
+	const errorRepeatPassword = document.getElementById("error-repeat-password");
 
 	if (!currentUser) {
 		errors.push("Lỗi: Không tìm thấy thông tin người dùng.");
@@ -510,37 +491,44 @@ function validatePasswordForm() {
 	}
 
 	if (currentPass === "") {
-		errors.push("Vui lòng nhập mật khẩu hiện tại.");
+		errorCurrentPassword.innerHTML = "<p>Vui lòng nhập mật khẩu hiện tại.</p>";
 		inputs.currentPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else if (currentPass !== currentUser.password) {
-		errors.push("Mật khẩu hiện tại không đúng.");
+		errorCurrentPassword.innerHTML = "<p>Mật khẩu hiện tại không đúng.</p>";
 		inputs.currentPassword?.classList.add("is-invalid");
 		isValid = false;
+	} else {
+		errorCurrentPassword.innerHTML = "";
 	}
 
 	if (newPass === "") {
-		errors.push("Vui lòng nhập mật khẩu mới.");
+		errorNewPassword.innerHTML = "<p>Vui lòng nhập mật khẩu mới.</p>";
 		inputs.newPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else if (newPass.length < 6) {
-		errors.push("Mật khẩu mới phải có ít nhất 6 ký tự.");
+		errorNewPassword.innerHTML = "<p>Mật khẩu mới phải có ít nhất 6 kí tự.</p>";
 		inputs.newPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else if (newPass === currentUser.password) {
-		errors.push("Mật khẩu mới phải khác mật khẩu cũ.");
+		errorNewPassword.innerHTML =
+			"<p>Mật khẩu mới không được trùng mật khẩu cũ.</p>";
 		inputs.newPassword?.classList.add("is-invalid");
 		isValid = false;
+	} else {
+		errorNewPassword.innerHTML = "";
 	}
 
 	if (repeatPass === "") {
-		errors.push("Vui lòng nhập lại mật khẩu mới.");
+		errorRepeatPassword.innerHTML = "<p>Vui lòng nhập lại mật khẩu mới.</p>";
 		inputs.repeatPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else if (newPass !== repeatPass) {
-		errors.push("Mật khẩu lặp lại không khớp.");
+		errorRepeatPassword.innerHTML = "<p>Mật khẩu nhập lại không khớp.</p>";
 		inputs.repeatPassword?.classList.add("is-invalid");
 		isValid = false;
+	} else {
+		errorRepeatPassword.innerHTML = "";
 	}
 
 	if (!isValid) {
