@@ -1,6 +1,6 @@
 //chức năng log out
 document.addEventListener("DOMContentLoaded", () => {
-    if(document.getElementById('log-out')) return null
+    if(!document.getElementById('log-out')) return null
 document.getElementById('log-out').addEventListener("click", function(e) {
     e.preventDefault();
     currentUser = JSON.parse(localStorage.getItem('current_user'));

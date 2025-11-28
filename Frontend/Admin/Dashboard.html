@@ -13,6 +13,17 @@
 		<div class="logo">
 			<h2>Work Hub</h2>
 		</div>
+
+		<div class="account-dropdown" id="accountDropdown">
+			<button type="button" class="account-pill" id="accountBtn" aria-expanded="false">
+				<span id="accountLabel">Account</span>
+				<span class="caret">▾</span>
+			</button>
+
+			<div class="account-menu hidden" id="accountMenu">
+				<button type="button" class="account-action" id="accountAction">Login</button>
+			</div>
+		</div>
 	</header>
 	<div class="dashboard-container">
 		<!-- Sidebar -->
@@ -121,6 +132,7 @@
 	</div>
 
 	<script src="Manage_user.js"></script>
+	<script src="admin_header.js"></script>
 </body>
 
 </html>

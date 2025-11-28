@@ -18,16 +18,67 @@ header {
 	padding: 5px 60px;
 	position: fixed;
 	top: 0;
-	/* Giữ header ở trên cùng */
 	left: 0;
-	/* Căn từ mép trái */
 	width: 100%;
-	/* Trải rộng toàn màn hình */
 	z-index: 1000;
-	/* Đè lên các phần tử khác khi cuộn */
 }
 
-/* Layout */
+.account-dropdown {
+	position: relative;
+}
+
+.account-pill {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 14px;
+	border-radius: 999px;
+	/* bo tròn pill */
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	background: rgba(255, 255, 255, 0.06);
+	color: #fff;
+	cursor: pointer;
+	user-select: none;
+}
+
+.account-pill:hover {
+	background: rgba(255, 255, 255, 0.12);
+}
+
+.caret {
+	opacity: 0.8;
+	font-size: 14px;
+}
+
+/* dropdown box */
+.account-menu {
+	position: absolute;
+	right: 0;
+	/* bám bên phải */
+	top: calc(100% + 10px);
+	min-width: 160px;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 12px;
+	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+	padding: 8px;
+	z-index: 2000;
+}
+
+.account-action {
+	width: 100%;
+	border: none;
+	background: #fff;
+	padding: 10px 12px;
+	border-radius: 10px;
+	cursor: pointer;
+	text-align: left;
+}
+
+.account-action:hover {
+	background: #f3f4f6;
+}
+
 .dashboard-container {
 	display: flex;
 	height: 100vh;
@@ -81,7 +132,7 @@ header {
 }
 
 .hidden {
-	display: none !important ;
+	display: none !important;
 }
 
 /* Form */
@@ -145,46 +196,49 @@ th {
 }
 
 .confirm-modal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 999;
 }
 
 .confirm-box {
-    background: #fff;
-    padding: 22px;
-    width: 350px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    animation: all 0.2s ease;
+	background: #fff;
+	padding: 22px;
+	width: 350px;
+	border-radius: 12px;
+	text-align: center;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+	animation: all 0.2s ease;
 }
 
 .confirm-buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
+	display: flex;
+	justify-content: space-around;
+	margin-top: 20px;
 }
 
-.btn-yes, .btn-no {
-    padding: 8px 20px;
-    border-radius: 6px;
-    border: none;
-    color: white;
-    cursor: pointer;
+.btn-yes,
+.btn-no {
+	padding: 8px 20px;
+	border-radius: 6px;
+	border: none;
+	color: white;
+	cursor: pointer;
 }
 
 .btn-yes {
-    background: #e74c3c;
+	background: #e74c3c;
 }
 
 .btn-no {
-    background: #7f8c8d;
+	background: #7f8c8d;
 }
 
 

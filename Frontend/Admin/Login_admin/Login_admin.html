@@ -1,0 +1,44 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin-Work Hub</title>
+    <link rel="stylesheet" href="../../Student/Sign_up/Signup_style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <main>
+        <div class="login_box">
+            <h2>LOGIN ADMIN</h2>
+            <form method="get" id="login-box" >
+                <div class="info">
+                    <label for="account-name">Admin Name</label>
+                    <input type="text" id="account-name" required autofocus autocomplete="on">
+                </div>
+
+                <div class="info">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Password" required autofocus>
+                    
+                    <span id="toggle-password" class="toggle-password"><ion-icon name="eye-outline"></ion-icon></span>
+                </div>
+
+                <div class="error-message" id="error-message"></div>
+
+                <div class="login_btn">
+                    <input type="submit" value="Login">
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <script src="validate_admin.js"></script>
+</body>
+
+</html>
