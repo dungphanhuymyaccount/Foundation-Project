@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Builder</title>
+  <link rel="stylesheet" href="template.css">
+</head>
+<body>
+  <div class="cv-container">
+    <h1>CV Builder</h1>
+    <p class="subtitle">Choose a template, fill in your information and click "Save CV" to store it in localStorage.</p>
+
+    <div class="template-switch">
+      <button data-template="1" class="active">Template 1 - Classic</button>
+      <button data-template="2">Template 2 - Modern</button>
+    </div>
+
+    <!-- TEMPLATE 1 -->
+    <form class="cv-form" data-template="1">
+      <h2>Template 1 - Classic</h2>
+
+      <div class="cv-section grid-2">
+        <div>
+          <label for="t1_fullName">Full Name</label>
+          <input type="text" id="t1_fullName" name="fullName" placeholder="John Doe">
+        </div>
+        <div>
+          <label for="t1_jobTitle">Job Title / Position</label>
+          <input type="text" id="t1_jobTitle" name="jobTitle" placeholder="Frontend Developer">
+        </div>
+      </div>
+
+      <div class="cv-section grid-3">
+        <div>
+          <label for="t1_email">Email</label>
+          <input type="email" id="t1_email" name="email" placeholder="you@example.com">
+        </div>
+        <div>
+          <label for="t1_phone">Phone Number</label>
+          <input type="text" id="t1_phone" name="phone" placeholder="+84 123 456 789">
+        </div>
+        <div>
+          <label for="t1_address">Address</label>
+          <input type="text" id="t1_address" name="address" placeholder="Hanoi, Vietnam">
+        </div>
+      </div>
+
+      <div class="cv-section">
+        <label for="t1_summary">Summary</label>
+        <textarea id="t1_summary" name="summary" rows="4"
+          placeholder="Short introduction about yourself, strengths, and career objective."></textarea>
+      </div>
+
+      <div class="cv-section">
+        <label for="t1_education">Education</label>
+        <textarea id="t1_education" name="education" rows="4"
+          placeholder="- 2021–2025: University of ...&#10;- GPA: 3.2/4.0 ..."></textarea>
+      </div>
+
+      <div class="cv-section">
+        <label for="t1_experience">Work Experience / Projects</label>
+        <textarea id="t1_experience" name="experience" rows="5"
+          placeholder="- 2024: Internship at ...&#10;- Project: Job Portal Website ..."></textarea>
+      </div>
+
+      <div class="cv-section">
+        <label for="t1_skills">Skills</label>
+        <textarea id="t1_skills" name="skills" rows="3"
+          placeholder="- HTML, CSS, JavaScript&#10;- Git, MySQL&#10;- Teamwork, Communication"></textarea>
+      </div>
+
+      <div class="cv-actions">
+        <button type="button" class="save-cv" data-template="1">💾 Save CV (Template 1)</button>
+      </div>
+    </form>
+
+    <!-- TEMPLATE 2 -->
+    <form class="cv-form hidden" data-template="2">
+      <h2>Template 2 - Modern (Two columns)</h2>
+
+      <div class="cv-layout-2col">
+        <!-- Left column -->
+        <div class="cv-col-left">
+          <div class="cv-section">
+            <label for="t2_fullName">Full Name</label>
+            <input type="text" id="t2_fullName" name="fullName" placeholder="John Doe">
+          </div>
+
+          <div class="cv-section">
+            <label for="t2_jobTitle">Job Title / Position</label>
+            <input type="text" id="t2_jobTitle" name="jobTitle" placeholder="Backend Developer / Intern">
+          </div>
+
+          <div class="cv-section">
+            <label for="t2_summary">Profile</label>
+            <textarea id="t2_summary" name="summary" rows="5"
+              placeholder="Short profile: who you are, your main strengths and career orientation."></textarea>
+          </div>
+
+          <div class="cv-section">
+            <label for="t2_skills">Key Skills</label>
+            <textarea id="t2_skills" name="skills" rows="5"
+              placeholder="- JavaScript / Node.js&#10;- MySQL, REST API&#10;- Problem-solving, Teamwork"></textarea>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div class="cv-col-right">
+          <div class="cv-section grid-2">
+            <div>
+              <label for="t2_email">Email</label>
+              <input type="email" id="t2_email" name="email" placeholder="you@example.com">
+            </div>
+            <div>
+              <label for="t2_phone">Phone Number</label>
+              <input type="text" id="t2_phone" name="phone" placeholder="+84 123 456 789">
+            </div>
+          </div>
+
+          <div class="cv-section grid-2">
+            <div>
+              <label for="t2_linkedin">LinkedIn</label>
+              <input type="text" id="t2_linkedin" name="linkedin" placeholder="linkedin.com/in/username">
+            </div>
+            <div>
+              <label for="t2_portfolio">Portfolio / GitHub</label>
+              <input type="text" id="t2_portfolio" name="portfolio" placeholder="github.com/username">
+            </div>
+          </div>
+
+          <div class="cv-section">
+            <label for="t2_education">Education</label>
+            <textarea id="t2_education" name="education" rows="4"
+              placeholder="- 2021–2025: University of ...&#10;- Major: Information Technology"></textarea>
+          </div>
+
+          <div class="cv-section">
+            <label for="t2_experience">Experience / Projects</label>
+            <textarea id="t2_experience" name="experience" rows="6"
+              placeholder="- 2024: Hotel Booking Web App project, role: Frontend Developer..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-actions">
+        <button type="button" class="save-cv" data-template="2">💾 Save CV (Template 2)</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="template.js"></script>
+</body>
+</html>

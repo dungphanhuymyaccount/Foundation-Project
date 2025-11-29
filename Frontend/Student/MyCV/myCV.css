@@ -1,0 +1,165 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  background: #f4f6fb;
+  padding: 20px;
+}
+
+.mycv-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 24px 32px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.mycv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.mycv-header h1 {
+  font-size: 26px;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: #555;
+}
+
+.mycv-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.mycv-actions button {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#editCvBtn {
+  background: #2563eb;
+  color: #fff;
+}
+
+#editCvBtn:hover {
+  background: #1d4ed8;
+}
+
+#downloadPdfBtn {
+  background: #16a34a;
+  color: #fff;
+}
+
+#downloadPdfBtn:hover {
+  background: #15803d;
+}
+
+/* No CV message */
+.no-cv {
+  padding: 16px;
+  border-radius: 12px;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  margin-top: 16px;
+}
+
+.btn-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #2563eb;
+}
+
+/* CV Preview layout */
+.cv-preview {
+  margin-top: 16px;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7f0;
+}
+
+.cv-header {
+  border-bottom: 2px solid #e5e7f0;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.cv-name {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.cv-title {
+  font-size: 16px;
+  color: #555;
+  margin-top: 4px;
+}
+
+.cv-contact {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #444;
+}
+
+.cv-contact span {
+  display: inline-block;
+  margin-right: 12px;
+}
+
+/* Sections */
+.cv-section-block {
+  margin-top: 16px;
+}
+
+.cv-section-title {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #111827;
+}
+
+.cv-section-content {
+  font-size: 14px;
+  white-space: pre-wrap;
+  color: #374151;
+}
+
+/* Helpers */
+.hidden {
+  display: none;
+}
+
+/* Print styles: for "Download PDF" */
+@media print {
+  body {
+    background: #ffffff;
+    padding: 0;
+  }
+
+  .mycv-container {
+    box-shadow: none;
+    border-radius: 0;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

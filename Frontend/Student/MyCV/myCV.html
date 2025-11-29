@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My CV</title>
+  <link rel="stylesheet" href="myCV.css">
+</head>
+<body>
+  <div class="mycv-container">
+    <div class="mycv-header">
+      <div>
+        <h1>My CV</h1>
+        <p class="subtitle">This is your latest saved CV. You can edit it or download it as PDF.</p>
+      </div>
+      <div class="mycv-actions no-print">
+        <button id="editCvBtn">✏️ Edit CV</button>
+        <button id="downloadPdfBtn">⬇️ Download PDF</button>
+      </div>
+    </div>
+
+    <div id="noCvMessage" class="no-cv hidden">
+      <p>No CV found. Please create your CV first.</p>
+      <a href="../CV_template/template.html" class="btn-link">Go to CV Builder</a>
+    </div>
+
+    <div id="cvPreview" class="cv-preview hidden">
+      <!-- Filled by JavaScript -->
+    </div>
+  </div>
+
+  <!-- ✅ Thêm thư viện html2pdf -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script src="myCV.js"></script>
+</body>
+</html>
