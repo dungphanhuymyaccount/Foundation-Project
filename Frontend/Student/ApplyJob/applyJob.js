@@ -18,19 +18,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 300);
         return;
     }
-    if(currentUser.role !== "Student") {
+    if (currentUser.role !== "Student") {
         setTimeout(() => {
             alert("You need to log in before applying!");
             window.location.href = "../../General/Login/Login.html";
         }, 300);
         return;
-    
+
     }
 
     // Tự động điền thông tin user
     document.getElementById("fullname").value = currentUser.fullName || "";
     document.getElementById("email").value = currentUser.email || "";
-    
+
     console.log("Current User:", currentUser);
     console.log("Selected Job ID:", selectedJobId);
 });
@@ -52,13 +52,13 @@ function fileToBase64(file) {
  */
 function generateCvId() {
     if (applications.length === 0) return "CV001";
-    
+
     // Tìm ID lớn nhất
     const maxNum = applications.reduce((max, app) => {
         const num = parseInt(app.CvId.replace("CV", "")) || 0;
         return Math.max(max, num);
     }, 0);
-    
+
     const nextNum = maxNum + 1;
     return "CV" + nextNum.toString().padStart(3, "0");
 }
@@ -75,9 +75,9 @@ function alreadyApplied(studentId, jobId) {
  */
 function saveCvData(cvId, cvBase64) {
     let cvData = JSON.parse(localStorage.getItem("cvData")) || [];
-    cvData.push({ 
-        CvId: cvId, 
-        cvFileBase64: cvBase64 
+    cvData.push({
+        CvId: cvId,
+        cvFileBase64: cvBase64
     });
     localStorage.setItem("cvData", JSON.stringify(cvData));
     console.log("CV saved with ID:", cvId);
@@ -132,7 +132,7 @@ document.getElementById("applyForm").addEventListener("submit", async (e) => {
         // 5. Convert CV thành Base64
         console.log("Converting CV to Base64...");
         const cvBase64 = await fileToBase64(cvFile);
-        
+
         // 6. Generate CV ID mới
         const newCvId = generateCvId();
         console.log("Generated CV ID:", newCvId);
@@ -147,7 +147,6 @@ document.getElementById("applyForm").addEventListener("submit", async (e) => {
             jobId: selectedJobId,
             fullName: fullName,
             email: email,
-            // ⚠️ KHÔNG lưu cvFile ở đây nữa
             applyDate: new Date().toLocaleString('vi-VN', {
                 year: 'numeric',
                 month: '2-digit',
@@ -161,14 +160,16 @@ document.getElementById("applyForm").addEventListener("submit", async (e) => {
         // 9. Lưu application vào localStorage
         applications.push(app);
         localStorage.setItem("applications", JSON.stringify(applications));
-        
+
         console.log("Application submitted successfully!", app);
 
         alert("Application submitted successfully!");
-        
-        // 10. Redirect về trang chủ
-        window.location.href = "../HomePage/Student-homepage.html";
-        
+
+        // đóng popup + reset form
+        document.getElementById("applyForm").reset();
+        closeApplyModal?.(); // gọi hàm trong jobDetail.js (nếu có)
+
+
     } catch (error) {
         console.error("Error submitting application:", error);
         msg.innerHTML = "<p>An error occurred while submitting. Please try again.</p>";

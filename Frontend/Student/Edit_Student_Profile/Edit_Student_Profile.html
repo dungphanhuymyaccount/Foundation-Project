@@ -6,7 +6,7 @@
 		<title>Edit Student Profile</title>
 		<link href="style.css" rel="stylesheet" />
 		<link href="bootstrap.css" rel="stylesheet" />
-		
+		<link rel="stylesheet" href="../../General/header.css">
 		<link
 			href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
 			rel="stylesheet"
@@ -17,15 +17,15 @@
 	</head>
 
 	<body>
-		  <header>
+		<header>
         <div class="logo">
-            <h2><a href="/Frontend/Student/HomePage/Student-homepage.html" style="text-decoration: none; color: #fff;">Work Hub</a></h2>
+            <h2><a href="../../../index.html" style="text-decoration: none; color: #fff;">Work Hub</a></h2>
         </div>
         <nav class="navi">
             <ul>
-                <li><a href="#" class="menu_btn">Find Job</a></li>
+                <li><a href="../../Student/HomePage/Student-homepage.html" class="menu_btn">Find Job</a></li>
                 <li>
-                    <a href="#" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My CV</a>
+                    <a href="../Edit_CV/EditCV.html" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My CV</a>
                 </li>
                 <li>
                     <a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon class="icon" name="notifications-outline"></ion-icon>
@@ -34,14 +34,15 @@
                 <li>
                     <a href="#" class="menu_btn" id="current-user"><ion-icon class="icon" name="person-circle-outline"></ion-icon>Account</a>
                     <ul class="submenu">
-                        <li class="account-name-and-email" id="current-user-name"></li><hr>
-                        <li><a href="../Edit_Student_Profile/Edit_Student_Profile.html"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
-                        <li><a href="#" id="log-out"><ion-icon class="icon" name="log-out-outline"></ion-icon>Log out</a></li>
+                        <li><a href="../Edit_Student_Profile/Edit_Student_Profile.html" class="submenu1"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
+                        <li><a href="#" id="log-out" class="submenu2"><ion-icon class="icon" name="log-out-outline" ></ion-icon>Log out</a></li>
                     </ul>
                 </li>
             </ul>
         </nav>
     </header>
+
+	<main>
 		<div class="container light-style flex-grow-1 container-p-y">
 			<h3 class="font-weight-bold py-3 mb-4">
 				Account settings (Role: Student)
@@ -178,12 +179,13 @@
 				</button>
 			</div>
 		</div>
+	</main>
 
 		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 
 		<script src="edit-student-profile-json.js"></script>
-		<script src="Navbar.js"></script>
+		<script src="../../Student/HomePage/Navbar.js"></script>
 
 		<!-- ✅ Tự động khởi tạo trang khi load -->
 		<script>

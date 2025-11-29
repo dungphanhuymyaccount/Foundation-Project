@@ -7,6 +7,7 @@
     <title>Job Detail</title>
     <link rel="stylesheet" href="jobDetail.css">
     <link rel="stylesheet" href="../../General/header.css">
+    <link rel="stylesheet" href="../ApplyJob/applyJob.css">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="jobDetail.js" defer></script>
@@ -19,6 +20,31 @@
         </div>
 
     </div>
+    <div id="applyModal" class="modal hidden">
+  <div class="modal-overlay" onclick="closeApplyModal()"></div>
+
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="apply-form">
+      <h2>Apply for Job</h2>
+      <form id="applyForm">
+        <label>Full name</label>
+        <input type="text" id="fullname" name="fullname" required placeholder="Nhập họ tên">
+
+        <label>Email</label>
+        <input type="email" id="email" name="email" required placeholder="Nhập email">
+
+        <label>CV (PDF)</label>
+        <input type="file" id="cvFile" name="cv" accept=".pdf">
+        <div id="error-message-cv" class="error-message"></div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <script src="../ApplyJob/applyJob.js"></script>
+  <script src="../HomePage/Navbar.js"></script>
 </body>
 
 </html>

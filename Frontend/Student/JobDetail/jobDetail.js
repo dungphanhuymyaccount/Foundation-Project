@@ -85,5 +85,14 @@ function renderDetail(job) {
 }
 
 function applyNow() {
-    window.location.href = '../ApplyJob/applyJob.html'
+  const modal = document.getElementById("applyModal");
+  modal.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
 }
+
+function closeApplyModal() {
+  const modal = document.getElementById("applyModal");
+  modal.classList.add("hidden");
+  document.body.style.overflow = "";
+}
+

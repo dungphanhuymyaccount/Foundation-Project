@@ -130,92 +130,25 @@ ul.feature-list li {
   color: #2d2d2d;
 }
 
+.hidden { display: none !important;  }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+.modal{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-body {
-    background-color: #f3f3f3;
-    padding-top: 60px;
+.modal-overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.55);
 }
 
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #222;
-    padding: 5px 60px;
-    position: fixed;
-    top: 0;            /* Giữ header ở trên cùng */
-    left: 0;           /* Căn từ mép trái */
-    width: 100%;       /* Trải rộng toàn màn hình */
-    z-index: 1000;     /* Đè lên các phần tử khác khi cuộn */
-}
-    /*icon*/
-.icon{
-    vertical-align: middle;
-    margin-right: 5px;
-}
-.logo h2 {
-    color: #fff;
-    font-weight: 600;
-}
-
-
-nav ul {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 10px 40px;
-    background: #222;
-}
-
-.navi li {
-    position: relative;
-}
-
-.navi a {
-    color: #fff;
-    text-decoration: none;
-    padding: 6px 10px;
-    display: block;
-}
-
-.navi a:hover {
-    color: #00bcd4;
-    border-radius: 4px;
-}
-
-/*menu cấp 2*/
-.submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: #333;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-radius: 4px;
-    width: 100%;
-    min-width: 250px;
-}
-
-.submenu li a {
-    padding: 8px 20px;
-}
-
-
-.submenu li a:hover {
-    background: #555;
-}
-
-
-.navi li:hover>.submenu {
-    display: block;
+.modal-content{
+  position: relative;
+  z-index: 1;
+  width: min(560px, 92vw);
 }

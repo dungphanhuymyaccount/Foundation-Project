@@ -1,66 +1,53 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+.apply-form {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px 40px;
 }
 
-
-
-body {
-    min-height: 100vh;
-    justify-content: center;
-    align-items: center;
-    background-color: #f9f9f9;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding-top: 60px;
+h2 {
+  text-align: center;
 }
-  .apply-form {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 500px;
-    margin: auto;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    padding: 20px 40px;
-  }
-  h2 {
-    text-align: center;
-  }
-  label {
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
-    
-  }
-  input, textarea {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  button {
-    margin-top: 15px;
-    background: #0073e6;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100%;
-    font-size: 16px;
-  }
-  button:hover {
-    background: #005bb5;
-  }
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  margin-top: 15px;
+  background: #0073e6;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #005bb5;
+}
 
 /*error message của cv*/
 .error-message {
-    color: red;
-    font-size: 12px;
-    font-style: italic;
+  color: red;
+  font-size: 12px;
+  font-style: italic;
 
 }
