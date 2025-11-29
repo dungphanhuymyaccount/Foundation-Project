@@ -1,0 +1,156 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  background: #f4f6fb;
+  padding: 20px;
+}
+
+.cv-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 24px 32px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.cv-container h1 {
+  font-size: 26px;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.template-switch {
+  display: inline-flex;
+  border-radius: 999px;
+  background: #f0f1f7;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.template-switch button {
+  border: none;
+  padding: 8px 14px;
+  background: transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.template-switch button.active {
+  background: #2563eb;
+  color: #fff;
+}
+
+.cv-form {
+  border: 1px solid #e2e5f0;
+  border-radius: 12px;
+  padding: 16px 18px 20px;
+  margin-bottom: 16px;
+}
+
+.cv-form h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #e5e7f0;
+  padding-bottom: 8px;
+}
+
+.cv-section {
+  margin-top: 12px;
+}
+
+.cv-section label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.cv-section input,
+.cv-section textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5e3;
+  font-size: 14px;
+  outline: none;
+  resize: vertical;
+}
+
+.cv-section input:focus,
+.cv-section textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.15);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+/* Layout template 2 */
+.cv-layout-2col {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  gap: 16px;
+}
+
+.cv-col-left,
+.cv-col-right {
+  padding: 8px;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+/* Actions */
+.cv-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.save-cv {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #16a34a;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.save-cv:hover {
+  background: #15803d;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cv-layout-2col {
+    grid-template-columns: 1fr;
+  }
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
