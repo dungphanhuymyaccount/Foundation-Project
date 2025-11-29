@@ -219,3 +219,138 @@ nav ul {
 .navi li:hover>.submenu {
     display: block;
 }
+
+/* Job header */
+.job-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  margin: 80px auto 20px auto;
+  max-width: 900px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.company_logo img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.job-info h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #222;
+}
+
+.job-info h3 {
+  margin: 5px 0 0 0;
+  font-size: 18px;
+  color: #555;
+}
+
+/* Tabs */
+.tab-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  max-width: 900px;
+  margin: 0 auto 20px auto;
+}
+
+.tab-btn {
+  background: #f3f3f3;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  color: #555;
+}
+
+.tab-btn.active {
+  background: #fff;
+  border-bottom: 2px solid #3b82f6;
+  color: #3b82f6;
+}
+
+/* Tab content */
+.tab-content {
+  display: none;
+  max-width: 900px;
+  margin: 0 auto 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Job detail inside tab */
+#jobTabContent p, #companyTabContent p {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+#jobTabContent button.btn-apply {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+#jobTabContent button.btn-apply:hover {
+  opacity: 0.9;
+}
+
+#companyTabContent ul {
+  padding-left: 20px;
+}
+
+#companyTabContent li {
+  margin: 6px 0;
+}
+
+.divider {
+    margin: 10px 0;
+    border: 0;
+    border-top: 2px solid #ddd;
+}
+
+.other-jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.job-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.job-item:hover {
+    background: #f7f7f7;
+}
+
+.job-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 8px;
+}

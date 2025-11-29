@@ -188,3 +188,12 @@ document.getElementById("searchInput").addEventListener("keydown", (e) => {
         searchJob();
     }
 });
+
+function openJobDetail(jobId) {
+  const jobs = JSON.parse(localStorage.getItem("postedJobs")) || [];
+  const job = jobs.find(j => j.jobId === jobId);
+  if (!job) return;
+  localStorage.setItem("selected_job", JSON.stringify(job));
+  window.location.href = "../JobDetail/jobDetail.html";
+}
+window.openJobDetail = openJobDetail;

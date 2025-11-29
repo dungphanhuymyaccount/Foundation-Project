@@ -182,28 +182,39 @@
 							</div>
 							<div class="tab-pane fade" id="account-company">
 								<div class="card-body pb-2">
-									<div class="display-info">
+  									<div class="display-info">
+    									<div class="form-group-general">
+      										<label class="form-label">Current Company</label>
+      										<input type="text" class="form-control mb-1" />
+    									</div>
+    									<div class="form-group-general">
+      										<label class="form-label">Field</label>
+      										<input type="text" class="form-control mb-1" />
+    									</div>
+  									</div>
+
+  									<div class="display-info">
+    									<div class="form-group-general">
+      										<label class="form-label">Size</label>
+      										<input type="text" class="form-control mb-1" />
+    									</div>
 										<div class="form-group-general">
-											<label class="form-label">Current Company</label>
-											<input type="text" class="form-control mb-1" />
+    										<label for="companyAddress">Address</label>
+    										<input type="text" id="companyAddress" class="form-control mb-1">
 										</div>
-										<div class="form-group-general">
-											<label class="form-label">Field</label>
-											<input type="text" class="form-control mb-1" />
-										</div>
-									</div>
-									<div class="display-info">
-										<div class="form-group-general">
-											<label class="form-label">Size</label>
-											<input type="text" class="form-control mb-1" />
-										</div>
+  									</div>
+
+  										<div class="form-group-general mt-3">
+    										<label class="form-label">Company Introduction</label>
+   											<input type="text" class="form-control mb-1" placeholder="Giới thiệu ngắn về công ty..."/>
+    										<div id="error-introduction" class="error-message"></div>
+  										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 			<div class="text-right mt-3">
 				<button type="button" class="btn btn-primary" onclick="saveProfile()">
 					Save changes</button

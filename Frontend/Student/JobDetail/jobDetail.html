@@ -38,13 +38,44 @@
             </ul>
         </nav>
     </header>
-    <div class="container">
-        <div class="wrap">
-            <div id="job" class="card">Loading Job...</div>
-        </div>
-
+    <!-- Job Header -->
+  <div class="job-header">
+    <div class="company_logo"><img id="companyLogo" src="" alt="Company Logo"></div>
+    <div class="job-info">
+      <h1 id="jobTitle"></h1>
+      <h3 id="companyName"></h3>
     </div>
+  </div>
 
+  <!-- Tab buttons -->
+  <div class="tab-container">
+    <button class="tab-btn active" onclick="showJobTab()">Job Detail</button>
+    <button class="tab-btn" onclick="showCompanyTab()">Company Information</button>
+  </div>
+
+  <!-- Tab content -->
+  <div id="jobTab" class="tab-content active">
+    <div id="jobTabContent"></div>
+  </div>
+  <div id="companyTab" class="tab-content">
+    <div id="companyTabContent"></div>
+  </div>
+
+  <script src="jobDetail.js" defer></script>
+  <script>
+    function showJobTab(){
+      document.getElementById("jobTab").classList.add("active");
+      document.getElementById("companyTab").classList.remove("active");
+      document.querySelector(".tab-btn.active").classList.remove("active");
+      event.currentTarget.classList.add("active");
+    }
+    function showCompanyTab(){
+      document.getElementById("companyTab").classList.add("active");
+      document.getElementById("jobTab").classList.remove("active");
+      document.querySelector(".tab-btn.active").classList.remove("active");
+      event.currentTarget.classList.add("active");
+    }
+  </script>
    
 </body>
 
