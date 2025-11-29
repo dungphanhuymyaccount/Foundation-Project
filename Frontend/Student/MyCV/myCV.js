@@ -1,61 +1,53 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const cvPreview = document.getElementById("cvPreview");
-  const noCvMessage = document.getElementById("noCvMessage");
-  const editBtn = document.getElementById("editCvBtn");
-  const downloadBtn = document.getElementById("downloadPdfBtn");
+// ===== Helper: escape HTML =====
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
 
-  const latest = getLatestCV();
-  if (!latest || !latest.data) {
-    // Không có CV nào -> báo + cho quay lại trang tạo CV
-    noCvMessage.classList.remove("hidden");
-    cvPreview.classList.add("hidden");
-    return;
+// ===== Helper: per-student keys =====
+function getCurrentStudentId() {
+  const raw =
+    localStorage.getItem("current_student") ||
+    localStorage.getItem("current_user");
+
+  if (!raw) {
+    console.warn("No current_student found, using 'guest' id");
+    return "guest";
   }
 
-  const { templateId, data } = latest;
+  try {
+    const student = JSON.parse(raw);
+    return student.studentId || student.id || student.userId || "guest";
+  } catch (e) {
+    console.error("Cannot parse current_student", e);
+    return "guest";
+  }
+}
 
-  // Render CV ra preview
-  const html = buildCvHtml(data);
-  cvPreview.innerHTML = html;
-  cvPreview.classList.remove("hidden");
-  noCvMessage.classList.add("hidden");
+function getCvKey(studentId, templateId) {
+  return `cv_${studentId}_template_${templateId}`;
+}
 
-  // Nút Edit: quay lại trang CV Builder (đã load sẵn dữ liệu từ localStorage)
-  editBtn.addEventListener("click", () => {
-    window.location.href = "../CV_template/template.html";
-  });
+function getLastTemplateKey(studentId) {
+  return `cv_${studentId}_lastTemplateId`;
+}
 
-  // Nút Download PDF: dùng html2pdf để tạo file và tải xuống
-  downloadBtn.addEventListener("click", () => {
-    const element = cvPreview; // phần cần convert sang PDF
-    const fileName = (data.fullName ? data.fullName.replace(/\s+/g, "_") : "my_cv") + ".pdf";
-
-    const opt = {
-      margin:       10,
-      filename:     fileName,
-      image:        { type: "jpeg", quality: 0.98 },
-      html2canvas:  { scale: 2 },
-      jsPDF:        { unit: "mm", format: "a4", orientation: "portrait" }
-    };
-
-    // Gọi html2pdf để tạo và lưu file
-    html2pdf().set(opt).from(element).save();
-  });
-});
-
-/**
- * Lấy CV mới nhất từ localStorage
- */
+// ===== Get latest CV =====
 function getLatestCV() {
-  let templateId = localStorage.getItem("lastSavedTemplateId");
+  const studentId = getCurrentStudentId();
+  const lastKey = getLastTemplateKey(studentId);
+
+  let templateId = localStorage.getItem(lastKey);
 
   if (!templateId) {
-    if (localStorage.getItem("cvTemplate_1")) templateId = "1";
-    else if (localStorage.getItem("cvTemplate_2")) templateId = "2";
+    if (localStorage.getItem(getCvKey(studentId, "1"))) templateId = "1";
+    else if (localStorage.getItem(getCvKey(studentId, "2"))) templateId = "2";
     else return null;
   }
 
-  const raw = localStorage.getItem(`cvTemplate_${templateId}`);
+  const raw = localStorage.getItem(getCvKey(studentId, templateId));
   if (!raw) return null;
 
   try {
@@ -67,82 +59,171 @@ function getLatestCV() {
   }
 }
 
-/**
- * Build HTML cho CV preview từ data trong localStorage
- */
+// ===== Build CV HTML (không dùng placeholder text) =====
 function buildCvHtml(data) {
-  const fullName = data.fullName || "Your Name";
-  const jobTitle = data.jobTitle || "Your Job Title";
+  const fullName = data.fullName || "";
+  const jobTitle = data.jobTitle || "";
   const email = data.email || "";
   const phone = data.phone || "";
   const address = data.address || "";
   const linkedin = data.linkedin || "";
   const portfolio = data.portfolio || "";
-  const summary = data.summary || "";
+
+  const careerGoal = data.summary || "";
+  const skills = data.skills || "";
   const education = data.education || "";
   const experience = data.experience || "";
-  const skills = data.skills || "";
+  const hobbies = data.hobbies || "";
+  const avatar = data.avatar || "";
 
-  const contactParts = [];
-  if (email) contactParts.push(`<span>Email: ${escapeHtml(email)}</span>`);
-  if (phone) contactParts.push(`<span>Phone: ${escapeHtml(phone)}</span>`);
-  if (address) contactParts.push(`<span>Address: ${escapeHtml(address)}</span>`);
-  if (linkedin) contactParts.push(`<span>LinkedIn: ${escapeHtml(linkedin)}</span>`);
-  if (portfolio) contactParts.push(`<span>Portfolio: ${escapeHtml(portfolio)}</span>`);
+  const contactItems = [];
+  if (phone) contactItems.push(`<li>${escapeHtml(phone)}</li>`);
+  if (email) contactItems.push(`<li>${escapeHtml(email)}</li>`);
+  if (address) contactItems.push(`<li>${escapeHtml(address)}</li>`);
+  if (linkedin) contactItems.push(`<li>${escapeHtml(linkedin)}</li>`);
+  if (portfolio) contactItems.push(`<li>${escapeHtml(portfolio)}</li>`);
 
   return `
-    <div class="cv-header">
-      <div class="cv-name">${escapeHtml(fullName)}</div>
-      <div class="cv-title">${escapeHtml(jobTitle)}</div>
-      <div class="cv-contact">
-        ${contactParts.join(" ")}
-      </div>
+    <div class="cv-layout">
+      <aside class="cv-left">
+        <div class="cv-avatar">
+          ${avatar ? `<img src="${avatar}" alt="Avatar">` : ""}
+        </div>
+
+        <div class="cv-left-name">
+          <div class="cv-name">${escapeHtml(fullName)}</div>
+          <div class="cv-title">${escapeHtml(jobTitle)}</div>
+        </div>
+
+        ${
+          contactItems.length
+            ? `
+        <div class="cv-left-section">
+          <div class="cv-left-section-title">Thông tin liên hệ</div>
+          <div class="cv-left-section-content">
+            <ul class="cv-contact-list">
+              ${contactItems.join("")}
+            </ul>
+          </div>
+        </div>`
+            : ""
+        }
+
+        ${
+          careerGoal
+            ? `
+        <div class="cv-left-section">
+          <div class="cv-left-section-title">Mục tiêu nghề nghiệp</div>
+          <div class="cv-left-section-content">
+            ${escapeHtml(careerGoal)}
+          </div>
+        </div>`
+            : ""
+        }
+
+        ${
+          skills
+            ? `
+        <div class="cv-left-section">
+          <div class="cv-left-section-title">Kỹ năng</div>
+          <div class="cv-left-section-content">
+            ${escapeHtml(skills)}
+          </div>
+        </div>`
+            : ""
+        }
+
+        ${
+          hobbies
+            ? `
+        <div class="cv-left-section">
+          <div class="cv-left-section-title">Sở thích</div>
+          <div class="cv-left-section-content">
+            ${escapeHtml(hobbies)}
+          </div>
+        </div>`
+            : ""
+        }
+      </aside>
+
+      <main class="cv-right">
+        ${
+          education
+            ? `
+        <section class="cv-right-section">
+          <h2 class="cv-right-title">Học vấn</h2>
+          <div class="cv-right-content">
+${escapeHtml(education)}
+          </div>
+        </section>`
+            : ""
+        }
+
+        ${
+          experience
+            ? `
+        <section class="cv-right-section">
+          <h2 class="cv-right-title">Kinh nghiệm làm việc</h2>
+          <div class="cv-right-content">
+${escapeHtml(experience)}
+          </div>
+        </section>`
+            : ""
+        }
+      </main>
     </div>
-
-    ${summary
-      ? `
-      <div class="cv-section-block">
-        <div class="cv-section-title">Summary</div>
-        <div class="cv-section-content">${escapeHtml(summary)}</div>
-      </div>
-    `
-      : ""}
-
-    ${education
-      ? `
-      <div class="cv-section-block">
-        <div class="cv-section-title">Education</div>
-        <div class="cv-section-content">${escapeHtml(education)}</div>
-      </div>
-    `
-      : ""}
-
-    ${experience
-      ? `
-      <div class="cv-section-block">
-        <div class="cv-section-title">Experience / Projects</div>
-        <div class="cv-section-content">${escapeHtml(experience)}</div>
-      </div>
-    `
-      : ""}
-
-    ${skills
-      ? `
-      <div class="cv-section-block">
-        <div class="cv-section-title">Skills</div>
-        <div class="cv-section-content">${escapeHtml(skills)}</div>
-      </div>
-    `
-      : ""}
   `;
 }
 
-/**
- * Escape HTML cơ bản
- */
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
+// ===== MAIN =====
+document.addEventListener("DOMContentLoaded", () => {
+  const cvPreview = document.getElementById("cvPreview");
+  const editBtn = document.querySelector(".editCv");
+  const downloadBtn = document.querySelector(".downloadPdf");
+
+  const latest = getLatestCV();
+  let hasCv = false;
+
+  if (latest && latest.data) {
+    const data = latest.data;
+    const hasContent = Object.values(data).some((v) => {
+      if (typeof v !== "string") return false;
+      return v.trim() !== "";
+    });
+
+    if (hasContent) {
+      cvPreview.innerHTML = buildCvHtml(data);
+      cvPreview.classList.remove("hidden");
+      hasCv = true;
+    }
+  }
+
+  // Edit -> luôn cho quay lại template
+  editBtn.addEventListener("click", () => {
+    window.location.href = "../CV_template/template.html";
+  });
+
+  // Download PDF: chỉ cho khi đã có CV
+  downloadBtn.addEventListener("click", () => {
+    if (!hasCv) {
+      alert("Please create and save your CV before downloading.");
+      window.location.href = "../CV_template/template.html";
+      return;
+    }
+
+    const data = latest.data;
+    const element = cvPreview;
+    const fileName =
+      (data.fullName ? data.fullName.replace(/\s+/g, "_") : "my_cv") + ".pdf";
+
+    const opt = {
+      margin: 10,
+      filename: fileName,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
+
+    html2pdf().set(opt).from(element).save();
+  });
+});

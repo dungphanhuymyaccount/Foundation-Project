@@ -1,106 +1,125 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const templateButtons = document.querySelectorAll(".template-switch button");
-  const saveButtons = document.querySelectorAll(".save-cv");
+// ===== Helper: lấy studentId (nếu chưa login dùng "guest" để test) =====
+function getCurrentStudentId() {
+  const raw =
+    localStorage.getItem("current_student") ||
+    localStorage.getItem("current_user");
 
-  // Switch between templates
-  templateButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const templateId = btn.dataset.template;
-      showTemplate(templateId);
-    });
-  });
-
-  // Save CV on button click
-  saveButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const templateId = btn.dataset.template;
-      saveCV(templateId);
-    });
-  });
-
-  // Load saved data for both templates
-  ["1", "2"].forEach((id) => loadCV(id));
-
-  // If you want to open last edited template:
-  const last = localStorage.getItem("lastSavedTemplateId");
-  if (last) {
-    showTemplate(last);
-  } else {
-    showTemplate("1");
+  if (!raw) {
+    console.warn("No current_student found, using 'guest' id");
+    return "guest";
   }
+
+  try {
+    const student = JSON.parse(raw);
+    return student.studentId || student.id || student.userId || "guest";
+  } catch (e) {
+    console.error("Cannot parse current_student", e);
+    return "guest";
+  }
+}
+
+function getCvKey(studentId, templateId) {
+  return `cv_${studentId}_template_${templateId}`;
+}
+
+function getLastTemplateKey(studentId) {
+  return `cv_${studentId}_lastTemplateId`;
+}
+
+const state = {
+  studentId: null,
+  existingData: null, // giữ CV cũ (avatar…)
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  state.studentId = getCurrentStudentId();
+  console.log("studentId dùng cho CV:", state.studentId);
+
+  const form = document.getElementById("cvForm");
+  const saveBtn = document.getElementById("saveCvBtn");
+  const avatarInput = document.getElementById("avatarInput");
+  const avatarPreview = document.getElementById("avatarPreview");
+
+  // Load CV đã lưu nếu có
+  loadExistingCvAndFillForm(form, avatarPreview);
+
+  // Preview avatar
+  avatarInput.addEventListener("change", () => {
+    const file = avatarInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      avatarPreview.innerHTML = `<img src="${dataUrl}" alt="Avatar preview">`;
+
+      if (!state.existingData) state.existingData = {};
+      state.existingData.avatar = dataUrl;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Save CV
+  saveBtn.addEventListener("click", () => {
+    handleSaveCv(form);
+  });
 });
 
-function showTemplate(templateId) {
-  const forms = document.querySelectorAll(".cv-form");
-  const buttons = document.querySelectorAll(".template-switch button");
-
-  forms.forEach((form) => {
-    if (form.dataset.template === templateId) {
-      form.classList.remove("hidden");
-    } else {
-      form.classList.add("hidden");
-    }
-  });
-
-  buttons.forEach((btn) => {
-    if (btn.dataset.template === templateId) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
-    }
-  });
-}
-
-function saveCV(templateId) {
-  const form = document.querySelector(`.cv-form[data-template="${templateId}"]`);
-  if (!form) return;
-
-  const fields = form.querySelectorAll("input, textarea");
-  const data = {};
-
-  fields.forEach((el) => {
-    const key = el.name || el.id;
-    if (!key) return;
-    data[key] = el.value;
-  });
-
-  const payload = {
-    templateId,
-    data,
-    updatedAt: new Date().toISOString(),
-  };
-
-  // Save CV data and last used template
-  localStorage.setItem(`cvTemplate_${templateId}`, JSON.stringify(payload));
-  localStorage.setItem("lastSavedTemplateId", templateId);
-
-  // Optionally show a quick message
-  alert(`CV for Template ${templateId} has been saved! Redirecting to "My CV"...`);
-
-  // Redirect to My CV page (adjust path if needed)
-  window.location.href = "../MyCV/myCV.html";
-}
-
-function loadCV(templateId) {
-  const raw = localStorage.getItem(`cvTemplate_${templateId}`);
+function loadExistingCvAndFillForm(form, avatarPreview) {
+  const studentId = state.studentId;
+  const cvKey = getCvKey(studentId, "1");
+  const raw = localStorage.getItem(cvKey);
   if (!raw) return;
 
   try {
     const payload = JSON.parse(raw);
     const data = payload.data || {};
-    const form = document.querySelector(`.cv-form[data-template="${templateId}"]`);
-    if (!form) return;
+    state.existingData = data;
 
     Object.keys(data).forEach((key) => {
+      if (key === "avatar") return;
       const field =
-        form.querySelector(`[name="${key}"]`) ||
-        form.querySelector(`#${key}`);
-
-      if (field) {
-        field.value = data[key];
-      }
+        form.querySelector(`[name="${key}"]`) || form.querySelector(`#${key}`);
+      if (field) field.value = data[key];
     });
+
+    if (data.avatar) {
+      avatarPreview.innerHTML = `<img src="${data.avatar}" alt="Avatar">`;
+    }
   } catch (err) {
-    console.error("Error parsing CV data from localStorage:", err);
+    console.error("Error parsing existing CV:", err);
   }
+}
+
+function handleSaveCv(form) {
+  const studentId = state.studentId;
+
+  const formData = new FormData(form);
+  const data = {};
+
+  formData.forEach((value, key) => {
+    data[key] = value;
+  });
+
+  if (state.existingData && state.existingData.avatar) {
+    data.avatar = state.existingData.avatar;
+  }
+
+  const payload = {
+    templateId: "1",
+    studentId,
+    data,
+    updatedAt: new Date().toISOString(),
+  };
+
+  const cvKey = getCvKey(studentId, "1");
+  const lastKey = getLastTemplateKey(studentId);
+
+  localStorage.setItem(cvKey, JSON.stringify(payload));
+  localStorage.setItem(lastKey, "1");
+
+  console.log("Saved CV payload:", payload);
+
+  // chuyển sang My CV
+  window.location.href = "../MyCV/myCV.html";
 }
