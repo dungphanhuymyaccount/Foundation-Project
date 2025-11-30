@@ -212,3 +212,9 @@ nav ul li a:visited {
     white-space: pre-line;
     padding-left: 20px;
 }
+.error-message {
+	color: red;
+	font-size: 14px;
+	margin-top: 2px;
+	font-style: italic;
+}
