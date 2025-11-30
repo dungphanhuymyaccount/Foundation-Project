@@ -128,9 +128,9 @@ function getPersonalInputs() {
 		'.card-body input:not([type="file"])',
 	);
 	return {
-		fullName: allInputs[0],
-		dob: allInputs[1],
-		phone: allInputs[2],
+		employerName: allInputs[0],
+		birthday: allInputs[1],
+		phoneNumber: allInputs[2],
 		address: allInputs[3],
 		email: allInputs[4],
 	};
@@ -212,26 +212,26 @@ function loadPersonalProfile() {
 		return;
 	}
 	console.log("Đang load personal profile...");
-	const profileImage = document.querySelector(".ui-w-80");
+	const avatar = document.querySelector(".ui-w-80");
 	const inputs = getPersonalInputs();
 
 	const personalData = {
-		fullName: currentUser.employerName || "", // Key EmployerName
-		dob: convertToYYYYMMDD(currentUser.Birthday) || "",
-		phone: currentUser["Phone Number"] || "",
-		address: currentUser.Address || "",
+		employerName: currentUser.employerName || "", // Key EmployerName
+		birthday: convertToYYYYMMDD(currentUser.birthday) || "",
+		phoneNumber: currentUser.phoneNumber || "",
+		address: currentUser.address || "",
 		email: currentUser.email || "", // Key Email
-		companyName: currentUser.CompanyName || "",
-		profileImage: currentUser.Avatar || DEFAULT_AVATAR,
+		companyName: currentUser.companyName || "",
+		avatar: currentUser.avatar || DEFAULT_AVATAR,
 	};
 
-	if (inputs.fullName) inputs.fullName.value = personalData.fullName;
-	if (inputs.dob) inputs.dob.value = personalData.dob;
-	if (inputs.phone) inputs.phone.value = personalData.phone;
+	if (inputs.employerName) inputs.employerName.value = personalData.employerName;
+	if (inputs.birthday) inputs.birthday.value = personalData.birthday;
+	if (inputs.phoneNumber) inputs.phoneNumber.value = personalData.phoneNumber;
 	if (inputs.address) inputs.address.value = personalData.address;
 	if (inputs.email) inputs.email.value = personalData.email;
 	if (inputs.companyName) inputs.companyName.value = personalData.companyName;
-	if (profileImage) profileImage.src = personalData.profileImage;
+	if (avatar) avatar.src = personalData.avatar;
 
 	// Lưu bản gốc của dữ liệu (quan trọng để so sánh thay đổi email)
 	originalData = { ...personalData };
@@ -243,7 +243,7 @@ function loadPersonalProfile() {
 
 	console.log("Đã load personal profile:", personalData);
 	showNotification(
-		"Đã load thông tin cá nhân: " + personalData.fullName,
+		"Đã load thông tin cá nhân: " + personalData.employerName,
 		"success",
 	);
 }
@@ -254,8 +254,8 @@ function loadCompanyProfile() {
 
 	const companyData = {
 		companyName: currentUser.companyName || "",
-		field: currentUser.Field || "",
-		size: currentUser.Size || "",
+		field: currentUser.field || "",
+		size: currentUser.size || "",
 	};
 
 	if (inputs.companyName) inputs.companyName.value = companyData.companyName;
@@ -304,15 +304,15 @@ window.saveProfile = function () {
 function savePersonalProfile() {
 	if (!validatePersonalForm()) return false;
 	const inputs = getPersonalInputs();
-	const profileImage = document.querySelector(".ui-w-80");
+	const avatar = document.querySelector(".ui-w-80");
 
 	const newPersonalData = {
-		employerName: inputs.fullName?.value.trim() || "",
-		birthday: convertToMMDDYYYY(inputs.dob?.value.trim()) || "",
-		phoneNumber: inputs.phone?.value.trim() || "",
+		employerName: inputs.employerName?.value.trim() || "",
+		birthday: convertToMMDDYYYY(inputs.birthday?.value.trim()) || "",
+		phoneNumber: inputs.phoneNumber?.value.trim() || "",
 		address: inputs.address?.value.trim() || "",
 		email: inputs.email?.value.trim().toLowerCase() || "",
-		avatar: profileImage?.src || DEFAULT_AVATAR,
+		avatar: avatar?.src || DEFAULT_AVATAR,
 	};
 	const userIndex = allEmployers.findIndex(
 		(e) => e.Email === currentUser.Email,
@@ -326,22 +326,6 @@ function savePersonalProfile() {
 		currentUser = { ...allEmployers[userIndex] };
 		localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(currentUser));
 		saveAllEmployers();
-
-		if (originalData.email !== newPersonalData.Email) {
-			localStorage.setItem(LOGGED_IN_EMAIL_KEY, newPersonalData.Email);
-			showNotification(
-				`Email đã thay đổi từ ${originalData.email} sang ${newPersonalData.Email}. Trang sẽ tải lại.`,
-				"info",
-			);
-			setTimeout(initializePage, 500);
-		}
-		return true;
-	} else {
-		showNotification(
-			"Lỗi: Không tìm thấy Employer trong CSDL để cập nhật.",
-			"error",
-		);
-		return false;
 	}
 }
 
@@ -416,32 +400,32 @@ function validatePersonalForm() {
 		(input) => input && input.classList.remove("is-invalid"),
 	);
 
-	if (inputs.fullName && inputs.fullName.value.trim() === "") {
+	if (inputs.employerName && inputs.employerName.value.trim() === "") {
 		errorFullName.innerHTML = "<p>Vui lòng nhập họ và tên.</p>";
-		inputs.fullName.classList.add("is-invalid");
+		inputs.employerName.classList.add("is-invalid");
 		isValid = false;
 	} else {
 		errorFullName.innerHTML = "";
 	}
 
 	if (
-		inputs.phone &&
-		inputs.phone.value.trim() !== "" &&
-		inputs.phone.value.trim().length < 10
+		inputs.phoneNumber &&
+		inputs.phoneNumber.value.trim() !== "" &&
+		inputs.phoneNumber.value.trim().length < 10
 	) {
 		errorPhone.innerHTML = "<p>Số điện thoại phải có ít nhất 10 chữ số.</p>";
-		inputs.phone.classList.add("is-invalid");
+		inputs.phoneNumber.classList.add("is-invalid");
 		isValid = false;
 	} else {
 		errorPhone.innerHTML = "";
 	}
 
-	if (inputs.dob && inputs.dob.value !== "") {
-		const dob = new Date(inputs.dob.value);
+	if (inputs.birthday && inputs.birthday.value !== "") {
+		const birthday = new Date(inputs.birthday.value);
 		const today = new Date();
-		if (dob.getTime() > today.getTime()) {
+		if (birthday.getTime() > today.getTime()) {
 			errorDob.innerHTML = "<p>Ngày sinh không được trong tương lai.</p>";
-			inputs.dob.classList.add("is-invalid");
+			inputs.birthday.classList.add("is-invalid");
 			isValid = false;
 		} else {
 			errorDob.innerHTML = "";
@@ -555,9 +539,9 @@ function handleImageUpload(event) {
 	}
 	const reader = new FileReader();
 	reader.onload = function (e) {
-		const profileImage = document.querySelector(".ui-w-80");
-		if (profileImage) {
-			profileImage.src = e.target.result;
+		const avatar = document.querySelector(".ui-w-80");
+		if (avatar) {
+			avatar.src = e.target.result;
 			showNotification("Đã tải ảnh lên. Nhấn Save để lưu.", "info");
 		}
 	};
@@ -565,10 +549,10 @@ function handleImageUpload(event) {
 }
 
 window.resetPhoto = function () {
-	const profileImage = document.querySelector(".ui-w-80");
+	const avatar = document.querySelector(".ui-w-80");
 	const uploadInput = document.querySelector(".account-settings-fileinput");
-	if (profileImage) {
-		profileImage.src = currentUser?.Avatar || DEFAULT_AVATAR; // Dùng optional chaining
+	if (avatar) {
+		avatar.src = currentUser?.Avatar || DEFAULT_AVATAR; // Dùng optional chaining
 	}
 	if (uploadInput) {
 		uploadInput.value = "";
