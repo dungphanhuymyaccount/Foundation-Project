@@ -1,3 +1,28 @@
+//Lấy studentID từ current_user trong local(tương tự phần template.js)
+function getCurrentStudentId() {
+  try {
+    const userData=JSON.parse(localStorage.getItem("current_user") || "null");
+    const StudentID=userData && userData.StudentID;
+    if(!StudentID){
+      console.warn("Not found StudentID in current_user.");
+      return null;
+    }
+    return StudentID;
+  } catch (e) {
+    console.error("Can not parse current_user from localStorage:", e);
+    return null;
+  }
+}
+//tạo key cho cv theo StudentID
+function getCvKey(StudentID, templateId) {
+  return `cv_${StudentID}_template_${templateId}`;
+}
+
+function getLastTemplateKey(StudentID) {
+  return `cv_${StudentID}_lastTemplateId`;
+}
+
+
 // ===== Helper: escape HTML =====
 function escapeHtml(str) {
   return String(str)
@@ -6,58 +31,7 @@ function escapeHtml(str) {
     .replace(/>/g, "&gt;");
 }
 
-// ===== Helper: per-student keys =====
-function getCurrentStudentId() {
-  const raw =
-    localStorage.getItem("current_student") ||
-    localStorage.getItem("current_user");
 
-  if (!raw) {
-    console.warn("No current_student found, using 'guest' id");
-    return "guest";
-  }
-
-  try {
-    const student = JSON.parse(raw);
-    return student.studentId || student.id || student.userId || "guest";
-  } catch (e) {
-    console.error("Cannot parse current_student", e);
-    return "guest";
-  }
-}
-
-function getCvKey(studentId, templateId) {
-  return `cv_${studentId}_template_${templateId}`;
-}
-
-function getLastTemplateKey(studentId) {
-  return `cv_${studentId}_lastTemplateId`;
-}
-
-// ===== Get latest CV =====
-function getLatestCV() {
-  const studentId = getCurrentStudentId();
-  const lastKey = getLastTemplateKey(studentId);
-
-  let templateId = localStorage.getItem(lastKey);
-
-  if (!templateId) {
-    if (localStorage.getItem(getCvKey(studentId, "1"))) templateId = "1";
-    else if (localStorage.getItem(getCvKey(studentId, "2"))) templateId = "2";
-    else return null;
-  }
-
-  const raw = localStorage.getItem(getCvKey(studentId, templateId));
-  if (!raw) return null;
-
-  try {
-    const payload = JSON.parse(raw);
-    return { templateId: payload.templateId, data: payload.data || {} };
-  } catch (err) {
-    console.error("Error parsing CV data:", err);
-    return null;
-  }
-}
 
 // ===== Build CV HTML (không dùng placeholder text) =====
 function buildCvHtml(data) {
@@ -82,7 +56,7 @@ function buildCvHtml(data) {
   if (address) contactItems.push(`<li>${escapeHtml(address)}</li>`);
   if (linkedin) contactItems.push(`<li>${escapeHtml(linkedin)}</li>`);
   if (portfolio) contactItems.push(`<li>${escapeHtml(portfolio)}</li>`);
-
+//trả về thông tin của phần template dưới dạng html
   return `
     <div class="cv-layout">
       <aside class="cv-left">
@@ -175,73 +149,104 @@ ${escapeHtml(experience)}
   `;
 }
 
-// ===== MAIN =====
+// ===== Get latest CV =====
+function getLatestCV(StudentID) {
+  const lastKey = getLastTemplateKey(StudentID);
+
+  let templateId = localStorage.getItem(lastKey);
+
+  if (!templateId) {
+    if (localStorage.getItem(getCvKey(StudentID, "1"))) templateId = "1";
+    else if (localStorage.getItem(getCvKey(StudentID, "2"))) templateId = "2";
+    else return null;
+  }
+
+  
+  if (!localStorage.getItem(getCvKey(StudentID, templateId))) return null;
+
+  try {
+    const payload = JSON.parse(localStorage.getItem(getCvKey(StudentID, templateId)));
+    return { templateId: payload.templateId, data: payload.data || {} };
+  } catch (err) {
+    console.error("Error parsing CV data:", err);
+    return null;
+  }
+}
+
+let StudentID=null;//như bên template.js)
 document.addEventListener("DOMContentLoaded", () => {
   const cvPreview = document.getElementById("cvPreview");
   const editBtn = document.querySelector(".editCv");
   const downloadBtn = document.querySelector(".downloadPdf");
-
-  const latest = getLatestCV();
-  let hasCv = false;
-
-  if (latest && latest.data) {
-    const data = latest.data;
-    const hasContent = Object.values(data).some((v) => {
-      if (typeof v !== "string") return false;
-      return v.trim() !== "";
-    });
-
-    if (hasContent) {
-      cvPreview.innerHTML = buildCvHtml(data);
-      cvPreview.classList.remove("hidden");
-      hasCv = true;
-    }
+//kiểm tra xem đã loogin chưa
+  StudentID = getCurrentStudentId();
+  if (!StudentID) {
+    alert("You need to log in to view your CV.");
+    window.location.href = "../../General/Login/Login.html";
+    return;
   }
-
-  // Edit -> luôn cho quay lại template
-  editBtn.addEventListener("click", () => {
-    window.location.href = "../CV_template/template.html";
-  });
-
-  // Download PDF: chỉ cho khi đã có CV
-downloadBtn.addEventListener("click", () => {
-  if (!hasCv) {
-    alert("Please create and save your CV before downloading.");
+//lấy cv mới nhất trong localstorage
+  const latest = getLatestCV(StudentID);
+  if (!latest || !latest.data) {
+    // chưa có CV nào , quay về template để tạo
     window.location.href = "../CV_template/template.html";
     return;
   }
 
   const data = latest.data;
-  const element = cvPreview;
-  const fileName =
-    (data.fullName ? data.fullName.replace(/\s+/g, "_") : "my_cv") + ".pdf";
 
-  const opt = {
-    // có thể để 10 hoặc dùng mảng [top, right, bottom, left]
-    margin: 10,
-    filename: fileName,
+  // Optional: nếu tất cả trường đều rỗng -> coi như chưa có CV
+  const hasContent = Object.values(data).some((v) => {
+    if (typeof v !== "string") return false;
+    return v.trim() !== "";
+  });
 
-    image: { type: "jpeg", quality: 0.98 },
+  if (!hasContent && !data.avatar) {
+    window.location.href = "../CV_template/template.html";
+    return;
+  }
 
-    html2canvas: {
-      scale: 2,
-      useCORS: true,
-      scrollY: 0
-    },
+  // Render CV ra màn
+  cvPreview.innerHTML = buildCvHtml(data);
+  cvPreview.classList.remove("hidden");
 
-    // "slice" = kéo phần thừa sang trang tiếp theo
-    pagebreak: {
-      mode: ["slice"], 
-    },
+  //Nút Edit để quay lại Template
+  if (editBtn) {
+    editBtn.addEventListener("click", () => {
+      window.location.href = "../CV_template/template.html";
+    });
+  }
 
-    jsPDF: {
-      unit: "mm",
-      format: "a4",
-      orientation: "portrait",
-    },
-  };
 
-  html2pdf().set(opt).from(element).save();
-});
+  // Download PDF chỉ cho khi đã có CV
+if (downloadBtn) {
+  downloadBtn.addEventListener("click", () => {
+    const element = cvPreview;
+    const fileName =
+      (data.fullName ? data.fullName.replace(/\s+/g, "_") : "my_cv") + ".pdf";
+//cài đặt cấu hình cho file pdf
+    const opt = {
+      margin: 10,
+      filename: fileName,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        scrollY: 0,
+      },
+      //chia trang khi tràn sang trang mới
+      pagebreak: {
+        mode: ["slice"],
+      },
+      jsPDF: {
+        unit: "mm",
+        format: "a4",
+        orientation: "portrait",
+      },
+    };
+
+    html2pdf().set(opt).from(element).save();
+  });
+}
 
 });
