@@ -103,7 +103,8 @@ async function handleSubmit() {
 addNotificationToStorage({
     avatar: newJobData.avatar, // logo công ty (base64)
     content: `<b>${newJobData.companyName}</b> posted a new job: <b>${newJobData.jobTitle}</b>.`,
-    jobId: newJobData.jobId
+    jobId: newJobData.jobId,
+    recipientId: newJobData.userId // owner/employer id who should receive this notification
 });
     
     alert('Job posted successfully! Data saved locally.');

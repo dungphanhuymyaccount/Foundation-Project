@@ -38,6 +38,7 @@ function createNotification(data) {
         content: data.content || "",
         time: new Date().toLocaleString(),
         jobId: data.jobId || null,
+        recipientId: data.recipientId || null, // optional: employer id or target user id
         dot: true
     };
 }
@@ -46,6 +47,7 @@ function createNotification(data) {
 function addNotificationToStorage(noti) {
     let storage = JSON.parse(localStorage.getItem("notifications"));
 
+    // Giữ lại recipientId nếu có để UI có thể lọc thông báo cho từng người dùng
     storage.recent.unshift(createNotification(noti));
 
     if (storage.recent.length > MAX_RECENT_NOTIFICATIONS) {

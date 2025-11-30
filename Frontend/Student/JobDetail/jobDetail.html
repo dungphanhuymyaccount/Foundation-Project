@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Detail</title>
     <link rel="stylesheet" href="jobDetail.css">
+    <link rel="stylesheet" href="../HomePage/Student-homepage-style.css">
     <link rel="stylesheet" href="../../General/header.css">
     <link rel="stylesheet" href="../ApplyJob/applyJob.css">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -14,12 +15,38 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="wrap">
-            <div id="job" class="card">Loading Job...</div>
-        </div>
-
+  <header>
+    <div class="logo">
+      <h2><a href="../../../index.html" style="text-decoration: none; color: #fff;">Work Hub</a></h2>
     </div>
+    <nav class="navi">
+      <ul>
+        <li><a href="../HomePage/Student-homepage.html" class="menu_btn">Find Job</a></li>
+        <li>
+          <a href="../MyCV/myCV.html" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My CV</a>
+        </li>
+        <li>
+          <a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon class="icon" name="notifications-outline"></ion-icon>
+            Notification</a>
+        </li>
+        <li>
+          <a href="#" class="menu_btn" id="current-user"><ion-icon class="icon" name="person-circle-outline"></ion-icon>Account</a>
+          <ul class="submenu">
+            <li><a href="../Edit_Student_Profile/Edit_Student_Profile.html" class="submenu1"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
+            <li><a href="#" id="log-out" class="submenu2"><ion-icon class="icon" name="log-out-outline" ></ion-icon>Log out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+  <div class="container">
+    <div class="wrap">
+      <div id="job" class="card">Loading Job...</div>
+    </div>
+
+  </div>
     <div id="applyModal" class="modal hidden">
   <div class="modal-overlay" onclick="closeApplyModal()"></div>
 
@@ -43,8 +70,42 @@
   </div>
 </div>
 
-  <script src="../ApplyJob/applyJob.js"></script>
-  <script src="../HomePage/Navbar.js"></script>
-</body>
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-about" id="footer-col">
+          <h2>Work Hub</h2>
+          <p>
+            Work Hub is your trusted job portal helping students and
+            professionals find their dream careers quickly and easily.
+          </p>
+        </div>
+
+        <div class="footer-link" id="footer-col">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#">Find Job</a></li>
+            <li><a href="#">My CV</a></li>
+            <li><a href="#">Notifications</a></li>
+            <li><a href="#">Account</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact" id="footer-col">
+          <h3>Contact Us</h3>
+          <p><ion-icon class="icon" name="mail-outline"></ion-icon> support@workhub.com</p>
+          <p><ion-icon class="icon" name="call-outline"></ion-icon> +84 123 456 789</p>
+          <p><ion-icon class="icon" name="location-outline"></ion-icon> Hà Nội, Việt Nam</p>
+        </div>
+      </div>
+      <p style="text-align: center; padding-top: 20px">
+        © 2025 Work Hub | All rights reserved.
+      </p>
+    </footer>
+
+    </main>
+
+    <script src="../ApplyJob/applyJob.js"></script>
+    <script src="../HomePage/Navbar.js"></script>
+  </body>
 
 </html>

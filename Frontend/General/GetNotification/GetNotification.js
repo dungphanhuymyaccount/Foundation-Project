@@ -9,8 +9,18 @@ function loadNotifications() {
     localStorage.setItem("notifications", JSON.stringify(data));
   }
 
-  renderNotifications("recent-container", data.recent);
-  renderNotifications("older-notifications", data.older);
+  // If current user is an employer, filter notifications to only those addressed to them
+  const current = (localStorage.getItem('current_user')) ? JSON.parse(localStorage.getItem('current_user')) : null;
+  let recentToShow = data.recent || [];
+  let olderToShow = data.older || [];
+
+  if (current && current.role === 'Employer' && current.EmployerID) {
+    recentToShow = recentToShow.filter(n => !n.recipientId || n.recipientId === current.EmployerID);
+    olderToShow = olderToShow.filter(n => !n.recipientId || n.recipientId === current.EmployerID);
+  }
+
+  renderNotifications("recent-container", recentToShow);
+  renderNotifications("older-notifications", olderToShow);
 }
 
 function renderNotifications(containerId, list) {

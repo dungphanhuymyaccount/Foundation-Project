@@ -43,7 +43,7 @@ function jobDetail(jobId) {
     let selectedJob = postedJobs.find(job => job.jobId === jobId);
     if (selectedJob) {
         localStorage.setItem("selected_job_ID", JSON.stringify(jobId));
-        window.open("../JobDetail/jobDetail.html", "_blank");
+        window.location.href = "../JobDetail/jobDetail.html";
     }else {
         alert("del lưu được job id của mày");
     }
