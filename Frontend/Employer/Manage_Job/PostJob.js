@@ -5,7 +5,7 @@
  * Xóa nội dung form
  */
 function clearForm() {
-    const formElements = document.querySelectorAll('#jobTitle, #field, #description, #companyName, #salary, #location, #experienceMin, #experienceMax, #experienceCurrency, #requirement, #deadline, #benefit, #numberOfVacancy, #avatar');
+    const formElements = document.querySelectorAll('#jobTitle, #field, #description, #salary, #location, #experienceMin, #experienceMax, #experienceCurrency, #requirement, #deadline, #benefit, #numberOfVacancy, #avatar');
 
     formElements.forEach(element => {
         if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
@@ -27,27 +27,30 @@ async function handleSubmit() {
     const jobTitle = document.getElementById('jobTitle').value.trim();
     const field = document.getElementById('field').value.trim();
     const description = document.getElementById('description').value.trim();
-    const companyName = document.getElementById('companyName').value.trim();
-    
+    const jobCompanyName = currentUser && currentUser.companyName ? currentUser.companyName : 'Unknown Company';
+    if (jobCompanyName === 'Unknown Company' || !currentUser.EmployerID) {
+        alert('Error: Employer data (Company Name or User ID) is missing. Please log in again.');
+        return;
+    }    
     const salary = document.getElementById('salary').value.trim();
-    
     const location = document.getElementById('location').value.trim();
-    
     const experienceMin = document.getElementById('experienceMin').value.trim();
     const experienceMax = document.getElementById('experienceMax').value.trim();
-    const experienceCurrency = document.getElementById('experienceCurrency').value.trim();
-    
+    const experienceCurrency = document.getElementById('experienceCurrency').value.trim();    
     const requirement = document.getElementById('requirement').value.trim();
     const deadline = document.getElementById('deadline').value.trim();
     const benefit = document.getElementById('benefit').value.trim();
     const numberOfVacancy = document.getElementById('numberOfVacancy').value.trim();
     
-    const avatarInput = document.getElementById('avatar');
-    const avatarFile = avatarInput.files.length > 0 ? avatarInput.files[0] : null;
+    const companyAvatar = currentUser && currentUser.avatar ? currentUser.avatar : 'Unknown Company';
+    if (companyAvatar === 'Unknown Company' || !currentUser.EmployerID) {
+        alert('Error: Employer data is missing. Please log in again.');
+        return;
+    }
 
     // Validation
     if (
-        !jobTitle || !field || !description || !companyName || 
+        !jobTitle || !field || !description || 
         !salary || !location ||
         !experienceMin || !experienceMax || !experienceCurrency || 
         !requirement || !deadline || !benefit || !numberOfVacancy
@@ -61,22 +64,12 @@ async function handleSubmit() {
     const minExp = parseInt(experienceMin);
     const maxExp = parseInt(experienceMax);
 
-    // Đọc file avatar
-    let avatarBase64 = null;
-    try {
-        avatarBase64 = await convertFileToBase64(avatarFile);
-    } catch (error) {
-        console.error("Error reading file:", error);
-        alert("Error reading image file. Please try again.");
-        return;
-    }
-
     // Tạo object job mới
     const newJobData = {
         jobId: generateJobId(),
         jobTitle: jobTitle,
         field: field,
-        companyName: companyName,
+        companyName: jobCompanyName,
         description: description,
         location: location,
         salary: Sal,
@@ -89,7 +82,7 @@ async function handleSubmit() {
         deadline: deadline,
         benefit: benefit,
         numberOfVacancy: parseInt(numberOfVacancy),
-        avatar: avatarBase64,
+        avatar: companyAvatar, // logo công ty (base64)
         postDate: Date.now(),
         userId: currentUser && currentUser.EmployerID ? currentUser.EmployerID : 'GUEST'
     };

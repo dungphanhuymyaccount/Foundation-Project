@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="shared.js"></script>  <!-- ✅ Load shared trước -->
+    <script src="shared.js"></script>
     <script src="PostJob.js"></script>
 </head>
 <body>
@@ -58,11 +58,6 @@
             </div>
 
             <div class="form-group">
-                <label for="companyName">Company Name:</label>
-                <input type="text" id="companyName" name="companyName" placeholder="e.g. SamSung" required>
-            </div>
-
-            <div class="form-group">
                 <label for="salary">Salary:</label>
                 <input type="number" id="salary" name="salary" placeholder="e.g. 10000000" required>
             </div>
@@ -105,12 +100,6 @@
                 <label for="numberOfVacancy">Vacancy:</label>
                 <input type="number" id="numberOfVacancy" name="numberOfVacancy" placeholder="e.g. 3" required>
             </div>
-            
-            <div class="form-group">
-                <label for="avatar">Company Logo:</label> 
-                <input type="file" id="avatar" name="avatar" accept="image/jpeg, image/png">
-            </div>
-
 
             <input type="button" value="Submit" id="submit" onclick="handleSubmit()">
         </form>
@@ -119,6 +108,5 @@
     <footer>
         <p>&copy; 2025 . All rights reserved.</p>
     </footer>
-    <script src="../HomePage_Employee/Homepage.js"></script>
 </body>
 </html>
