@@ -204,26 +204,44 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Download PDF: chỉ cho khi đã có CV
-  downloadBtn.addEventListener("click", () => {
-    if (!hasCv) {
-      alert("Please create and save your CV before downloading.");
-      window.location.href = "../CV_template/template.html";
-      return;
-    }
+downloadBtn.addEventListener("click", () => {
+  if (!hasCv) {
+    alert("Please create and save your CV before downloading.");
+    window.location.href = "../CV_template/template.html";
+    return;
+  }
 
-    const data = latest.data;
-    const element = cvPreview;
-    const fileName =
-      (data.fullName ? data.fullName.replace(/\s+/g, "_") : "my_cv") + ".pdf";
+  const data = latest.data;
+  const element = cvPreview;
+  const fileName =
+    (data.fullName ? data.fullName.replace(/\s+/g, "_") : "my_cv") + ".pdf";
 
-    const opt = {
-      margin: 10,
-      filename: fileName,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    };
+  const opt = {
+    // có thể để 10 hoặc dùng mảng [top, right, bottom, left]
+    margin: 10,
+    filename: fileName,
 
-    html2pdf().set(opt).from(element).save();
-  });
+    image: { type: "jpeg", quality: 0.98 },
+
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      scrollY: 0
+    },
+
+    // "slice" = kéo phần thừa sang trang tiếp theo
+    pagebreak: {
+      mode: ["slice"], 
+    },
+
+    jsPDF: {
+      unit: "mm",
+      format: "a4",
+      orientation: "portrait",
+    },
+  };
+
+  html2pdf().set(opt).from(element).save();
+});
+
 });
