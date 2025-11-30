@@ -193,6 +193,7 @@ document.getElementById("applyForm").addEventListener("submit", async (e) => {
 
 
     } catch (error) {
+        alert("Error: " + error);
         console.error("Error submitting application:", error);
         msg.innerHTML = "<p>An error occurred while submitting. Please try again.</p>";
     }
