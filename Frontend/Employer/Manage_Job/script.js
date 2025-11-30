@@ -1,20 +1,20 @@
-// File: script.js (Cho chức năng Manage Candidates)
+// File: script.js (For Manage Candidates feature)
 
 let allApplications = [];
 let allCvData = [];
-let candidates = []; // Danh sách ứng viên đã lọc cho Job hiện tại
+let candidates = []; // Filtered candidate list for the current Job
 let filteredCandidates = [];
 let selectedTab = 'all';
 let searchTerm = '';
 let filterStatus = 'all';
 let currentJobId = null;
 
-// Hàm Utility: Định dạng ngày (Dùng cho Applied Date)
+// Utility Function: Format Date (Used for Applied Date)
 function formatDate(dateString) {
     return dateString || 'N/A';
 }
 
-// Hàm Utility: Lấy chữ cái đầu
+// Utility Function: Get Initials
 function getInitials(name) {
     const names = name.split(' ');
     if (names.length >= 2) {
@@ -23,40 +23,33 @@ function getInitials(name) {
     return names[0] ? names[0][0].toUpperCase() : 'U';
 }
 
-// 💥 LOAD DỮ LIỆU TỪ LOCAL STORAGE VÀ LỌC THEO JOB ID 💥
+// 💥 LOAD DATA FROM LOCAL STORAGE AND FILTER BY JOB ID 💥
 function loadCandidates() {
-    // 1. Lấy Job ID đang được quản lý
+    // 1. Get the currently managed Job ID
     currentJobId = JSON.parse(localStorage.getItem("managing_job_ID"));
 
     if (!currentJobId) {
         document.getElementById('candidateList').innerHTML = 
-            '<div class="empty-state">Lỗi: Không tìm thấy ID công việc đang quản lý. Vui lòng quay lại trang Manage Job.</div>';
+            '<div class="empty-state">Error: No managing job ID found. Please return to the Manage Job page.</div>';
         return;
     }
 
-    // 2. Tải tất cả ứng tuyển và CV Data
+    // 2. Load all applications and CV Data
     allApplications = JSON.parse(localStorage.getItem('applications')) || [];
     allCvData = JSON.parse(localStorage.getItem('cvData')) || [];
     
-    // 3. Lọc danh sách ứng viên chỉ cho Job hiện tại
+    // 3. Filter the candidate list for the current Job only
     candidates = allApplications
         .filter(app => app.jobId === currentJobId)
         .map((app, index) => ({
-            // Ánh xạ từ applications metadata sang object Candidate để hiển thị
-            id: index + 1, // ID tạm thời cho hiển thị
+            // Map applications metadata to a Candidate object for display
             cvId: app.CvId, 
             name: app.fullName,
             email: app.email,
-            // SỬ DỤNG PLACEHOLDERS VÌ THIẾU DỮ LIỆU CHI TIẾT
-            phone: 'N/A', 
-            address: 'N/A',
-            summary: 'Thông tin tóm tắt không khả dụng (Chỉ có trong file CV)',
-            skills: ['PDF CV', 'Dữ liệu thô'], 
             appliedDate: app.applyDate,
-            status: app.status.toLowerCase() // Đảm bảo status là chữ thường
+            status: app.status.toLowerCase() // Ensure status is lowercase
         }));
-
-    // Cập nhật giao diện
+    // Update UI
     updateStats();
     updateCounts();
     filterAndDisplay();
@@ -107,7 +100,7 @@ function displayCandidates() {
     const candidateList = document.getElementById('candidateList');
     
     if (filteredCandidates.length === 0) {
-        candidateList.innerHTML = '<div class="empty-state">Không tìm thấy ứng viên nào khớp với tiêu chí lọc.</div>';
+        candidateList.innerHTML = '<div class="empty-state">No candidates found matching the filter criteria.</div>';
         return;
     }
 
@@ -119,7 +112,6 @@ function displayCandidates() {
                     <div class="candidate-top">
                         <div>
                             <h3 class="candidate-name">${candidate.name}</h3>
-                            <p class="candidate-position">${candidate.summary}</p>
                         </div>
                         ${getStatusBadge(candidate.status)}
                     </div>
@@ -128,31 +120,16 @@ function displayCandidates() {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                             ${candidate.email}
                         </span>
-                        <span class="detail-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                            ${candidate.phone}
-                        </span>
-                        <span class="detail-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                            N/A
-                        </span>
-                    </div>
-                    
-                    <div class="skills-container">
-                        ${candidate.skills.slice(0, 5).map(skill => 
-                            `<span class="skill-tag">${skill}</span>`
-                        ).join('')}
-                        ${candidate.skills.length > 5 ? `<span class="skill-tag">+${candidate.skills.length - 5} more</span>` : ''}
                     </div>
 
                     <div class="candidate-actions">
                         <button class="btn btn-primary" onclick="viewDetail(${candidate.id})">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                            Xem Chi Tiết
+                            View Detail
                         </button>
                         <button class="btn btn-secondary" onclick="downloadCV('${candidate.cvId}', '${candidate.name}')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                            Tải CV
+                            Download CV
                         </button>
                     </div>
                 </div>
@@ -165,17 +142,17 @@ function displayCandidates() {
 function getStatusBadge(status) {
     const badges = {
         pending: {
-            text: 'Chờ xử lý',
+            text: 'Pending',
             class: 'pending',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
         },
         approved: {
-            text: 'Đã chấp nhận',
+            text: 'Approved',
             class: 'approved',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
         },
         rejected: {
-            text: 'Đã từ chối',
+            text: 'Rejected',
             class: 'rejected',
             icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>'
         }
@@ -203,7 +180,6 @@ function viewDetail(candidateId) {
                 <div class="modal-name-section">
                     <div>
                         <h3 class="modal-name">${candidate.name}</h3>
-                        <p class="modal-position">${candidate.summary}</p>
                     </div>
                     ${getStatusBadge(candidate.status)}
                 </div>
@@ -218,42 +194,24 @@ function viewDetail(candidateId) {
                     <div class="modal-detail-item">
                         <strong>CV ID:</strong><span>${candidate.cvId}</span>
                     </div>
-                    <div class="modal-detail-item">
-                        <strong>Phone:</strong><span>${candidate.phone}</span>
-                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="modal-section">
-            <h4>Work Experience & Skills</h4>
-            <div class="info-box">
-                <p>⚠️ **Lưu ý**: Thông tin chi tiết (Kinh nghiệm, Kỹ năng, Học vấn) không được lưu trong metadata hồ sơ. Vui lòng **Tải CV** để xem đầy đủ.</p>
-            </div>
-        </div>
         
-        <div class="modal-section">
-            <h4>Application Information</h4>
-            <div class="info-box">
-                <p><strong>Applied Date:</strong> ${formatDate(candidate.appliedDate)}</p>
-                <p><strong>Status:</strong> ${getStatusText(candidate.status)}</p>
-            </div>
-        </div>
-
         <div class="modal-actions">
             ${candidate.status === 'pending' ? `
                 <button class="btn btn-approve" onclick="updateStatus(${candidate.id}, 'approved')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    Chấp nhận
+                    Approve
                 </button>
                 <button class="btn btn-reject" onclick="updateStatus(${candidate.id}, 'rejected')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
-                    Từ chối
+                    Reject
                 </button>
             ` : ''}
             <button class="btn btn-secondary" onclick="downloadCV('${candidate.cvId}', '${candidate.name}')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                Tải CV
+                Download CV
             </button>
         </div>
     `;
@@ -261,12 +219,12 @@ function viewDetail(candidateId) {
     document.getElementById('detailModal').classList.add('active');
 }
 
-// Get status text
+// Get status text (Kept for consistency, though not heavily used)
 function getStatusText(status) {
     const statusMap = {
-        'pending': 'Chờ xử lý',
-        'approved': 'Đã chấp nhận',
-        'rejected': 'Đã từ chối'
+        'pending': 'Pending',
+        'approved': 'Approved',
+        'rejected': 'Rejected'
     };
     return statusMap[status] || status;
 }
@@ -276,45 +234,45 @@ function closeModal() {
     document.getElementById('detailModal').classList.remove('active');
 }
 
-// 💥 CẬP NHẬT STATUS VÀO LOCAL STORAGE 💥
+// 💥 UPDATE STATUS IN LOCAL STORAGE 💥
 function updateStatus(candidateId, newStatus) {
     const candidate = candidates.find(c => c.id === candidateId);
     if (!candidate) return;
 
-    // Tìm và cập nhật trong mảng allApplications (của localStorage)
+    // Find and update in the allApplications array (of localStorage)
     let tempAllApplications = JSON.parse(localStorage.getItem('applications')) || [];
     const appIndex = tempAllApplications.findIndex(app => app.CvId === candidate.cvId);
 
     if (appIndex !== -1) {
-        // Cập nhật trạng thái trong localStorage
+        // Update status in localStorage
         tempAllApplications[appIndex].status = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
         localStorage.setItem("applications", JSON.stringify(tempAllApplications));
         
-        // Cập nhật lại UI
+        // Update UI
         candidate.status = newStatus;
         updateStats();
         updateCounts();
         filterAndDisplay();
         closeModal();
         
-        const statusText = newStatus === 'approved' ? 'chấp nhận' : 'từ chối';
-        alert(`Ứng viên ${candidate.name} đã được ${statusText}!`);
+        const statusText = newStatus === 'approved' ? 'approved' : 'rejected';
+        alert(`${candidate.name}'s application has been ${statusText}.`); // Updated Alert
     } else {
-        alert("Lỗi: Không tìm thấy hồ sơ ứng tuyển gốc trong localStorage.");
+        alert("Error: Can't find the candidate's application in storage."); // Updated Alert
     }
 }
 
 
-// 💥 TẢI CV DÙNG BASE64 TỪ cvData 💥
+// 💥 DOWNLOAD CV USING BASE64 FROM cvData 💥
 function downloadCV(cvId, fullName) {
-    // 1. Tìm CV Base64 từ cvData
+    // 1. Find the Base64 CV from cvData
     const cvEntry = allCvData.find(entry => entry.CvId === cvId);
 
     if (cvEntry && cvEntry.cvFileBase64) {
-        // 2. Tạo Data URI
+        // 2. Create Data URI
         const dataUrl = cvEntry.cvFileBase64; 
         
-        // 3. Tạo link tải xuống và kích hoạt
+        // 3. Create and trigger download link
         const link = document.createElement('a');
         link.href = dataUrl;
         link.download = `${fullName}_CV_${cvId}.pdf`; 
@@ -324,11 +282,11 @@ function downloadCV(cvId, fullName) {
         document.body.removeChild(link);
 
     } else {
-        alert("Lỗi: Không tìm thấy file CV Base64. Vui lòng kiểm tra key 'cvData' trong localStorage.");
+        alert("Error: Cannot find the CV file in storage."); // Updated Alert
     }
 }
 
-// Event Listeners (GIỮ NGUYÊN)
+// Event Listeners 
 document.addEventListener('DOMContentLoaded', () => {
     loadCandidates();
 

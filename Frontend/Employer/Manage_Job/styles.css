@@ -432,7 +432,7 @@ main {
     gap: 1.5rem;
     margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px #ffffff;
 }
 
 .modal-avatar {
@@ -526,7 +526,7 @@ main {
     display: flex;
     gap: 0.75rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid #ffffff;
 }
 
 .btn-approve {
