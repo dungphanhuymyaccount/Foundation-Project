@@ -163,6 +163,28 @@ document.getElementById("applyForm").addEventListener("submit", async (e) => {
 
         console.log("Application submitted successfully!", app);
 
+        // Tạo notification cho Employer (thông báo có ứng viên apply)
+        try {
+            // Đảm bảo cấu trúc notifications tồn tại
+            if (typeof initNotificationStorage === 'function') initNotificationStorage();
+
+            // Lấy job để lấy tiêu đề và thông tin công ty
+            const postedJobs = JSON.parse(localStorage.getItem('postedJobs')) || [];
+            const job = postedJobs.find(j => j.jobId == selectedJobId);
+            const jobTitle = job ? job.jobTitle : 'your job';
+
+            if (typeof addNotificationToStorage === 'function') {
+                addNotificationToStorage({
+                    avatar: currentUser.avatar || '',
+                    content: `<b>${currentUser.fullName}</b> applied to your job: <b>${jobTitle}</b>.`,
+                    jobId: selectedJobId,
+                    recipientId: job && job.userId ? job.userId : null
+                });
+            }
+        } catch (e) {
+            console.error('Error creating employer notification:', e);
+        }
+
         alert("Application submitted successfully!");
 
         // đóng popup + reset form
@@ -171,6 +193,7 @@ document.getElementById("applyForm").addEventListener("submit", async (e) => {
 
 
     } catch (error) {
+        alert("Error: " + error);
         console.error("Error submitting application:", error);
         msg.innerHTML = "<p>An error occurred while submitting. Please try again.</p>";
     }

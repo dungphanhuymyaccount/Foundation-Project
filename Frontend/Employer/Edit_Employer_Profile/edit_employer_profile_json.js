@@ -139,10 +139,14 @@ function getPersonalInputs() {
 function getCompanyInputs() {
 	const companySection = document.querySelector("#account-company");
 	if (!companySection) return {};
-	const allInputs = companySection.querySelectorAll(
-		'.card-body input:not([type="file"]), .card-body select',
-	);
-	return { companyName: allInputs[0], field: allInputs[1], size: allInputs[2] };
+	// Prefer selecting by id (added in HTML)
+	return {
+		companyName: document.getElementById('companyName'),
+		field: document.getElementById('field'),
+		size: document.getElementById('size'),
+		address: document.getElementById('companyAddress'),
+		introduction: document.getElementById('companyIntroduction')
+	};
 }
 
 function getPasswordInputs() {
@@ -256,11 +260,15 @@ function loadCompanyProfile() {
 		companyName: currentUser.companyName || "",
 		field: currentUser.field || "",
 		size: currentUser.size || "",
+		address: currentUser.address || currentUser.Address || "",
+		introduction: currentUser.introduction || currentUser.CompanyIntroduction || ""
 	};
 
 	if (inputs.companyName) inputs.companyName.value = companyData.companyName;
 	if (inputs.field) inputs.field.value = companyData.field;
 	if (inputs.size) inputs.size.value = companyData.size;
+	if (inputs.address) inputs.address.value = companyData.address;
+	if (inputs.introduction) inputs.introduction.value = companyData.introduction;
 
 	originalData = { ...originalData, ...companyData };
 }
@@ -338,6 +346,8 @@ function saveCompanyProfile() {
 		companyName: inputs.companyName?.value.trim() || "",
 		field: inputs.field?.value.trim() || "",
 		size: inputs.size?.value.trim() || "",
+		address: inputs.address?.value.trim() || "",
+		introduction: inputs.introduction?.value.trim() || ""
 	};
 	const userIndex = allEmployers.findIndex(
 		(e) => e.Email === currentUser.Email,

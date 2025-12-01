@@ -94,9 +94,10 @@ async function handleSubmit() {
     initNotificationStorage(); // Đảm bảo storage đúng cấu trúc
 
 addNotificationToStorage({
-    avatar: newJobData.avatar, // logo công ty (base64)
+    avatar: newJobData.avatar, 
     content: `<b>${newJobData.companyName}</b> posted a new job: <b>${newJobData.jobTitle}</b>.`,
-    jobId: newJobData.jobId
+    jobId: newJobData.jobId,
+    recipientId: undefined // ⬅️ Đặt là undefined để không gắn với ID cụ thể nào (Global/All Student)
 });
     
     alert('Job posted successfully! Data saved locally.');

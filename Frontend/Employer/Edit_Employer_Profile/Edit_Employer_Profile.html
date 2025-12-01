@@ -185,18 +185,28 @@
 									<div class="display-info">
 										<div class="form-group-general">
 											<label class="form-label">Current Company</label>
-											<input type="text" class="form-control mb-1" />
+											<input type="text" id="companyName" class="form-control mb-1" />
 										</div>
 										<div class="form-group-general">
 											<label class="form-label">Field</label>
-											<input type="text" class="form-control mb-1" />
+											<input type="text" id="field" class="form-control mb-1" />
 										</div>
 									</div>
 									<div class="display-info">
 										<div class="form-group-general">
 											<label class="form-label">Size</label>
-											<input type="text" class="form-control mb-1" />
+											<input type="text" id="size" class="form-control mb-1" />
 										</div>
+										<div class="form-group-general">
+											<label for="companyAddress">Address</label>
+											<input type="text" id="companyAddress" class="form-control mb-1">
+										</div>
+									</div>
+									<div class="form-group-general mt-3">
+										<label class="form-label">Company Introduction</label>
+										<textarea id="companyIntroduction" class="form-control mb-1" rows="4" placeholder="Giới thiệu ngắn về công ty..."></textarea>
+										<div id="error-introduction" class="error-message"></div>
+									</div>
 									</div>
 								</div>
 							</div>

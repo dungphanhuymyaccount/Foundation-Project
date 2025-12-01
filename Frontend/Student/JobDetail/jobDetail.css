@@ -12,8 +12,6 @@
   font-family: 'Poppins', sans-serif;
 }
 
-
-
 body {
   min-height: 100vh;
   justify-content: center;
@@ -68,15 +66,6 @@ p {
   opacity: 0.9;
 }
 
-/* Lists */
-ul.feature-list {
-  margin-left: 20px;
-}
-
-ul.feature-list li {
-  margin: 6px 0;
-}
-
 .detail {
   text-align: center;
   margin-bottom: 16px;
@@ -96,28 +85,23 @@ ul.feature-list li {
   color: #333;
   display: flex;
   flex-direction: column;
-  ;
 }
 
 .job-title {
   margin-top: 10px;
   font-size: 27px;
-
 }
 
 .company_title {
   margin-top: 10px;
   font-size: 17px;
   margin-right: 250px;
-
 }
 
 .info {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
-
-
 }
 
 .info div {
@@ -130,7 +114,7 @@ ul.feature-list li {
   color: #2d2d2d;
 }
 
-.hidden { display: none !important;  }
+.hidden { display: none !important; }
 
 .modal{
   position: fixed;
@@ -152,3 +136,108 @@ ul.feature-list li {
   z-index: 1;
   width: min(560px, 92vw);
 }
+
+/* Phần tab */
+.tabs {
+  margin-top: 12px;
+}
+.tab-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.tab-btn {
+  position: relative;
+  border: none; /* loại bỏ viền quanh mỗi tab */
+  background: transparent; /* giữ nền trong suốt mặc định */
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text);
+  transition: color 180ms ease; /* không animate màu nền tại đây */
+}
+.tab-btn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  bottom: -6px;
+  height: 3px;
+  width: 56%;
+  background: #06b6d4; /* màu cyan */
+  border-radius: 2px;
+  transition: transform 260ms cubic-bezier(.2,.9,.2,1);
+}
+.tab-btn:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+.tab-btn:hover {
+  background: transparent; /* ngăn hover thay đổi màu nền */
+  color: var(--text);
+}
+.tab-btn.active {
+  background: transparent; /* không đổi nền khi tab đang active */
+  color: var(--text); /* giữ màu chữ nhất quán */
+  font-weight: 600; /* nhấn nhẹ để chỉ tab active mà không cần nền */
+}
+.tab-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+.tab-btn.active::after {
+  transform: translateX(-50%) scaleX(1);
+  background: #06b6d4;
+}
+.tab-contents { padding-top: 6px; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Kiểu cho phần thông tin công ty */
+.company-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.company-info-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.company-details p { margin: 6px 0; }
+
+/* Lưới Other positions */
+.other-positions { margin-top: 18px; }
+.other-positions h3 { margin-bottom: 8px; }
+.other-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.other-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--text);
+  background: #fff;
+}
+.other-item:hover { background: #fafafa; }
+.other-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  flex: 0 0 48px;
+}
+.other-body { display: flex; flex-direction: column; }
+.other-title { font-size: 14px; }
+.other-meta { font-size: 12px; color: var(--muted); margin-top:6px }

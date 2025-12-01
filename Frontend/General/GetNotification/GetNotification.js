@@ -3,14 +3,47 @@
 function loadNotifications() {
   let data = JSON.parse(localStorage.getItem("notifications"));
 
-  // Nếu chưa có dữ liệu thì tạo cấu trúc rỗng
   if (!data) {
     data = { recent: [], older: [] };
     localStorage.setItem("notifications", JSON.stringify(data));
   }
 
-  renderNotifications("recent-container", data.recent);
-  renderNotifications("older-notifications", data.older);
+  const current = (localStorage.getItem('current_user')) ? JSON.parse(localStorage.getItem('current_user')) : null;
+  const currentId = current?.EmployerID || current?.StudentID; // Lấy ID của người dùng hiện tại
+
+  let recentToShow = [];
+  let olderToShow = [];
+
+  // Quy tắc lọc: Chỉ hiển thị thông báo nếu recipientId khớp với ID của người dùng hiện tại
+  // Hoặc nếu nó là thông báo chung (Global) - nhưng ta sẽ loại bỏ thông báo Global sau này.
+  
+  if (current) {
+    // Lọc cho Employer
+    if (current.role === 'Employer' && current.EmployerID) {
+        recentToShow = data.recent.filter(n => n.recipientId === current.EmployerID);
+        olderToShow = data.older.filter(n => n.recipientId === current.EmployerID);
+
+    // Lọc cho Student
+    } else if (current.role === 'Student' && current.StudentID) {
+        // Student nhận thông báo đăng bài (Global Job Post) và thông báo thay đổi trạng thái CV
+        // Hiện tại: Ta giả định thông báo đăng job mới không có recipientId (n.recipientId === undefined)
+        // và thông báo thay đổi trạng thái CV có recipientId là StudentID
+        
+        recentToShow = data.recent.filter(n => 
+            (n.recipientId === current.StudentID) || (n.jobId && !n.recipientId) // Nếu có jobId mà không có recipientId, coi là thông báo Job mới (Global)
+        );
+        olderToShow = data.older.filter(n => 
+             (n.recipientId === current.StudentID) || (n.jobId && !n.recipientId)
+        );
+    }
+  } else {
+    // Nếu chưa đăng nhập, không hiển thị thông báo
+    recentToShow = [];
+    olderToShow = [];
+  }
+  
+  renderNotifications("recent-container", recentToShow);
+  renderNotifications("older-notifications", olderToShow);
 }
 
 function renderNotifications(containerId, list) {
