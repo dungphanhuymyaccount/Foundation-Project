@@ -18,6 +18,7 @@ body {
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  margin-top: 45px;
 }
 
 .header {

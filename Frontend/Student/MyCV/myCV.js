@@ -40,7 +40,7 @@ function buildCvHtml(data) {
   const email = data.email || "";
   const phone = data.phone || "";
   const address = data.address || "";
-  const linkedin = data.linkedin || "";
+  const instagram = data.instagram || "";
   const portfolio = data.portfolio || "";
 
   const careerGoal = data.summary || "";
@@ -54,7 +54,7 @@ function buildCvHtml(data) {
   if (phone) contactItems.push(`<li>${escapeHtml(phone)}</li>`);
   if (email) contactItems.push(`<li>${escapeHtml(email)}</li>`);
   if (address) contactItems.push(`<li>${escapeHtml(address)}</li>`);
-  if (linkedin) contactItems.push(`<li>${escapeHtml(linkedin)}</li>`);
+  if (instagram) contactItems.push(`<li>${escapeHtml(instagram)}</li>`);
   if (portfolio) contactItems.push(`<li>${escapeHtml(portfolio)}</li>`);
 //trả về thông tin của phần template dưới dạng html
   return `
