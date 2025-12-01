@@ -5,8 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create CV</title>
   <link rel="stylesheet" href="template.css">
+  <link rel="stylesheet" href="../../General/header.css">
+
 </head>
 <body>
+  <header>
+        <div class="logo">
+            <h2><a href="../../../index.html" style="text-decoration: none; color: #fff;">Work Hub</a></h2>
+        </div>
+        <nav class="navi">
+            <ul>
+                <li><a href="../../Student/HomePage/Student-homepage.html" class="menu_btn">Find Job</a></li>
+                <li>
+                    <a href="../MyCV/myCV.html" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My CV</a>
+                </li>
+                <li>
+                    <a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon class="icon" name="notifications-outline"></ion-icon>
+                        Notification</a>
+                </li>
+                <li>
+                    <a href="#" class="menu_btn" id="current-user"><ion-icon class="icon" name="person-circle-outline"></ion-icon>Account</a>
+                    <ul class="submenu">
+                        <li><a href="../Edit_Student_Profile/Edit_Student_Profile.html" class="submenu1"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
+                        <li><a href="#" id="log-out" class="submenu2"><ion-icon class="icon" name="log-out-outline" ></ion-icon>Log out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
   <div class="container">
     <h1>Create / Edit Your CV</h1>
     <p class="subtitle">Fill your information, upload your photo and save.</p>
@@ -21,14 +48,14 @@
         </div>
       </div>
 
-      <!-- Basic info -->
+      <!-- truong thông tin trong form -->
       <div class="field-row">
         <div class="field-group">
           <label for="fullName">Full Name</label>
           <input type="text" id="fullName" name="fullName" placeholder="Nguyen Van A">
         </div>
         <div class="field-group">
-          <label for="jobTitle">Job Title / Position</label>
+          <label for="jobTitle">Job Title </label>
           <input type="text" id="jobTitle" name="jobTitle" placeholder="Frontend Developer">
         </div>
       </div>
@@ -53,8 +80,8 @@
 
       <div class="field-row">
         <div class="field-group">
-          <label for="linkedin">LinkedIn</label>
-          <input type="text" id="linkedin" name="linkedin" placeholder="linkedin.com/in/username">
+          <label for="instagram">Instagram</label>
+          <input type="text" id="instagram" name="instagram" placeholder="instagram.com/username">
         </div>
         <div class="field-group">
           <label for="portfolio">Portfolio / GitHub</label>
@@ -99,5 +126,7 @@
   </div>
 
   <script src="template.js"></script>
+  <script src="Navbar.js"></script>
+ 
 </body>
 </html>
