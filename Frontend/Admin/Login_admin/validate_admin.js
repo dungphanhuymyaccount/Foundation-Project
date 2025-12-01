@@ -60,6 +60,6 @@ document.getElementById("login-box").addEventListener("submit", async function (
             role: "Admin"
         }
         sessionStorage.setItem("current_admin", JSON.stringify(currentAdmin))
-        window.location.href = "../Dashboard.html";
+        window.location.href = "../Admin_dashboard/Dashboard.html";
     }
 })

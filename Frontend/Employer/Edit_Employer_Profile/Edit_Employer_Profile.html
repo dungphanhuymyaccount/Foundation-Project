@@ -1,231 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Edit Employer Profile</title>
-		<link href="style.css" rel="stylesheet" />
-		<link href="bootstrap.css" rel="stylesheet" />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
-			rel="stylesheet"
-		/>
-		<script
-			type="module"
-			src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-		></script>
-		<script
-			nomodule
-			src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-		></script>
-	</head>
-	<body>
-		<header>
-			<div class="logo">
-				<h2>
-					<a href="/Frontend/Employer/HomePage_Employee/Homepage_Screen1.html"
-						>Work Hub</a
-					>
-				</h2>
-			</div>
-			<nav class="navi">
-				<ul>
-					<li><a href="#" class="menu_btn">Find Job</a></li>
-					<li>
-						<a
-							href="/Frontend/Employer/Manage_Job/ManagaeJob.html"
-							class="menu_btn"
-							><ion-icon name="reader-outline"></ion-icon> My Post</a
-						>
-					</li>
-					<li>
-						<a href="#" class="menu_btn"
-							><ion-icon name="notifications-outline"></ion-icon>
-							Notification</a
-						>
-					</li>
-					<li>
-						<a href="#" class="menu_btn" id="current-user"
-							><ion-icon class="icon" name="person-circle-outline"></ion-icon
-							>Account</a
-						>
-						<ul class="submenu">
-							<li class="account-name-and-email" id="current-user-name"></li>
-							<hr />
-							<li>
-								<a href="../Edit_Employer_Profile/Edit_Company_Information.html"
-									><ion-icon class="icon" name="person-outline"></ion-icon>Edit
-									profile</a
-								>
-							</li>
-							<li>
-								<a href="#" id="log-out"
-									><ion-icon class="icon" name="log-out-outline"></ion-icon>Log
-									out</a
-								>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</nav>
-		</header>
 
-		<div class="container light-style flex-grow-1 container-p-y">
-			<h3 class="font-weight-bold py-3 mb-4">
-				Account settings (Role: Employer)
-			</h3>
-			<div class="card overflow-hidden">
-				<div class="row no-gutters row-bordered row-border-light">
-					<div class="col-md-3 pt-0">
-						<div class="list-group list-group-flush account-settings-links">
-							<a
-								class="list-group-item list-group-item-action active"
-								data-toggle="list"
-								href="#account-general"
-								>General</a
-							>
-							<a
-								class="list-group-item list-group-item-action"
-								data-toggle="list"
-								href="#account-change-password"
-								>Change password</a
-							>
-							<a
-								class="list-group-item list-group-item-action"
-								data-toggle="list"
-								href="#account-company"
-								>Company Info</a
-							>
-						</div>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Edit Employer Profile</title>
+	<link href="style.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../General/header.css">
+	<link href="bootstrap.css" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+	<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+	<header>
+        <div class="logo">
+            <h2><a href="../../Employer/HomePage_Employee/Homepage_Screen1.html" style="text-decoration: none; color: #fff;">Work Hub</a></h2>
+        </div>
+        <nav class="navi">
+            <ul>
+                <li><a href="../Manage_Job/ManagaeJob.html" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My Post</a></li>
+                <li><a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon name="notifications-outline"></ion-icon> Notification</a>
+                </li>
+                <li>
+                    <a href="#" class="menu_btn" id="current-user"><ion-icon class="icon" name="person-circle-outline"></ion-icon>Account</a>
+                    <ul class="submenu">
+                        <li class="account-name-and-email" id="current-user-name"></li><hr>
+                        <li><a href="../Edit_Employer_Profile/Edit_Employer_Profile.html" class="submenu1"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
+                        <li><a href="#" id="log-out" class="submenu2"><ion-icon class="icon" name="log-out-outline"></ion-icon>Log out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+	<div class="container light-style flex-grow-1 container-p-y">
+		<h3 class="font-weight-bold py-3 mb-4">
+			Account settings (Role: Employer)
+		</h3>
+		<div class="card overflow-hidden">
+			<div class="row no-gutters row-bordered row-border-light">
+				<div class="col-md-3 pt-0">
+					<div class="list-group list-group-flush account-settings-links">
+						<a class="list-group-item list-group-item-action active" data-toggle="list"
+							href="#account-general">General</a>
+						<a class="list-group-item list-group-item-action" data-toggle="list"
+							href="#account-change-password">Change password</a>
+						<a class="list-group-item list-group-item-action" data-toggle="list"
+							href="#account-company">Company Info</a>
 					</div>
-					<div class="col-md-9">
-						<div class="tab-content">
-							<div class="tab-pane fade active show" id="account-general">
-								<div class="card-body media align-items-center">
-									<img src="image/OIP.jpg" alt class="d-block ui-w-80" />
-									<div class="media-body ml-4">
-										<label class="btn btn-outline-primary">
-											Upload new photo
-											<input type="file" class="account-settings-fileinput" />
-										</label>
-										&nbsp;
-										<button type="button" class="btn btn-default md-btn-flat">
-											Reset
-										</button>
-										<div class="text-light small mt-1">
-											Allowed JPG, GIF or PNG. Max size of 800K
-										</div>
-									</div>
-								</div>
-								<hr class="border-light m-0" />
-								<div class="card-body">
-									<div class="display-info">
-										<div class="form-group-general">
-											<label class="form-label">Full Name</label>
-											<input type="text" class="form-control mb-1" />
-											<div id="error-full-name" class="error-message"></div>
-										</div>
-										<div class="form-group-general">
-											<label class="form-label">DoB</label>
-											<input type="date" class="form-control mb-1" />
-											<div id="error-dob" class="error-message"></div>
-										</div>
-									</div>
-									<div class="display-info">
-										<div class="form-group-general">
-											<label class="form-label">Phonenumber</label>
-											<input
-												type="text"
-												inputmode="numeric"
-												oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-												class="form-control"
-											/>
-											<div id="error-phone" class="error-message"></div>
-										</div>
-										<div class="form-group-general">
-											<label class="form-label">Personal Address</label>
-											<input type="text" class="form-control mb-1" />
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="form-label">E-mail</label>
-										<input
-											type="email"
-											class="form-control mb-1"
-											autocomplete="off"
-											readonly
-										/>
+				</div>
+				<div class="col-md-9">
+					<div class="tab-content">
+						<div class="tab-pane fade active show" id="account-general">
+							<div class="card-body media align-items-center">
+								<img src="image/OIP.jpg" alt class="d-block ui-w-80" />
+								<div class="media-body ml-4">
+									<label class="btn btn-outline-primary">
+										Upload new photo
+										<input type="file" class="account-settings-fileinput" />
+									</label>
+									&nbsp;
+									<button type="button" class="btn btn-default md-btn-flat">
+										Reset
+									</button>
+									<div class="text-light small mt-1">
+										Allowed JPG, GIF or PNG. Max size of 800K
 									</div>
 								</div>
 							</div>
-							<div class="tab-pane fade" id="account-change-password">
-								<div class="card-body pb-2">
-									<div class="form-group">
-										<label class="form-label">Current password</label>
-										<input type="password" class="form-control" />
-										<div
-											id="error-current-password"
-											class="error-message"
-										></div>
+							<hr class="border-light m-0" />
+							<div class="card-body">
+								<div class="display-info">
+									<div class="form-group-general">
+										<label class="form-label">Full Name</label>
+										<input type="text" class="form-control mb-1" />
+										<div id="error-full-name" class="error-message"></div>
 									</div>
-									<div class="form-group">
-										<label class="form-label">New password</label>
-										<input type="password" class="form-control" />
-										<div id="error-new-password" class="error-message"></div>
-									</div>
-									<div class="form-group">
-										<label class="form-label">Repeat new password</label>
-										<input type="password" class="form-control" />
-										<div id="error-repeat-password" class="error-message"></div>
+									<div class="form-group-general">
+										<label class="form-label">DoB</label>
+										<input type="date" class="form-control mb-1" />
+										<div id="error-dob" class="error-message"></div>
 									</div>
 								</div>
+								<div class="display-info">
+									<div class="form-group-general">
+										<label class="form-label">Phonenumber</label>
+										<input type="text" inputmode="numeric"
+											oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+											class="form-control" />
+										<div id="error-phone" class="error-message"></div>
+									</div>
+									<div class="form-group-general">
+										<label class="form-label">Personal Address</label>
+										<input type="text" class="form-control mb-1" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="form-label">E-mail</label>
+									<input type="email" class="form-control mb-1" autocomplete="off" readonly />
+								</div>
 							</div>
-							<div class="tab-pane fade" id="account-company">
-								<div class="card-body pb-2">
-									<div class="display-info">
-										<div class="form-group-general">
-											<label class="form-label">Current Company</label>
-											<input type="text" id="companyName" class="form-control mb-1" />
-										</div>
-										<div class="form-group-general">
-											<label class="form-label">Field</label>
-											<input type="text" id="field" class="form-control mb-1" />
-										</div>
+						</div>
+						<div class="tab-pane fade" id="account-change-password">
+							<div class="card-body pb-2">
+								<div class="form-group">
+									<label class="form-label">Current password</label>
+									<input type="password" class="form-control" />
+									<div id="error-current-password" class="error-message"></div>
+								</div>
+								<div class="form-group">
+									<label class="form-label">New password</label>
+									<input type="password" class="form-control" />
+									<div id="error-new-password" class="error-message"></div>
+								</div>
+								<div class="form-group">
+									<label class="form-label">Repeat new password</label>
+									<input type="password" class="form-control" />
+									<div id="error-repeat-password" class="error-message"></div>
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="account-company">
+							<div class="card-body pb-2">
+								<div class="display-info">
+									<div class="form-group-general">
+										<label class="form-label">Current Company</label>
+										<input type="text" id="companyName" class="form-control mb-1" />
 									</div>
-									<div class="display-info">
-										<div class="form-group-general">
-											<label class="form-label">Size</label>
-											<input type="text" id="size" class="form-control mb-1" />
-										</div>
-										<div class="form-group-general">
-											<label for="companyAddress">Address</label>
-											<input type="text" id="companyAddress" class="form-control mb-1">
-										</div>
+									<div class="form-group-general">
+										<label class="form-label">Field</label>
+										<input type="text" id="field" class="form-control mb-1" />
 									</div>
-									<div class="form-group-general mt-3">
-										<label class="form-label">Company Introduction</label>
-										<textarea id="companyIntroduction" class="form-control mb-1" rows="4" placeholder="Giới thiệu ngắn về công ty..."></textarea>
-										<div id="error-introduction" class="error-message"></div>
+								</div>
+								<div class="display-info">
+									<div class="form-group-general">
+										<label class="form-label">Size</label>
+										<input type="text" id="size" class="form-control mb-1" />
 									</div>
+									<div class="form-group-general">
+										<label for="companyAddress">Address</label>
+										<input type="text" id="companyAddress" class="form-control mb-1">
 									</div>
+								</div>
+								<div class="form-group-general mt-3">
+									<label class="form-label">Company Introduction</label>
+									<textarea id="companyIntroduction" class="form-control mb-1" rows="4"
+										placeholder="Giới thiệu ngắn về công ty..."></textarea>
+									<div id="error-introduction" class="error-message"></div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="text-right mt-3">
-				<button type="button" class="btn btn-primary" onclick="saveProfile()">
-					Save changes</button
-				>&nbsp;
-				<button type="button" class="btn btn-default" onclick="cancelChanges()">
-					Cancel
-				</button>
-			</div>
 		</div>
-	</body>
-	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="edit_employer_profile_json.js"></script>
-	<script src="Navbar.js"></script>
+	</div>
+	<div class="text-right mt-3">
+		<button type="button" class="btn btn-primary" onclick="saveProfile()">
+			Save changes</button>&nbsp;
+		<button type="button" class="btn btn-default" onclick="cancelChanges()">
+			Cancel
+		</button>
+	</div>
+	</div>
+</body>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="edit_employer_profile_json.js"></script>
+<script src="../HomePage_Employee/Navbar_Employer.js"></script>
+
 </html>

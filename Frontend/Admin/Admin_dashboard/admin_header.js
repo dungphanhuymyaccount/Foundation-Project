@@ -1,14 +1,14 @@
-
-
 function getCurrentAdmin() {
-  const raw = sessionStorage.getItem("current_admin") || localStorage.getItem("current_admin");
-  if (!raw) return null;
-  try { return JSON.parse(raw); } catch { return null; }
+  const currentAdmin = sessionStorage.getItem("current_admin");
+  if (!currentAdmin) return null;
+  try { 
+    return JSON.parse(currentAdmin); 
+  } catch { 
+    return null; }
 }
 
 function clearCurrentAdmin() {
   sessionStorage.removeItem("current_admin");
-  localStorage.removeItem("current_admin");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
