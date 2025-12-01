@@ -19,16 +19,15 @@
         </div>
         <nav class="navi">
             <ul>
-                <li><a href="#" class="menu_btn">Find Job</a></li>
-                <li><a href="#" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My Post</a></li>
-                <li><a href="#" class="menu_btn"><ion-icon name="notifications-outline"></ion-icon> Notification</a>
+                <li><a href="../Manage_Job/ManagaeJob.html" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My Post</a></li>
+                <li><a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon name="notifications-outline"></ion-icon> Notification</a>
                 </li>
                 <li>
                     <a href="#" class="menu_btn" id="current-user"><ion-icon class="icon" name="person-circle-outline"></ion-icon>Account</a>
                     <ul class="submenu">
                         <li class="account-name-and-email" id="current-user-name"></li><hr>
-                        <li><a href="../Edit_Employer_Profile/Edit_Employer_Profile.html"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
-                        <li><a href="#" id="log-out"><ion-icon class="icon" name="log-out-outline"></ion-icon>Log out</a></li>
+                        <li><a href="../Edit_Employer_Profile/Edit_Employer_Profile.html" class="submenu1"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
+                        <li><a href="#" id="log-out" class="submenu2"><ion-icon class="icon" name="log-out-outline"></ion-icon>Log out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -41,30 +40,21 @@
                 <img src="poster.png" alt="poster">
                 </form>
             </section>
-            <section>
-
-                <div class="job_post_section">
-                    <a href="#">
-                        <div class="job_container">
-                            <h3>Find Candidates</h3>
-                            <p>Proactively search for candidates from a high-quality resume database.</p>
-                            <a href="#" class="button">Search Now</a>
-                        </div>
-                    </a>
-
-                    <a href="#">
+            <section class="job_post_section">
+                <div class="small-banner">
+                    <a href="../Manage_Job/PostJob.html">
                         <div class="job_container">
                             <h3>Post a Job</h3>
                             <p>Reach 3 million job seekers with just 1 minute of free posting!</p>
-                            <a href="#" class="button">Post Now</a>
+                            <a href="../Manage_Job/PostJob.html" class="button">Post Now</a>
                         </div>
                     </a>
 
-                    <a href="#">
+                    <a href="../Manage_Job/manage_candicate.html">
                         <div class="job_container">
                             <h3>Manage Candidates</h3>
                             <p>Review, store, and categorize resumes with an intuitive, convenient interface.</p>
-                            <a href="#" class="button">Manage Now</a>
+                            <a href="../Manage_Job/manage_candicate.html" class="button">Manage Now</a>
                         </div>
                     </a>
 
@@ -104,6 +94,7 @@
     </footer>
 
     <script src="Homepage.js"></script>
+    <script src="Navbar_Employer.js"></script>
 </body>
 
 </html>
