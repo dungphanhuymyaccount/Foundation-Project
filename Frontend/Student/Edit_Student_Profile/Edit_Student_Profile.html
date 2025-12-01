@@ -1,46 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Edit Student Profile</title>
-		<link href="style.css" rel="stylesheet" />
-		<link href="bootstrap.css" rel="stylesheet" />
-		<link rel="stylesheet" href="../../General/header.css">
-		<link
-			href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
-			rel="stylesheet"
-		/>
-		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-	</head>
 
-	<body>
-		<header>
-        <div class="logo">
-            <h2><a href="../../../index.html" style="text-decoration: none; color: #fff;">Work Hub</a></h2>
-        </div>
-        <nav class="navi">
-            <ul>
-                <li><a href="../../Student/HomePage/Student-homepage.html" class="menu_btn">Find Job</a></li>
-                <li>
-                    <a href="../Edit_CV/EditCV.html" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My CV</a>
-                </li>
-                <li>
-                    <a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon class="icon" name="notifications-outline"></ion-icon>
-                        Notification</a>
-                </li>
-                <li>
-                    <a href="#" class="menu_btn" id="current-user"><ion-icon class="icon" name="person-circle-outline"></ion-icon>Account</a>
-                    <ul class="submenu">
-                        <li><a href="../Edit_Student_Profile/Edit_Student_Profile.html" class="submenu1"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
-                        <li><a href="#" id="log-out" class="submenu2"><ion-icon class="icon" name="log-out-outline" ></ion-icon>Log out</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Edit Student Profile</title>
+	<link href="style.css" rel="stylesheet" />
+	<link href="bootstrap.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../General/header.css">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+	<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+	<header>
+		<div class="logo">
+			<h2><a href="../../../index.html" style="text-decoration: none; color: #fff;">Work Hub</a></h2>
+		</div>
+		<nav class="navi">
+			<ul>
+				<li><a href="../../Student/HomePage/Student-homepage.html" class="menu_btn">Find Job</a></li>
+				<li>
+					<a href="../MyCV/myCV.html" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My CV</a>
+				</li>
+				<li>
+					<a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon class="icon"
+							name="notifications-outline"></ion-icon>
+						Notification</a>
+				</li>
+				<li>
+					<a href="#" class="menu_btn" id="current-user"><ion-icon class="icon"
+							name="person-circle-outline"></ion-icon>Account</a>
+					<ul class="submenu">
+						<li><a href="../Edit_Student_Profile/Edit_Student_Profile.html" class="submenu1"><ion-icon
+									class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
+						<li><a href="#" id="log-out" class="submenu2"><ion-icon class="icon"
+									name="log-out-outline"></ion-icon>Log out</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+	</header>
 
 	<main>
 		<div class="container light-style flex-grow-1 container-p-y">
@@ -51,18 +53,10 @@
 				<div class="row no-gutters row-bordered row-border-light">
 					<div class="col-md-3 pt-0">
 						<div class="list-group list-group-flush account-settings-links">
-							<a
-								class="list-group-item list-group-item-action active"
-								data-toggle="list"
-								href="#account-general"
-								>General</a
-							>
-							<a
-								class="list-group-item list-group-item-action"
-								data-toggle="list"
-								href="#account-change-password"
-								>Change password</a
-							>
+							<a class="list-group-item list-group-item-action active" data-toggle="list"
+								href="#account-general">General</a>
+							<a class="list-group-item list-group-item-action" data-toggle="list"
+								href="#account-change-password">Change password</a>
 						</div>
 					</div>
 					<div class="col-md-9">
@@ -103,12 +97,9 @@
 									<div class="display-info">
 										<div class="form-group-general">
 											<label class="form-label">Phonenumber</label>
-											<input
-												type="text"
-												inputmode="numeric"
+											<input type="text" inputmode="numeric"
 												oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-												class="form-control"
-											/>
+												class="form-control" />
 											<div id="error-phone" class="error-message"></div>
 										</div>
 										<div class="form-group-general">
@@ -118,12 +109,7 @@
 									</div>
 									<div class="form-group">
 										<label class="form-label">E-mail</label>
-										<input
-											type="email"
-											class="form-control mb-1"
-											autocomplete="off"
-											readonly
-										/>
+										<input type="email" class="form-control mb-1" autocomplete="off" readonly />
 									</div>
 									<div class="form-group">
 										<label class="form-label">University</label>
@@ -137,10 +123,7 @@
 										<label class="form-label">Current password</label>
 										<input type="password" class="form-control" />
 
-										<div
-											id="error-current-password"
-											class="error-message"
-										></div>
+										<div id="error-current-password" class="error-message"></div>
 									</div>
 									<div class="form-group">
 										<label class="form-label">New password</label>
@@ -160,36 +143,27 @@
 			</div>
 			<div class="text-right mt-3">
 				<!-- ✅ Gắn onclick cho nút Save và Cancel -->
-				<button
-					type="button"
-					class="btn btn-primary"
-					id="saveBtn"
-					onclick="saveProfile()"
-				>
+				<button type="button" class="btn btn-primary" id="saveBtn" onclick="saveProfile()">
 					Save changes
 				</button>
 				&nbsp;
-				<button
-					type="button"
-					class="btn btn-default"
-					id="cancelBtn"
-					onclick="initializePage()"
-				>
+				<button type="button" class="btn btn-default" id="cancelBtn" onclick="initializePage()">
 					Cancel
 				</button>
 			</div>
 		</div>
 	</main>
 
-		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 
-		<script src="edit-student-profile-json.js"></script>
-		<script src="../../Student/HomePage/Navbar.js"></script>
+	<script src="edit-student-profile-json.js"></script>
+	<script src="../../Student/HomePage/Navbar.js"></script>
 
-		<!-- ✅ Tự động khởi tạo trang khi load -->
-		<script>
-			window.onload = initializePage;
-		</script>
-	</body>
+	<!-- ✅ Tự động khởi tạo trang khi load -->
+	<script>
+		window.onload = initializePage;
+	</script>
+</body>
+
 </html>
