@@ -25,10 +25,6 @@ function loadNotifications() {
 
     // Lọc cho Student
     } else if (current.role === 'Student' && current.StudentID) {
-        // Student nhận thông báo đăng bài (Global Job Post) và thông báo thay đổi trạng thái CV
-        // Hiện tại: Ta giả định thông báo đăng job mới không có recipientId (n.recipientId === undefined)
-        // và thông báo thay đổi trạng thái CV có recipientId là StudentID
-        
         recentToShow = data.recent.filter(n => 
             (n.recipientId === current.StudentID) || (n.jobId && !n.recipientId) // Nếu có jobId mà không có recipientId, coi là thông báo Job mới (Global)
         );
