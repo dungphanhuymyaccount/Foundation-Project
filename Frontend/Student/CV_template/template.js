@@ -1,20 +1,20 @@
-//Lấy studentID từ current_user trong local
+// get StudentID from current_user in localStorage
 function getCurrentStudentId() {
   try {
     const userData = JSON.parse(localStorage.getItem("current_user") || "null");
     const StudentID = userData && userData.StudentID;
     if (!StudentID) {
-      console.warn("Not found StudentID in current_user.");
+      console.warn("StudentID not found in current_user");
       return null;
     }
     return StudentID;
   } catch (e) {
-    console.error("Can not parse current_user from localStorage:", e);
+    console.error("Cannot parse current_user from localStorage:", e);
     return null;
   }
 }
 
-//tạo key cho cv theo StudentID
+// build CV key by StudentID + templateId
 function getCvKey(StudentID, templateId) {
   return `cv_${StudentID}_template_${templateId}`;
 }
@@ -23,15 +23,15 @@ function getLastTemplateKey(StudentID) {
   return `cv_${StudentID}_lastTemplateId`;
 }
 
-let StudentID = null;   // lấy StudentID đang login
-let existingData = null; // giữ CV cũ
+let StudentID = null;    // currently logged-in student
+let existingData = null; // cached CV data
 
 document.addEventListener("DOMContentLoaded", () => {
-  //lấy StudentID đang login
+  // get current StudentID
   StudentID = getCurrentStudentId();
-  console.log("studentId dùng cho CV:", StudentID);
+  console.log("StudentID used for CV:", StudentID);
 
-  // thông báo khi chưa login
+  // not logged in
   if (!StudentID) {
     alert("You need to log in to create or edit your CV.");
     window.location.href = "../../General/Login/Login.html";
@@ -43,38 +43,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const avatarInput = document.getElementById("avatarInput");
   const avatarPreview = document.getElementById("avatarPreview");
 
-  // Load CV đã lưu 
+  // load existing CV (if any)
   loadExistingCvAndFillForm(form, avatarPreview);
 
-  // Kiểm tra phần tử DOM có tồn tại avatarInput không
+  // avatar upload handler
   if (avatarInput) {
-    avatarInput.addEventListener("change", () => {   //user chọn file ảnh mới từ laptop
+    avatarInput.addEventListener("change", () => {
       const file = avatarInput.files[0];
       if (!file) return;
 
-      const reader = new FileReader(); //đọc file ảnh 
+      const reader = new FileReader(); // read image file
       reader.onload = (e) => {
         const dataUrl = e.target.result;
-        avatarPreview.innerHTML = `<img src="${dataUrl}" alt="Avatar preview">`; //hiển thị ảnh trên CV sau khi chọn
-        //lưu ảnh vào existingData để khi lưu cv sẽ lưu cả ảnh
+        avatarPreview.innerHTML = `<img src="${dataUrl}" alt="Avatar preview">`;
+
+        // keep avatar in memory so we can save later
         if (!existingData) existingData = {};
         existingData.avatar = dataUrl;
       };
-      reader.readAsDataURL(file); // chuyển file thành data URL
+      reader.readAsDataURL(file); // file -> data URL
     });
   }
 
-  // Save CV
+  // save CV
   if (saveBtn) {
-    saveBtn.addEventListener("click", (e) => {
-      // nếu nút là type="submit" thì tránh reload form
-      // e.preventDefault();
+    saveBtn.addEventListener("click", () => {
+      // if button is type="submit", prevent default in HTML or here if needed
+
       handleSaveCv(form);
     });
   }
-}); // <-- đóng DOMContentLoaded CHUẨN
+});
 
-//load cv đã lưu trong localStorage và cho user sửa vào form
+// load CV from localStorage and fill form
 function loadExistingCvAndFillForm(form, avatarPreview) {
   const cvKey = getCvKey(StudentID, "1");
   if (!localStorage.getItem(cvKey)) return;
@@ -84,7 +85,7 @@ function loadExistingCvAndFillForm(form, avatarPreview) {
     const data = payload.data || {};
     existingData = data;
 
-    // Điền dữ liệu lại vào form
+    // fill inputs
     Object.keys(data).forEach((key) => {
       if (key === "avatar") return;
       const field =
@@ -100,7 +101,7 @@ function loadExistingCvAndFillForm(form, avatarPreview) {
   }
 }
 
-//save lại information của cv vào localstorage
+// save CV to localStorage
 function handleSaveCv(form) {
   if (!StudentID) {
     alert("You need to log in to save your CV.");
@@ -114,11 +115,12 @@ function handleSaveCv(form) {
     data[key] = value;
   });
 
+  // keep old avatar if user didn't change it
   if (existingData && existingData.avatar) {
     data.avatar = existingData.avatar;
   }
 
-  //tạo payload để lưu thông tin từ form vào localstorage
+  // payload stored in localStorage
   const payload = {
     templateId: "1",
     StudentID: StudentID,
@@ -130,10 +132,10 @@ function handleSaveCv(form) {
   const lastKey = getLastTemplateKey(StudentID);
 
   localStorage.setItem(cvKey, JSON.stringify(payload));
-  localStorage.setItem(lastKey, "1"); //lưu id của template cuối cùng vào local
+  localStorage.setItem(lastKey, "1"); // last used template
 
   console.log("Saved CV payload:", payload);
 
-  // chuyển hướng sang trang My CV
+  // redirect to My CV page
   window.location.href = "../MyCV/myCV.html";
 }
