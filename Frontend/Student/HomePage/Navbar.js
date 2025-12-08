@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
   const LOGIN_URL = "../../General/Login/Login.html";
-  const SIGNUP_URL = "../../Student/Sign_up/Signup.html"; // <-- sửa nếu tên file khác
+  const SIGNUP_URL = "../../Student/Sign_up/Signup.html"; 
   const EDIT_PROFILE_URL = "../Edit_Student_Profile/Edit_Student_Profile.html";
 
   const currentUser = JSON.parse(localStorage.getItem("current_user"));
 
-  const accountBtn = document.getElementById("current-user");           // <a ... id="current-user">
+  const accountBtn = document.getElementById("current-user");         
 
-  const submenu1 = document.querySelector(".submenu1");                 // <a class="submenu1">
-  const logoutLink = document.getElementById("log-out");                // <a id="log-out" class="submenu2">
+  const submenu1 = document.querySelector(".submenu1");                 
+  const logoutLink = document.getElementById("log-out");                
 
   if (!accountBtn || !submenu1 || !logoutLink) return;
 
