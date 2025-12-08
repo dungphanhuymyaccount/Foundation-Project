@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const LOGIN_URL = "../../General/Login/Login.html";
-  const SIGNUP_URL = "../../Student/Sign_up/Signup.html"; 
   const EDIT_PROFILE_URL = "../Edit_Employer_Profile/Edit_Employer_Profile.html";
 
   const currentUser = JSON.parse(localStorage.getItem("current_user"));
@@ -54,13 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
       href: LOGIN_URL,
       icon: "log-in-outline",
       text: "Login",
-    });
-
-    // submenu2 = Sign up (dùng chính link #log-out làm nút thứ 2)
-    setMenuItem(submenu2, {
-      href: SIGNUP_URL,
-      icon: "person-add-outline",
-      text: "Sign up",
     });
   }
 });

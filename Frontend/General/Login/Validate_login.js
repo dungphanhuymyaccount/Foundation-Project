@@ -48,7 +48,7 @@ document.getElementById('login-box').addEventListener('submit', function (e) {
         //lưu người dùng tìm được vào 1 biến khác
         localStorage.setItem('current_user', JSON.stringify(validUser));
         if (validUser.role === "Student") {
-            window.location.href = '../../Student/HomePage/Student-homepage.html';
+            window.location.href = '../../Student/Homepage/index.html';
         }
         if (validUser.role === "Employer") {
             window.location.href = "../../Employer/HomePage_Employee/Homepage_Screen1.html";
