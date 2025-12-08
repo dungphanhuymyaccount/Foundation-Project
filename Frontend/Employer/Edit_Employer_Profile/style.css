@@ -7,8 +7,9 @@
 
 body {
 	background: #f3f3f3;
-	padding-top: 20px;
+	padding-top: 60px;
 }
+
 
 .ui-w-80 {
 	width: 80px !important;
@@ -119,4 +120,11 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 .light-style .account-settings-links .list-group-item {
 	padding: 0.85rem 1.5rem;
 	border-color: rgba(24, 28, 33, 0.03) !important;
+}
+
+.error-message {
+	color: red;
+	font-size: 14px;
+	margin-top: 2px;
+	font-style: italic;
 }
