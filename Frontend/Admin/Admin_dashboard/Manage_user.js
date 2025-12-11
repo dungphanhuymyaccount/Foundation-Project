@@ -4,7 +4,8 @@ let list_user = JSON.parse(localStorage.getItem('list_user')) || {
 	list_student: [],
 	list_employer: []
 };
-// Combine all user account objects from both the student list and employer list into a single arrayallUser = [...list_user.list_student, ...list_user.list_employer];
+// Combine all user account objects from both the student list and employer list into a single array
+allUser = [...list_user.list_student, ...list_user.list_employer];
 let pendingDeleteEmail = null;// Email in pending deletion confirmation status
 // Navigation control
 function showSection(sectionId) {
