@@ -2,7 +2,7 @@ let currentEmail = "";
 let currentPassword = "";
 let errorMessage = document.getElementById('error-message');
 
-//hàm ẩn/hiện password
+// Function to show/hide password
 function togglePassword() {
     const passwordInput = document.getElementById("password");
     const passwordEye = document.getElementById('toggle-password');
@@ -15,7 +15,7 @@ function togglePassword() {
     }
 }
 
-//kiểm tra xem tài khoản có trong bộ nhớ không không
+// Check whether the account exists in storage
 function validateInfo(validUser) {
     let valid = false;
     if (!validUser) {
@@ -29,13 +29,13 @@ function validateInfo(validUser) {
     return valid;
 }
 
-//lắng nghe sự kiện submit từ người dùng
+// Listen for the submit event from the user
 document.getElementById('login-box').addEventListener('submit', function (e) {
     e.preventDefault();
     currentEmail = document.getElementById('email').value;
     currentPassword = document.getElementById('password').value;
 
-    //lấy dữ liệu từ trong local và kiểm tra xem người dùng bằng email
+// Retrieve data from local storage and check the user by email
     let list_user = JSON.parse(localStorage.getItem('list_user') || { list_student: [], list_employer: [] });
     let allUser = [...list_user.list_student, ...list_user.list_employer];
     let validUser = allUser.find(user => (user.email === currentEmail) && (user.password === currentPassword));
@@ -45,7 +45,7 @@ document.getElementById('login-box').addEventListener('submit', function (e) {
     }
     else {
 
-        //lưu người dùng tìm được vào 1 biến khác
+       // Store the found user in another variable
         localStorage.setItem('current_user', JSON.stringify(validUser));
         if (validUser.role === "Student") {
             window.location.href = '../../Student/Homepage/index.html';

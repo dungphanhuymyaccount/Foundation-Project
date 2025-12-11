@@ -17,9 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
     el.innerHTML = `<ion-icon class="icon" name="${icon}"></ion-icon>${text}`;
   };
 
-  // ====== ĐÃ ĐĂNG NHẬP ======
+
   if (currentUser && currentUser.role === "Student") {
-    // Đổi chữ Account -> Hi, name (giữ icon)
+    //// Change the login status
     accountBtn.innerHTML = `<ion-icon class="icon" name="person-circle-outline"></ion-icon>Hi, ${currentUser.fullName}`;
 
 
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       text: "Edit profile",
     });
 
-    // submenu2 = Log out (vẫn là # để JS xử lý)
+    // submenu2 = Log out 
     setMenuItem(logoutLink, {
       href: "#",
       icon: "log-out-outline",
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = LOGIN_URL;
     });
 
-  // ====== CHƯA ĐĂNG NHẬP ======
+  //NOT LOGGED IN
   } else {
     accountBtn.innerHTML = `<ion-icon class="icon" name="person-circle-outline"></ion-icon>Account`;
     
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
       text: "Login",
     });
 
-    // submenu2 = Sign up (dùng chính link #log-out làm nút thứ 2)
+    // submenu2 = Sign up 
     setMenuItem(logoutLink, {
       href: SIGNUP_URL,
       icon: "person-add-outline",

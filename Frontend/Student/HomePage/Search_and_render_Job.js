@@ -1,13 +1,13 @@
 let jobContainer = document.querySelector(".job_post_section");
-let searchedJobs = []; // biến chứa danh sách post sau khi tìm kiếm
-let jobsPerPage = 6; //số job 1 trang
-let currentPage = 1; //trang hiện tại
-let displayedJob = []; //chứa các job đang hiển thị trên màn hình
-let postedJobs = JSON.parse(localStorage.getItem('postedJobs')) || []; //lấy dữ liệu jobpost ở local
+let searchedJobs = []; // Variable storing the list of posts after searching
+let jobsPerPage = 6; // Number of jobs per page
+let currentPage = 1; // Current page
+let displayedJob = []; // Store the jobs currently displayed on the screen
+let postedJobs = JSON.parse(localStorage.getItem('postedJobs')) || []; // Get job post data from local storage
 
-//render các job ra khi khởi tạo trang
+// Render jobs when the page initializes
 renderJob(postedJobs);
-//hàm ghi dữ liệu ra các jobposts
+// Function to write data into the job posts
 function renderJob(jobList) {
     displayedJob = jobList;
     jobContainer.innerHTML = "";
@@ -21,9 +21,9 @@ function renderJob(jobList) {
     const jobsToShow = jobList.slice(start, end);
 
     jobsToShow.forEach((job) => {
-        // Kiểm tra xem salary có tồn tại và có đầy đủ dữ liệu không
+       // Check whether the salary exists and contains complete data
         let salaryText = job.salary|| "Negotiable";
-        //template của job card
+        //template of job card
         let jobPost = `
                 <div class="job_container" onclick = "jobDetail('${job.jobId}')">
                     <div class="company_logo"><img src = "${job.avatar}"></div>
@@ -49,7 +49,7 @@ function jobDetail(jobId) {
     }
 
 }
-//chức năng bấm chuyển trang
+// Pagination button functionality
 function updatePagination() {
     const totalPages = Math.ceil(displayedJob.length / jobsPerPage) || 1;
     document.getElementById("pageInfo").textContent = `${currentPage} / ${totalPages}`;
@@ -57,7 +57,7 @@ function updatePagination() {
     document.getElementById("nextBtn").disabled = currentPage === totalPages;
 }
 
-// Nút chuyển trang
+// Page navigation buttons
 document.getElementById("prevBtn").addEventListener("click", () => {
     if (currentPage > 1) {
         currentPage--;
@@ -72,7 +72,7 @@ document.getElementById("nextBtn").addEventListener("click", () => {
         renderJob(displayedJob);
     }
 });
-//chức năng tìm kiếm bằng thanh tìm kiếm
+// Search functionality using the search bar
 function searchJob() {
     const searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
 
@@ -95,7 +95,7 @@ function searchJob() {
 
 }
 
-//tìm kiếm bằng filter lọc 
+// Search using filter options
 function advanceSearch() {
     const searchLocation = document.getElementById("location").value;
     const searchField = document.getElementById("field").value;
@@ -113,7 +113,7 @@ function advanceSearch() {
     }
 
     searchedJobs = postedJobs.filter((job) => {
-        //lọc bằng field
+       // Filter by field
         let matchField;
         if (searchField === "none") {
             matchField = true;
@@ -122,7 +122,7 @@ function advanceSearch() {
             matchField = job.field.toLowerCase() === searchField.toLowerCase();
         }
 
-        //lọc bằng location: không so sánh được với post có location có dấu tiếng việt. VD: ha noi!= Hà Nội
+        // Filter by location: cannot compare with posts containing Vietnamese accents (e.g., "ha noi" != "Hà Nội")
         let matchLocation;
         let jobLocation = removeVietnameseTones(job.location);
         if (searchLocation === "none") {
@@ -139,14 +139,14 @@ function advanceSearch() {
             matchLocation = jobLocation.toLowerCase().includes(searchLocation.toLowerCase())
         }
 
-        //lọc bằng salary: min của filter < max của post <= max của filter
+        // Filter by salary: filter_min < post_max <= filter_max
         let matchSalary;
         let compareSalary = searchSalary.split("-");
         const minFilterSalary = parseInt(compareSalary[0]);
         const maxFilterSalary = parseInt(compareSalary[1]);
             matchSalary = job.salary >= minFilterSalary && job.salary <= maxFilterSalary;
 
-        //lọc bằng experience: như lọc salary
+        // Filter by experience
         let matchExperience;
         if (searchExperience === "none" || !job.experience || !job.experience.max) {
             matchExperience = searchExperience === "none";
@@ -159,29 +159,29 @@ function advanceSearch() {
 
         return matchField && matchExperience && matchLocation && matchSalary;
     });
-    //hiện các job được filter
+    // Display the filtered jobs
     renderJob(searchedJobs);
 }
 
-//hàm xóa dấu tiếng việt
+// Function to remove Vietnamese accents
 function removeVietnameseTones(str) {
     return str
-        .normalize("NFD") // tách ký tự và dấu
-        .replace(/[\u0300-\u036f]/g, "") // xóa dấu
-        .replace(/đ/g, "d") // thay đ -> d
-        .replace(/Đ/g, "D") // thay Đ -> D
-        .toLowerCase(); // viết thường để so sánh dễ
+        .normalize("NFD") /
+        .replace(/[\u0300-\u036f]/g, "") 
+        .replace(/đ/g, "d") 
+        .replace(/Đ/g, "D") 
+        .toLowerCase(); 
 }
 
-//gắn sự kiện lọc filter mỗi khi giá trị của filter thay đổi
+// Attach filter events whenever a filter value changes
 document.getElementById("field").addEventListener("change", advanceSearch);
 document.getElementById("location").addEventListener("change", advanceSearch);
 document.getElementById("salary").addEventListener("change", advanceSearch);
 document.getElementById("experience").addEventListener("change", advanceSearch);
 
-//gắn sự kiện tìm kiếm khi bấm nút tìm kiếm ở thanh công cụ
+// Attach search event when clicking the search button on the toolbar
 document.getElementById("searchBtn").addEventListener("click", searchJob);
-//gắn sự kiện tìm kiếm khi bấm enter
+// Attach search event when pressing Enter
 document.getElementById("searchInput").addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
         e.preventDefault();

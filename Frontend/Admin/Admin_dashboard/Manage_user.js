@@ -1,12 +1,11 @@
 let allUser = [];
-//lấy dữ các tài khoản người dùng từ trong local storage
+// Get user account data from local storage
 let list_user = JSON.parse(localStorage.getItem('list_user')) || {
 	list_student: [],
 	list_employer: []
 };
-//cho tất cả các object(user account) của 2 mảng list student và list employer vào chung 1 mảng 
-allUser = [...list_user.list_student, ...list_user.list_employer];
-let pendingDeleteEmail = null;//email trong trạng thái đợi confirm xóa
+// Combine all user account objects from both the student list and employer list into a single arrayallUser = [...list_user.list_student, ...list_user.list_employer];
+let pendingDeleteEmail = null;// Email in pending deletion confirmation status
 // Navigation control
 function showSection(sectionId) {
 	document
@@ -15,7 +14,7 @@ function showSection(sectionId) {
 	document.getElementById(sectionId).classList.remove("hidden");
 }
 
-//validate định dạng email, name
+// Validate the format of email and name
 function validate(email, password, employerName, companyName) {
 	const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 	const password_pattern = /^.{6,}$/;
@@ -28,13 +27,13 @@ function validate(email, password, employerName, companyName) {
 	let validEmployerName = true;
 	let validCompanyName = true;
 	let isValid = false;
-	//kiểm tra xem điền email chưa
+	// Check if the email field is filled
 	if (!email) {
 		error_message_email.innerHTML = "<p>Please enter your email!</p>";
 		validEmail = false;
 	}
 	else {
-		//kiểm tra đúng định dạng không
+		// Check if the format is valid
 		if (!email_pattern.test(email)) {
 			error_message_email.innerHTML = "<p>Incorrect format. Please enter again!</p>";
 			validEmail = false;
@@ -46,7 +45,7 @@ function validate(email, password, employerName, companyName) {
 
 	}
 
-	//kiểm tra đã điền mật khẩu chưa
+	// Check if the password field is filled
 	if (!password) {
 		error_message_password.innerHTML = "<p>Please enter your password!</p>";
 		validPassword = false;
@@ -56,7 +55,7 @@ function validate(email, password, employerName, companyName) {
 		validPassword = true;
 	}
 
-	//kiểm tra đúng định dạng chưa
+	// Check if the format is correct
 	if (!password_pattern.test(password)) {
 		error_message_password.innerHTML = "<p>Your password must contain at least 6 characters!</p>";
 		validPassword = false;
@@ -66,7 +65,7 @@ function validate(email, password, employerName, companyName) {
 		validPassword = true;
 	}
 
-	//kiểm tra định dạng full name
+	// Check the full name format
 	if (!employerName) {
 		error_message_employer_name.innerHTML = "<p>Please enter your name!</p>";
 		validEmployerName = false;
@@ -90,7 +89,7 @@ function validate(email, password, employerName, companyName) {
 	}
 	return isValid;
 }
-//kiểm tra email tồn tại
+// Check if the email already exists
 function existEmail(email) {
 	if (email) {
 		return checkEmail = allUser.some(user => user.email === email);
@@ -110,7 +109,7 @@ function getEmployerID() {
 	}
 
     let maxID = allEmployers.reduce((max, user) => {
-        // ✅ SỬA LỖI: Dùng user.EmployerID
+       // ✅ FIXED: Use user.EmployerID
         let num = parseInt(user.EmployerID?.replace("EMP", "")) || 0; 
         return Math.max(max, num);
     }, 0);
@@ -119,7 +118,7 @@ function getEmployerID() {
 
 	return "EMP" + String(nextID).padStart(3, "0");
 }
-// chức năng tạo employer
+// Function to create an employer
 document.getElementById("employerForm").addEventListener("submit", function (e) {
 	e.preventDefault();
 
@@ -132,7 +131,7 @@ document.getElementById("employerForm").addEventListener("submit", function (e) 
 		return;
 	}
 
-	//kiểm tra xem tồn tại email này chưa
+
 	if (existEmail(email)) {
 		document.getElementById('error-message-email').innerHTML = "<p>Email already exist!!</p>";;
 		return;
@@ -147,24 +146,24 @@ document.getElementById("employerForm").addEventListener("submit", function (e) 
 		role: "Employer",
 	};
 	console.log("✅ New Employer Created:", newEmployer);
-	//lấy dữ các tài khoản người dùng từ trong local storage
+	// Get user account data from local storage
 	let list_user = JSON.parse(localStorage.getItem('list_user')) || {
 		list_student: [],
 		list_employer: []
 	};
-	//đẩy người dùng mới vào mảng
+	// Push the new user into the array
 	list_user.list_employer.push(newEmployer);
-	allUser = [...list_user.list_student, ...list_user.list_employer];//cập nhật lại danh sách user
+	allUser = [...list_user.list_student, ...list_user.list_employer];// Update the user list
 	//lưu lại mảng list user mới cập nhật vào local storage
 	localStorage.setItem('list_user', JSON.stringify(list_user))
 	e.target.reset();
 });
 
-//Hiện thông tin các tài khoản theo role, có cả phần tìm kiếm luôn
+// Display account information by role, including search functionality
 function renderUserTable(searchTerm = "") {
-	const tbody = document.querySelector("#userTable tbody");//hiện danh sách người dùng
-	const thead = document.querySelector("#userTable thead");//hiện tiêu đề bảng
-	const roleSelect = document.getElementById('role').value; //phân role để hiện theo role
+	const tbody = document.querySelector("#userTable tbody");// Display the user list
+	const thead = document.querySelector("#userTable thead");/// Display the table header
+	const roleSelect = document.getElementById('role').value; // Filter and display users based on their role
 	thead.innerHTML = "";
 	tbody.innerHTML = "";
 	let userRoleFilter = allUser.filter(user => user.role === roleSelect);
@@ -183,14 +182,14 @@ function renderUserTable(searchTerm = "") {
 			)
 		}
 	}
-	//template hiện bảng các user là student
+	// Template for displaying the table of users with the student role
 	if (roleSelect === "Student") {
 		thead.innerHTML = `
       <th>Full Name</th>
       <th>Email</th>
       <th>Action</th>`;
 		userRoleFilter.forEach(student => {
-			const row = document.createElement("tr");// div để chứa thông tin các tài khoản người dùng
+			const row = document.createElement("tr");
 			row.innerHTML = `
 	    <td>${student.fullName}</td>
 	    <td>${student.email}</td>
@@ -198,7 +197,7 @@ function renderUserTable(searchTerm = "") {
 			tbody.appendChild(row);
 		})
 
-		//template hiện bảng các user là employer 
+		// Template for displaying the table of users with the employer role
 	}
 	if (roleSelect === "Employer") {
 		thead.innerHTML = `
@@ -208,7 +207,7 @@ function renderUserTable(searchTerm = "") {
       <th>Action</th>
     `;
 		userRoleFilter.forEach(employer => {
-			const row = document.createElement("tr");// div để chứa thông tin các tài khoản người dùng
+			const row = document.createElement("tr");
 			row.innerHTML = `
 	    <td>${employer.employerName}</td>
 	    <td>${employer.companyName}</td>
@@ -220,49 +219,49 @@ function renderUserTable(searchTerm = "") {
 	}
 }
 
-// Tìm kiếm user
+// Search for user
 document.getElementById("searchUser").addEventListener("keyup", function () {
 	renderUserTable(this.value.toLowerCase());
 });
 
-// Đổi role (student / employer)
+// Change role (student / employer)
 document.getElementById("role").addEventListener("change", function () {
 	renderUserTable();
 });
 
-renderUserTable();//hiện  lần đầu
+renderUserTable();// Display on the first load
 
-// gọi popup khi bấm delete
+// Trigger popup when clicking delete
 function deleteUser(email) {
 	pendingDeleteEmail = email;
 	document.getElementById("confirmModal").classList.remove("hidden");
 }
 
-// xóa user
+// delpete user
 document.getElementById("Yes").addEventListener("click", function () {
 	console.log(document.getElementById("Yes"));
 	if (!pendingDeleteEmail) return;
 
-	// Xóa user khỏi allUser
+	// delete user in allUser
 	allUser = allUser.filter(user => user.email !== pendingDeleteEmail);
 
-	// Cập nhật lại list_user theo role
+	// Update the list_user according to the role
 	list_user.list_student = allUser.filter(user => user.role === "Student");
 	list_user.list_employer = allUser.filter(user => user.role === "Employer");
 	allUser = [...list_user.list_student, ...list_user.list_employer];
-	// Lưu lại
+	// Save changes
 	localStorage.setItem("list_user", JSON.stringify(list_user));
 
 	renderUserTable(document.getElementById("searchUser").value.toLowerCase());
 	//updateStatistics();
 
-	// Đóng popup
+	// Close the popup
 	document.getElementById("confirmModal").classList.add("hidden");
 	pendingDeleteEmail = null;
 
 });
 
-// NẾU BẤM NO → ĐÓNG POPUP
+// IF NO is clicked → Close the popup
 document.getElementById("No").addEventListener("click", function () {
 	pendingDeleteEmail = null;
 	document.getElementById("confirmModal").classList.add("hidden");

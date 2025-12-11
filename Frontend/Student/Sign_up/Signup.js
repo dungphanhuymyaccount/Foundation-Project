@@ -4,7 +4,7 @@ let password = "";
 let role = "";
 let list_user = JSON.parse(localStorage.getItem('list_user')) || { list_student: [], list_employer:[]};
 let allUser = [...list_user.list_student, ...list_user.list_employer];
-//hàm kiểm tra định dạng email password
+//Function to validate email and password format
 function validate(email, password, name) {
     const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const password_pattern = /^.{6,}$/;
@@ -15,13 +15,13 @@ function validate(email, password, name) {
     let validPassword = true;
     let validName = true;
     let isValid = false;
-    //kiểm tra xem điền email chưa
+    //Check if the email field is filled
     if (!email) {
         error_message_email.innerHTML = "<p>Please enter your email!</p>";
         validEmail = false;
     }
     else {
-        //kiểm tra đúng định dạng không
+        //Check if the format is valid
         if (!email_pattern.test(email)) {
             error_message_email.innerHTML = "<p>Incorrect format. Please enter again!</p>";
             validEmail = false;
@@ -33,7 +33,7 @@ function validate(email, password, name) {
 
     }
 
-    //kiểm tra đã điền mật khẩu chưa
+  // Check if the password field is filled
     if (!password) {
         error_message_password.innerHTML = "<p>Please enter your password!</p>";
         validPassword = false;
@@ -43,7 +43,8 @@ function validate(email, password, name) {
         validPassword = true;
     }
 
-    //kiểm tra đúng định dạng chưa
+// Check if the format is correct
+
     if (!password_pattern.test(password)) {
         error_message_password.innerHTML = "<p>Your password must contain at least 6 characters!</p>";
         validPassword = false;
@@ -53,7 +54,7 @@ function validate(email, password, name) {
         validPassword = true;
     }
 
-    //kiểm tra định dạng full name
+    // Check the full name format
     if (!name) {
         error_message_name.innerHTML = "<p>Please enter your name!</p>";
         validName = false;
@@ -69,24 +70,24 @@ function validate(email, password, name) {
     return isValid;
 }
 
-//hàm kiểm tra user đăng kí đã tồn tại
+// Function to check if the registered user already exists
 function existEmail(email) {
     if (email) {
         return checkEmail = allUser.some(user => user.email === email);
     }
 }
 
-//hàm tạo ID cho Student
+// Function to generate an ID for Student
 function getStudentID() {
 
-    // gom tất cả studentID
+   // Collect all student IDs
     let allStudents = list_user.list_student;
 
     if (allStudents.length === 0) {
         return "S001";
     }
 
-    // lấy ID lớn nhất hiện có
+   // Get the highest existing ID
     let maxID = allStudents.reduce((max, user) => {
         let num = parseInt(user.StudentID?.replace("S", "")) || 0;
         return Math.max(max, num);
@@ -97,14 +98,14 @@ function getStudentID() {
     return "S" + String(nextID).padStart(3, "0");
 }
 
-//lắng nghe sụ kiện lưu thông tin vào localStorage khi bấm submit sau khi bấm submit
+// Listen for the event to save information into localStorage after clicking submit
 document.getElementById('signup-form-step1').addEventListener('submit', function (event) {
     event.preventDefault();
     fullName = document.getElementById('fullname').value;
     email = document.getElementById('email').value;
     password = document.getElementById('password').value;
 
-    //kiểm tra định dạng thông tin
+    // Validate the information format
     if (!validate(email, password, fullName)) {
         return;
     };
@@ -122,20 +123,20 @@ document.getElementById('signup-form-step1').addEventListener('submit', function
         role: "Student"
     });
 
-    //lấy dữ liệu danh sách người dùng gồm 2 role
+    // Get the user list data containing both roles
     let list_user = JSON.parse(localStorage.getItem('list_user')) || {
         list_student: [],
         list_employer: []
     };
 
-    //đẩy người dùng vừa nhập thông tin đăng kí vào danh sách người dùng
+    // Push the newly registered user into the user list
     list_user.list_student.push(user);
 
-    //lưu người dùng vào danh sách người dùng(đã phân role)
+    // Save the user into the user list (with assigned role)
     localStorage.setItem('list_user', JSON.stringify(list_user));
 
 
-    //chuyển sang trang đăng nhập
+    // Redirect to the login page
     setTimeout(() => { window.location.href = '../../General/Login/Login.html' }, 800);
 
 })

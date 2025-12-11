@@ -1,4 +1,4 @@
-//chức năng log out
+// Logout functionality
 document.addEventListener("DOMContentLoaded", () => {
     if(!document.getElementById('log-out')) return null
 document.getElementById('log-out').addEventListener("click", function(e) {
@@ -16,13 +16,13 @@ document.getElementById('log-out').addEventListener("click", function(e) {
 })
 });
 
-//hiển thị tên người dùng khi đã đăng nhập vào rồi
+// Display the user's name after logging in
 document.addEventListener("DOMContentLoaded", () => {
     const currentUser = JSON.parse(localStorage.getItem("current_user"));
     const accountName = document.getElementById("current-user");
     if (currentUser && currentUser.role === "Employer") {
         accountName.textContent = `Hi, ${currentUser.employerName}`;
-        //nếu chưa đăng nhập thì sẽ hiện là account
+        // If not logged in, display “account”
     } else {
         accountName.textContent = "Account";
     }
