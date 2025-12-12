@@ -6,11 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const studentNavbar = `
         <header>
             <div class="logo">
-                <h2><a href="../../Student/HomePage/Student-homepage.html" style="text-decoration: none; color: #fff;">Work Hub</a></h2>
+                <h2><a href="../../Student/HomePage/index.html" style="text-decoration: none; color: #fff;">Work Hub</a></h2>
             </div>
             <nav class="navi">
                 <ul>
-                    <li><a href="../../Student/HomePage/Student-homepage.html" class="menu_btn">Find Job</a></li>
+                    <li><a href="../../Student/HomePage/index.html" class="menu_btn">Find Job</a></li>
                     <li><a href="../../Student/MyCV/myCV.html" class="menu_btn"><ion-icon name="reader-outline"></ion-icon> My CV</a></li>
                     <li><a href="../../General/GetNotification/GetNotification.html" class="menu_btn"><ion-icon class="icon" name="notifications-outline"></ion-icon> Notification</a></li>
                     <li>
@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <li class="account-name-and-email" id="current-user-name"></li><hr>
                             <li><a href="../../Student/Edit_Student_Profile/Edit_Student_Profile.html" class="submenu1"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
                             <li><a href="#" id="log-out" class="submenu2"><ion-icon class="icon" name="log-out-outline"></ion-icon>Log out</a></li>
+                            <li><a href="../help/help.html"  target="_blank" class="submenu3">User Guild</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <li class="account-name-and-email" id="current-user-name"></li><hr>
                             <li><a href="../../Employer/Edit_Employer_Profile/Edit_Employer_Profile.html" class="submenu1"><ion-icon class="icon" name="person-outline"></ion-icon>Edit profile</a></li>
                             <li><a href="#" id="log-out" class="submenu2"><ion-icon class="icon" name="log-out-outline"></ion-icon>Log out</a></li>
+                            <li><a href="../help/help.html" target="_blank" class="submenu3">User Guild</a></li>
                         </ul>
                     </li>
                 </ul>

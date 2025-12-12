@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Guide</title>
+
+  <link rel="stylesheet" href="./help.css" />
+  <link rel="stylesheet" href="../header.css">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+  <main class="container main">
+    <section class="instruction-title">
+      <div>
+        <h1>Website User Guide</h1>
+      </div>
+    </section>
+
+    <section class="layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="card">
+          <div class="card__title">Categories</div>
+          <a class="cate" href="#student"><ion-icon name="school-outline"></ion-icon>For Student</a>
+          <a class="cate" href="#employer"><ion-icon name="business-outline"></ion-icon>For Employer</a>
+        </div>
+      </aside>
+
+      <section class="content">
+
+        <div class="section" id="student">
+          <h2 class="title"><ion-icon name="school-outline"></ion-icon> For Student</h2>
+
+          <details class="detail" open>
+            <summary><span>Search for jobs and view job details</span>
+              <ion-icon class="chevron" name="chevron-down-outline"></ion-icon>
+            </summary>
+
+            <div class="detail-body">
+              <ol>
+                <li>Go to the Homepage.</li>
+                <li>Enter a keyword in the search box or use filters (location/field/experience/salary, etc.).</li>
+                <li>Click the search button or press Enter to search for jobs.</li>
+                <li>Click a job to view the details and the company’s basic information.</li>
+              </ol>
+            </div>
+          </details>
+
+          <details class="detail">
+            <summary>Create your own CV based on available templates
+              <ion-icon class="chevron" name="chevron-down-outline"></ion-icon>
+            </summary>
+            <div class="detail-body">
+              <ol>
+                <li>Click <b>My CV</b> on the header menu.</li>
+                <li>If you have not created a CV yet, fill in your information to create one.
+                  If you have created a CV before, your previous CV will be displayed.</li>
+                <li>You can choose <b>Edit CV</b> to update it or <b>Download CV</b> to download it as a PDF.</li>
+              </ol>
+            </div>
+          </details>
+
+          <details class="detail">
+            <summary>Apply for a job
+              <ion-icon class="chevron" name="chevron-down-outline"></ion-icon>
+            </summary>
+            <div class="detail-body">
+              <ol>
+                <li>Open the job details page and click <b>"Apply now"</b>.</li>
+                <li>Select a CV file from your computer.</li>
+                <li>Click <b>“Apply”</b> to submit your application.</li>
+              </ol>
+            </div>
+          </details>
+        </div>
+
+        <div class="section" id="employer">
+          <h2><ion-icon name="business-outline"></ion-icon> For Employer</h2>
+
+          <details class="detail" open>
+            <summary>Update company profile (required before posting jobs)
+              <ion-icon class="chevron" name="chevron-down-outline"></ion-icon>
+            </summary>
+            <div class="detail-body">
+              <ol>
+                <li>Go to <b>Edit Profile</b>.</li>
+                <li>Fill in all required company information.</li>
+                <li>Add a company avatar/logo (it will be shown on job posts).</li>
+              </ol>
+            </div>
+          </details>
+
+          <details class="detail">
+            <summary>Post a job
+              <ion-icon class="chevron" name="chevron-down-outline"></ion-icon>
+            </summary>
+            <div class="detail-body">
+              <ol>
+                <li>Go to <b>Post Job</b>.</li>
+                <li>Enter job information (title, field, salary, location, experience, etc.).</li>
+                <li>Click <b>Publish/Post</b> to create the post.</li>
+              </ol>
+            </div>
+          </details>
+
+          <details class="detail">
+            <summary>Manage job posts
+              <ion-icon class="chevron" name="chevron-down-outline"></ion-icon>
+            </summary>
+            <div class="detail-body">
+              <ul>
+                <li>View the list of job posts.</li>
+                <li>Edit/Delete/Update the status of job posts.</li>
+                <li>There is also a manage candidates for each post by press the button </li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="detail">
+            <summary>Manage candidates (applications/CVs)
+              <ion-icon class="chevron" name="chevron-down-outline"></ion-icon>
+            </summary>
+            <div class="detail-body">
+              <ol>
+                <li>Go to <b>Manage Post Job</b>.</li>
+                <li>Click the blue button on each post to see the candidate </li>
+                <li>View the list of candidates for each job.</li>
+                <li>Open a candidate's CV to view details.</li>
+              </ol>
+            </div>
+          </details>
+
+          <details class="detail">
+            <summary>Notifications
+              <ion-icon class="chevron" name="chevron-down-outline"></ion-icon>
+            </summary>
+            <div class="detail-body">
+              <ul>
+                <li>View notifications when there is a new application / status changes (if supported by the system).</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-about" id="footer-col">
+        <h2>Work Hub</h2>
+        <p>
+          Work Hub is your trusted job portal helping students and
+          professionals find their dream careers quickly and easily.
+        </p>
+      </div>
+
+      <div class="footer-link" id="footer-col">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">Find Job</a></li>
+          <li><a href="#">My CV</a></li>
+          <li><a href="#">Notifications</a></li>
+          <li><a href="#">Account</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact" id="footer-col">
+        <h3>Contact Us</h3>
+        <p><ion-icon class="icon" name="mail-outline"></ion-icon> support@workhub.com</p>
+        <p><ion-icon class="icon" name="call-outline"></ion-icon> +84 123 456 789</p>
+        <p><ion-icon class="icon" name="location-outline"></ion-icon> Hanoi, Vietnam</p>
+      </div>
+    </div>
+    <p style="text-align: center; padding-top: 20px">
+      © 2025 Work Hub | All rights reserved.
+    </p>
+  </footer>
+
+  <script src="./help.js"></script>
+</body>
+
+</html>
