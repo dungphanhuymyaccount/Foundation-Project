@@ -1,6 +1,6 @@
-let admin = []// lưu toàn bộ dữ liệu admin
+let admin = []// Save all admin data
 
-//lấy dữ liệu từ trong file json
+// Get data from the JSON file
 async function loadData() {
     try {
         const res = await fetch("../../../json/admin_account.json");
@@ -40,7 +40,7 @@ document.getElementById("login-box").addEventListener("submit", async function (
     accountName = document.getElementById("account-name").value;
     password = document.getElementById("password").value;
 
-    //load data trước
+    // Load data first
     try {
             if (admin.length === 0) await loadData();
         } catch (err) {

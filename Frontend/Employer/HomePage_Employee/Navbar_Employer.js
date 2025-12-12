@@ -54,5 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
       icon: "log-in-outline",
       text: "Login",
     });
+    if (submenu2) submenu2.style.display = "none";//if not logged in, no submenu2
   }
 });

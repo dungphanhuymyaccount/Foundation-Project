@@ -1,3 +1,4 @@
+
 function getCurrentAdmin() {
   const currentAdmin = sessionStorage.getItem("current_admin");
   if (!currentAdmin) return null;
@@ -19,24 +20,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function render() {
     const admin = getCurrentAdmin();
-    const name = admin?.accountname || admin?.accountName;
-
+    const name = admin?.accountName;
+      //if logged in, hover will be logout
     if (name) {
       label.textContent = name;
       action.textContent = "Logout";
       action.onclick = () => {
         clearCurrentAdmin();
-        window.location.href = "Login_admin/Login_admin.html";
+        window.location.href = "Dashboard.html";
       };
     } else {
       label.textContent = "Account";
       action.textContent = "Login";
       action.onclick = () => {
-        window.location.href = "Login_admin/Login_admin.html";
+        window.location.href = "../Login_admin/Login_admin.html";
       };
     }
   }
-
+//function change menu
   function openMenu() {
     menu.classList.remove("hidden");
     btn.setAttribute("aria-expanded", "true");

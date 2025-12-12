@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutLink.addEventListener("click", (e) => {
       e.preventDefault();
       localStorage.removeItem("current_user");
-      window.location.href = LOGIN_URL;
+      window.location.href = "index.html";
     });
 
   //NOT LOGGED IN
