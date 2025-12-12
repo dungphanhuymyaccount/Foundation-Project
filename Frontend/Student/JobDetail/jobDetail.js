@@ -166,17 +166,6 @@ function populateCompanyTab(job) {
       "No introduction yet";
 
     container.innerHTML = `
-      <div class="company-header">
-        <img src="${(match && (match.avatar || match.Avatar)) || job.avatar || ""}" 
-             alt="company logo" 
-             class="company-info-logo">
-        <h2>${
-          (match && (match.companyName || match.CompanyName)) ||
-          job.companyName ||
-          "Company"
-        }</h2>
-      </div>
-
       <div class="company-details simple">
         <p><strong>Address:</strong> ${addressVal}</p>
         <p><strong>Field:</strong> ${fieldVal}</p>
