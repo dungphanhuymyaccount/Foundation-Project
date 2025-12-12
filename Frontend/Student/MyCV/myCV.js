@@ -72,7 +72,7 @@ function buildCvHtml(data) {
           contactItems.length
             ? `
         <div class="cv-left-section">
-          <div class="cv-left-section-title">Thông tin liên hệ</div>
+          <div class="cv-left-section-title">Contact Information</div>
           <div class="cv-left-section-content">
             <ul class="cv-contact-list">
               ${contactItems.join("")}
@@ -86,7 +86,7 @@ function buildCvHtml(data) {
           careerGoal
             ? `
         <div class="cv-left-section">
-          <div class="cv-left-section-title">Mục tiêu nghề nghiệp</div>
+          <div class="cv-left-section-title">Career objective</div>
           <div class="cv-left-section-content">
             ${escapeHtml(careerGoal)}
           </div>
@@ -98,7 +98,7 @@ function buildCvHtml(data) {
           skills
             ? `
         <div class="cv-left-section">
-          <div class="cv-left-section-title">Kỹ năng</div>
+          <div class="cv-left-section-title">Skills</div>
           <div class="cv-left-section-content">
             ${escapeHtml(skills)}
           </div>
@@ -110,7 +110,7 @@ function buildCvHtml(data) {
           hobbies
             ? `
         <div class="cv-left-section">
-          <div class="cv-left-section-title">Sở thích</div>
+          <div class="cv-left-section-title">Hobbies</div>
           <div class="cv-left-section-content">
             ${escapeHtml(hobbies)}
           </div>
@@ -124,7 +124,7 @@ function buildCvHtml(data) {
           education
             ? `
         <section class="cv-right-section">
-          <h2 class="cv-right-title">Học vấn</h2>
+          <h2 class="cv-right-title">Education</h2>
           <div class="cv-right-content">
 ${escapeHtml(education)}
           </div>
@@ -136,7 +136,7 @@ ${escapeHtml(education)}
           experience
             ? `
         <section class="cv-right-section">
-          <h2 class="cv-right-title">Kinh nghiệm làm việc</h2>
+          <h2 class="cv-right-title">Work Experience</h2>
           <div class="cv-right-content">
 ${escapeHtml(experience)}
           </div>
