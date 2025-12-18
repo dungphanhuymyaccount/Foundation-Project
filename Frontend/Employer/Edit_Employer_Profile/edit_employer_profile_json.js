@@ -1,9 +1,9 @@
-// ==================== CẤU HÌNH VÀ BIẾN TOÀN CỤC (GIỐNG STUDENT) ====================
-// Key chính cho CSDL chung (list_user)
+// ==================== CONFIGURATION AND GLOBAL VARIABLES (SAME AS STUDENT) ====================
+// Main key for general database (list_user)
 const ALL_USERS_STORAGE_KEY = "list_user";
-// Key người dùng đang đăng nhập (dùng cho logic dự phòng)
+// Logged-in user key (used for fallback logic)
 const LOGGED_IN_EMAIL_KEY = "loggedInEmail";
-// Key lưu đối tượng user hiện tại (nguồn dữ liệu chính)
+// Key to store current user object (primary data source)
 const CURRENT_USER_STORAGE_KEY = "current_user";
 const DEFAULT_AVATAR = "image/OIP.jpg";
 
@@ -11,10 +11,10 @@ let allEmployers = [];
 let currentUser = null;
 let originalData = {};
 
-// ==================== CÁC HÀM XỬ LÝ DỮ LIỆU CHUNG (LOCAL STORAGE) ====================
+// ==================== COMMON DATA HANDLING FUNCTIONS (LOCAL STORAGE) ====================
 
 /**
- * Lấy toàn bộ dữ liệu CSDL (list_user) từ Local Storage.
+ * Get entire database object (list_user) from Local Storage.
  */
 const getDatabaseObject = () => {
 	const storedData = localStorage.getItem(ALL_USERS_STORAGE_KEY);
@@ -22,54 +22,54 @@ const getDatabaseObject = () => {
 		try {
 			return JSON.parse(storedData);
 		} catch (e) {
-			console.error("Lỗi phân tích CSDL Local Storage:", e);
+			console.error("Error parsing Local Storage DB:", e);
 		}
 	}
 	return { list_student: [], list_employer: [] };
 };
 
 /**
- * Khởi tạo CSDL: Đọc mảng employer từ Local Storage và chuẩn hóa email.
+ * Initialize Database: Read employer array from Local Storage and normalize emails.
  */
 function initializeDatabase() {
 	const db = getDatabaseObject();
 	allEmployers = db.list_employer || [];
 
-	// Chuẩn hóa email về chữ thường
+	// Normalize email to lowercase
 	allEmployers = allEmployers.map((employer) => ({
 		...employer,
 		email: employer.email ? employer.email.toLowerCase() : "",
 	}));
 	console.log(
-		`Đã tải CSDL Employer (${allEmployers.length} mục) từ Local Storage.`,
+		`Loaded Employer DB (${allEmployers.length} items) from Local Storage.`,
 	);
 }
 
 /**
- * Lưu toàn bộ mảng allEmployers trở lại key list_user.
+ * Save the entire allEmployers array back to the list_user key.
  */
 function saveAllEmployers() {
 	const db = getDatabaseObject();
 	db.list_employer = allEmployers;
 	localStorage.setItem(ALL_USERS_STORAGE_KEY, JSON.stringify(db));
-	console.log("Đã lưu toàn bộ CSDL Employer vào Local Storage.");
+	console.log("Saved entire Employer DB to Local Storage.");
 }
 
 /**
- * Tìm employer theo Email trong mảng allEmployers (để kiểm tra trùng lặp).
- * @param {string} email - Email cần tìm (đã được chuẩn hóa chữ thường)
- * @returns {object|null} - Đối tượng sinh viên nếu tìm thấy, ngược lại là null.
+ * Find employer by Email in the allEmployers array (to check for duplicates).
+ * @param {string} email - Email to find (already normalized to lowercase)
+ * @returns {object|null} - Employer object if found, otherwise null.
  */
 function findEmployerByEmail(email) {
-	// BUG FIX: Đảm bảo email tìm kiếm cũng được chuẩn hóa chữ thường
+	// Ensure the search email is also normalized to lowercase
 	const normalizedEmail = email ? email.toLowerCase() : "";
 	const employer = allEmployers.find((s) => s.email === normalizedEmail);
 	return employer ? { ...employer } : null;
 }
 
 /**
- * Lấy dữ liệu người dùng hiện tại được lưu trực tiếp dưới key 'current_user'.
- * @returns {object|null} - Đối tượng người dùng nếu tồn tại và phân tích thành công.
+ * Get current user data stored directly under the 'current_user' key.
+ * @returns {object|null} - User object if exists and successfully parsed.
  */
 function getCurrentUserFromLocalStorage() {
 	const storedData = localStorage.getItem(CURRENT_USER_STORAGE_KEY);
@@ -85,19 +85,19 @@ function getCurrentUserFromLocalStorage() {
 			return finalUserData || null;
 		} catch (e) {
 			console.error(
-				`Lỗi phân tích JSON từ key "${CURRENT_USER_STORAGE_KEY}":`,
+				`Error parsing JSON from key "${CURRENT_USER_STORAGE_KEY}":`,
 				e,
 			);
 			return null;
 		}
 	}
 	console.log(
-		`Không tìm thấy dữ liệu dưới key "${CURRENT_USER_STORAGE_KEY}" trong Local Storage.`,
+		`No data found under key "${CURRENT_USER_STORAGE_KEY}" in Local Storage.`,
 	);
 	return null;
 }
 
-// ==================== HÀM CHUYỂN ĐỔI NGÀY THÁNG (GIỐNG STUDENT) ====================
+// ==================== DATE CONVERSION FUNCTIONS (SAME AS STUDENT) ====================
 function convertToYYYYMMDD(dateString) {
 	if (!dateString) return "";
 	const parts = dateString.split("/");
@@ -120,7 +120,7 @@ function convertToMMDDYYYY(dateString) {
 	return dateString;
 }
 
-// ==================== LẤY FORM INPUTS (GIỮ NGUYÊN) ====================
+// ==================== GET FORM INPUTS (REMAINS UNCHANGED) ====================
 function getPersonalInputs() {
 	const generalSection = document.querySelector("#account-general");
 	if (!generalSection) return {};
@@ -139,13 +139,12 @@ function getPersonalInputs() {
 function getCompanyInputs() {
 	const companySection = document.querySelector("#account-company");
 	if (!companySection) return {};
-	// Prefer selecting by id (added in HTML)
 	return {
-		companyName: document.getElementById('companyName'),
-		field: document.getElementById('field'),
-		size: document.getElementById('size'),
-		address: document.getElementById('companyAddress'),
-		introduction: document.getElementById('companyIntroduction')
+		companyName: document.getElementById("companyName"),
+		field: document.getElementById("field"),
+		size: document.getElementById("size"),
+		address: document.getElementById("companyAddress"),
+		introduction: document.getElementById("companyIntroduction"),
 	};
 }
 
@@ -162,48 +161,46 @@ function getPasswordInputs() {
 	};
 }
 
-// ==================== KHỞI TẠO TRANG (LOGIC DỰ PHÒNG HOÀN CHỈNH) ====================
+// ==================== PAGE INITIALIZATION ====================
 function initializePage() {
-	console.log("Khởi tạo trang...");
+	console.log("Initializing page...");
 
-	// 1. Khởi tạo CSDL (Đọc list_user - cần thiết cho việc cập nhật và kiểm tra trùng lặp)
+	// 1. Initialize DB (Read list_user - required for updates and duplicate checks)
 	initializeDatabase();
 
-	// 2. LẤY DATA NGƯỜI DÙNG TỪ KEY "current_user" (LOGIC MỚI)
+	// 2. GET USER DATA FROM "current_user" KEY (NEW LOGIC)
 	const employerData = getCurrentUserFromLocalStorage();
 
 	if (employerData) {
-		// Dữ liệu đã được chuẩn hóa chữ thường trong getCurrentUserFromLocalStorage()
+		// Data has been normalized to lowercase in getCurrentUserFromLocalStorage()
 		currentUser = employerData;
 		loadPersonalProfile();
 		loadCompanyProfile();
 
-		// Reset form mật khẩu
+		// Reset password form
 		const passInputs = getPasswordInputs();
 		if (passInputs.currentPassword) passInputs.currentPassword.value = "";
 		if (passInputs.newPassword) passInputs.newPassword.value = "";
 		if (passInputs.repeatPassword) passInputs.repeatPassword.value = "";
 
-		console.log("User hiện tại (từ current_user):", currentUser);
+		console.log("Current user (from current_user):", currentUser);
 
-		// BUG FIX: Cần đảm bảo currentUser này tồn tại trong allStudents để có thể Save
+		// BUG FIX: Need to ensure this currentUser exists in allEmployers to enable Saving
 		const foundInDB = findEmployerByEmail(currentUser.email);
 		if (!foundInDB) {
-			// Trường hợp user đang đăng nhập nhưng không có trong list_user, cần xử lý để Save
-			// Nếu bạn muốn Save được, bạn phải thêm user này vào allStudents
+			// Case where user is logged in but not in list_user, add them to allow Saving
 			allEmployers.push(currentUser);
 			saveAllEmployers();
 			console.warn(
-				"Cảnh báo: Đã thêm currentUser vào allEmployers để đảm bảo chức năng Save.",
+				"Warning: You have no right to edit profile. Contact admin!!!.",
 			);
 		}
 	} else {
-		// Trường hợp không tìm thấy key "current_user"
+		// Case where "current_user" key is not found
 		showNotification(
-			"Không tìm thấy dữ liệu người dùng đang đăng nhập (key 'current_user' trống/lỗi). Vui lòng đăng nhập lại.",
+			"Logged-in not found. Please log in again.",
 			"error",
 		);
-		// Xóa loggedInEmail/current_user để tránh lỗi lặp nếu có
 		localStorage.removeItem(LOGGED_IN_EMAIL_KEY);
 		localStorage.removeItem(CURRENT_USER_STORAGE_KEY);
 	}
@@ -212,24 +209,25 @@ function initializePage() {
 // ==================== LOAD PROFILE ====================
 function loadPersonalProfile() {
 	if (!currentUser) {
-		console.error("Không có dữ liệu currentUser");
+		console.error("No currentUser data available");
 		return;
 	}
-	console.log("Đang load personal profile...");
+	console.log("Loading personal profile...");
 	const avatar = document.querySelector(".ui-w-80");
 	const inputs = getPersonalInputs();
 
 	const personalData = {
-		employerName: currentUser.employerName || "", // Key EmployerName
+		employerName: currentUser.employerName || "",
 		birthday: convertToYYYYMMDD(currentUser.birthday) || "",
 		phoneNumber: currentUser.phoneNumber || "",
 		address: currentUser.address || "",
-		email: currentUser.email || "", // Key Email
+		email: currentUser.email || "",
 		companyName: currentUser.companyName || "",
 		avatar: currentUser.avatar || DEFAULT_AVATAR,
 	};
 
-	if (inputs.employerName) inputs.employerName.value = personalData.employerName;
+	if (inputs.employerName)
+		inputs.employerName.value = personalData.employerName;
 	if (inputs.birthday) inputs.birthday.value = personalData.birthday;
 	if (inputs.phoneNumber) inputs.phoneNumber.value = personalData.phoneNumber;
 	if (inputs.address) inputs.address.value = personalData.address;
@@ -237,17 +235,16 @@ function loadPersonalProfile() {
 	if (inputs.companyName) inputs.companyName.value = personalData.companyName;
 	if (avatar) avatar.src = personalData.avatar;
 
-	// Lưu bản gốc của dữ liệu (quan trọng để so sánh thay đổi email)
+	// Save original data (important for comparing email changes)
 	originalData = { ...personalData };
 
-	// Xóa các thông báo lỗi cũ
 	document
 		.querySelectorAll(".is-invalid")
 		.forEach((el) => el.classList.remove("is-invalid"));
 
-	console.log("Đã load personal profile:", personalData);
+	console.log("Personal profile loaded:", personalData);
 	showNotification(
-		"Đã load thông tin cá nhân: " + personalData.employerName,
+		"Personal info loaded: " + personalData.employerName,
 		"success",
 	);
 }
@@ -261,7 +258,8 @@ function loadCompanyProfile() {
 		field: currentUser.field || "",
 		size: currentUser.size || "",
 		address: currentUser.address || currentUser.Address || "",
-		introduction: currentUser.introduction || currentUser.CompanyIntroduction || ""
+		introduction:
+			currentUser.introduction || currentUser.CompanyIntroduction || "",
 	};
 
 	if (inputs.companyName) inputs.companyName.value = companyData.companyName;
@@ -273,10 +271,10 @@ function loadCompanyProfile() {
 	originalData = { ...originalData, ...companyData };
 }
 
-// ==================== LƯU PROFILE CHUNG ====================
+// ==================== GENERAL SAVE PROFILE ====================
 window.saveProfile = function () {
 	if (!currentUser) {
-		showNotification("Lỗi: Không có người dùng đang đăng nhập.", "error");
+		showNotification("Error: No logged-in user found.", "error");
 		return false;
 	}
 	const isPersonalSaved = savePersonalProfile();
@@ -295,20 +293,20 @@ window.saveProfile = function () {
 	if (isPersonalSaved || isCompanySaved) {
 		if (isPasswordChangeAttempted) {
 			if (isPasswordSaved) {
-				// Đã đổi mật khẩu thành công (thông báo đã có trong savePassword)
+				// Password changed successfully (notification already handled in savePassword)
 			} else {
 				showNotification(
-					"Lưu thông tin cá nhân thành công! (Đổi mật khẩu thất bại)",
+					"Personal info saved successfully! (Password change failed)",
 				);
 			}
 		} else {
-			showNotification("Lưu thông tin cá nhân thành công!", "success");
+			showNotification("Personal info and new password saved successfully!");
 		}
 	}
 	return isPersonalSaved && isCompanySaved && isPasswordSaved;
 };
 
-// ==================== LƯU PERSONAL PROFILE ====================
+// ==================== SAVE PERSONAL PROFILE ====================
 function savePersonalProfile() {
 	if (!validatePersonalForm()) return false;
 	const inputs = getPersonalInputs();
@@ -337,7 +335,7 @@ function savePersonalProfile() {
 	}
 }
 
-// ==================== LƯU COMPANY PROFILE ====================
+// ==================== SAVE COMPANY PROFILE ====================
 function saveCompanyProfile() {
 	if (!validateCompanyForm()) return false;
 	const inputs = getCompanyInputs();
@@ -347,7 +345,7 @@ function saveCompanyProfile() {
 		field: inputs.field?.value.trim() || "",
 		size: inputs.size?.value.trim() || "",
 		address: inputs.address?.value.trim() || "",
-		introduction: inputs.introduction?.value.trim() || ""
+		introduction: inputs.introduction?.value.trim() || "",
 	};
 	const userIndex = allEmployers.findIndex(
 		(e) => e.Email === currentUser.Email,
@@ -361,14 +359,14 @@ function saveCompanyProfile() {
 		return true;
 	} else {
 		showNotification(
-			"Lỗi: Không tìm thấy Employer trong CSDL để cập nhật Company Info.",
+			"Error: Employer not found in DB to update Company Info.",
 			"error",
 		);
 		return false;
 	}
 }
 
-// ==================== LƯU PASSWORD ====================
+// ==================== SAVE PASSWORD ====================
 function savePassword() {
 	if (!validatePasswordForm()) return false;
 	const inputs = getPasswordInputs();
@@ -382,7 +380,7 @@ function savePassword() {
 		currentUser.password = newPassword;
 		localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(currentUser));
 		saveAllEmployers();
-		showNotification("Đã cập nhật mật khẩu thành công!", "success");
+		showNotification("Password updated successfully!", "success");
 		inputs.currentPassword.value = "";
 		inputs.newPassword.value = "";
 		inputs.repeatPassword.value = "";
@@ -391,12 +389,12 @@ function savePassword() {
 		);
 		return true;
 	} else {
-		showNotification("Lỗi: Không tìm thấy người dùng trong CSDL.", "error");
+		showNotification("Error: User not found in database.", "error");
 		return false;
 	}
 }
 
-// ==================== VALIDATE FORMS (CƠ BẢN) ====================
+// ==================== FORM VALIDATION ====================
 function validatePersonalForm() {
 	let isValid = true;
 	let errors = [];
@@ -405,13 +403,13 @@ function validatePersonalForm() {
 	const errorPhone = document.getElementById("error-phone");
 	const errorDob = document.getElementById("error-dob");
 
-	// Xóa trạng thái lỗi cũ
+	// Reset old error status
 	Object.values(inputs).forEach(
 		(input) => input && input.classList.remove("is-invalid"),
 	);
 
 	if (inputs.employerName && inputs.employerName.value.trim() === "") {
-		errorFullName.innerHTML = "<p>Vui lòng nhập họ và tên.</p>";
+		errorFullName.innerHTML = "<p>Please enter full name.</p>";
 		inputs.employerName.classList.add("is-invalid");
 		isValid = false;
 	} else {
@@ -423,7 +421,7 @@ function validatePersonalForm() {
 		inputs.phoneNumber.value.trim() !== "" &&
 		inputs.phoneNumber.value.trim().length < 10
 	) {
-		errorPhone.innerHTML = "<p>Số điện thoại phải có ít nhất 10 chữ số.</p>";
+		errorPhone.innerHTML = "<p>Phone number must have at least 10 digits.</p>";
 		inputs.phoneNumber.classList.add("is-invalid");
 		isValid = false;
 	} else {
@@ -434,7 +432,7 @@ function validatePersonalForm() {
 		const birthday = new Date(inputs.birthday.value);
 		const today = new Date();
 		if (birthday.getTime() > today.getTime()) {
-			errorDob.innerHTML = "<p>Ngày sinh không được trong tương lai.</p>";
+			errorDob.innerHTML = "<p>Birthday cannot be in the future.</p>";
 			inputs.birthday.classList.add("is-invalid");
 			isValid = false;
 		} else {
@@ -443,7 +441,7 @@ function validatePersonalForm() {
 	}
 
 	if (!isValid) {
-		showNotification("Lỗi Thông Tin Cá Nhân:\n" + errors.join("\n"), "error");
+		showNotification("Personal Info Error:\n" + errors.join("\n"), "error");
 	}
 
 	return isValid;
@@ -451,10 +449,10 @@ function validatePersonalForm() {
 
 function validateCompanyForm() {
 	let isValid = true;
-	// *LƯU Ý: THÊM LOGIC VALIDATE THỰC TẾ CỦA BẠN VÀO ĐÂY*
+	// *NOTE: ADD YOUR ACTUAL VALIDATION LOGIC HERE*
 	if (!isValid) {
 		showNotification(
-			"Lỗi Company Info. Vui lòng kiểm tra các trường đã tô đỏ.",
+			"Company Info error. Please check highlighted fields.",
 			"error",
 		);
 	}
@@ -480,18 +478,18 @@ function validatePasswordForm() {
 	const errorRepeatPassword = document.getElementById("error-repeat-password");
 
 	if (!currentUser) {
-		errors.push("Lỗi: Không tìm thấy thông tin người dùng.");
+		errors.push("Error: User info not found.");
 		isValid = false;
-		showNotification("Lỗi nghiêm trọng: Không có currentUser", "error");
+		showNotification("Critical Error: No currentUser", "error");
 		return false;
 	}
 
 	if (currentPass === "") {
-		errorCurrentPassword.innerHTML = "<p>Vui lòng nhập mật khẩu hiện tại.</p>";
+		errorCurrentPassword.innerHTML = "<p>Please enter current password.</p>";
 		inputs.currentPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else if (currentPass !== currentUser.password) {
-		errorCurrentPassword.innerHTML = "<p>Mật khẩu hiện tại không đúng.</p>";
+		errorCurrentPassword.innerHTML = "<p>Incorrect current password.</p>";
 		inputs.currentPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else {
@@ -499,16 +497,17 @@ function validatePasswordForm() {
 	}
 
 	if (newPass === "") {
-		errorNewPassword.innerHTML = "<p>Vui lòng nhập mật khẩu mới.</p>";
+		errorNewPassword.innerHTML = "<p>Please enter new password.</p>";
 		inputs.newPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else if (newPass.length < 6) {
-		errorNewPassword.innerHTML = "<p>Mật khẩu mới phải có ít nhất 6 kí tự.</p>";
+		errorNewPassword.innerHTML =
+			"<p>New password must be at least 6 characters long.</p>";
 		inputs.newPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else if (newPass === currentUser.password) {
 		errorNewPassword.innerHTML =
-			"<p>Mật khẩu mới không được trùng mật khẩu cũ.</p>";
+			"<p>New password cannot be the same as old password.</p>";
 		inputs.newPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else {
@@ -516,11 +515,11 @@ function validatePasswordForm() {
 	}
 
 	if (repeatPass === "") {
-		errorRepeatPassword.innerHTML = "<p>Vui lòng nhập lại mật khẩu mới.</p>";
+		errorRepeatPassword.innerHTML = "<p>Please re-enter new password.</p>";
 		inputs.repeatPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else if (newPass !== repeatPass) {
-		errorRepeatPassword.innerHTML = "<p>Mật khẩu nhập lại không khớp.</p>";
+		errorRepeatPassword.innerHTML = "<p>Passwords do not match.</p>";
 		inputs.repeatPassword?.classList.add("is-invalid");
 		isValid = false;
 	} else {
@@ -528,23 +527,23 @@ function validatePasswordForm() {
 	}
 
 	if (!isValid) {
-		showNotification("Lỗi Đổi Mật Khẩu:\n" + errors.join("\n"), "error");
+		showNotification("Password Change Error:\n" + errors.join("\n"), "error");
 	}
 	return isValid;
 }
 
-// ==================== UI VÀ EVENT LISTENERS ====================
+// ==================== UI AND EVENT LISTENERS ====================
 function handleImageUpload(event) {
 	const file = event.target.files[0];
 	if (!file) return;
 	const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
 	if (!allowedTypes.includes(file.type)) {
-		showNotification("Chỉ chấp nhận JPG, PNG hoặc GIF!", "error");
+		showNotification("Only JPG, PNG, or GIF are accepted!", "error");
 		return;
 	}
 	const maxSize = 800 * 1024;
 	if (file.size > maxSize) {
-		showNotification("Kích thước file tối đa 800KB!", "error");
+		showNotification("Maximum file size is 800KB!", "error");
 		return;
 	}
 	const reader = new FileReader();
@@ -552,7 +551,7 @@ function handleImageUpload(event) {
 		const avatar = document.querySelector(".ui-w-80");
 		if (avatar) {
 			avatar.src = e.target.result;
-			showNotification("Đã tải ảnh lên. Nhấn Save để lưu.", "info");
+			showNotification("Image uploaded. Click Save to apply.", "info");
 		}
 	};
 	reader.readAsDataURL(file);
@@ -562,12 +561,12 @@ window.resetPhoto = function () {
 	const avatar = document.querySelector(".ui-w-80");
 	const uploadInput = document.querySelector(".account-settings-fileinput");
 	if (avatar) {
-		avatar.src = currentUser?.Avatar || DEFAULT_AVATAR; // Dùng optional chaining
+		avatar.src = currentUser?.Avatar || DEFAULT_AVATAR; // Using optional chaining
 	}
 	if (uploadInput) {
 		uploadInput.value = "";
 	}
-	showNotification("Đã reset ảnh", "info");
+	showNotification("Photo reset", "info");
 };
 
 function showNotification(message, type = "info") {
@@ -601,9 +600,9 @@ function showNotification(message, type = "info") {
 	}, 3000);
 }
 
-// ==================== EVENT LISTENERS (GIỐNG STUDENT) ====================
+// ==================== EVENT LISTENERS ====================
 document.addEventListener("DOMContentLoaded", () => {
-	// Gán các hàm vào window
+	// Assign functions to window
 	window.handleImageUpload = handleImageUpload;
 	window.resetPhoto = resetPhoto;
 	window.saveProfile = saveProfile;
@@ -621,13 +620,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
-// ==================== DEBUG FUNCTIONS (GIỮ NGUYÊN) ====================
+// ==================== DEBUG FUNCTIONS ====================
 window.clearAllData = function () {
 	localStorage.clear();
-	showNotification("Đã reset tất cả dữ liệu.", "info");
+	showNotification("All data reset.", "info");
 	setTimeout(() => window.location.reload(), 1000);
 };
 
-console.log(
-	"edit_employer_profile_json.js đã được đồng bộ hóa hoàn toàn và sẵn sàng.",
-);
+console.log("edit_employer_profile_json.js is fully synchronized and ready.");
