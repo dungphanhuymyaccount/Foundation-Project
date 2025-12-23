@@ -296,11 +296,11 @@ window.saveProfile = function () {
 				// Password changed successfully (notification already handled in savePassword)
 			} else {
 				showNotification(
-					"Personal info saved successfully! (Password change failed)",
+					"Personal info saved successfully! (Password change failed)"," warning"
 				);
 			}
 		} else {
-			showNotification("Personal info and new password saved successfully!");
+			showNotification("Personal info and new password saved successfully!", "success");
 		}
 	}
 	return isPersonalSaved && isCompanySaved && isPasswordSaved;
@@ -603,11 +603,7 @@ function showNotification(message, type = "info") {
 // ==================== EVENT LISTENERS ====================
 document.addEventListener("DOMContentLoaded", () => {
 	// Assign functions to window
-	window.handleImageUpload = handleImageUpload;
-	window.resetPhoto = resetPhoto;
-	window.saveProfile = saveProfile;
-
-	initializePage();
+	window.initializePage = initializePage;
 
 	const uploadInput = document.querySelector(".account-settings-fileinput");
 	if (uploadInput) {
@@ -618,6 +614,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	if (resetPhotoBtn) {
 		resetPhotoBtn.addEventListener("click", resetPhoto);
 	}
+	initializePage();
 });
 
 // ==================== DEBUG FUNCTIONS ====================
