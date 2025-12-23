@@ -284,11 +284,11 @@
 					// Password changed successfully (notification already handled in savePassword)
 				} else {
 					showNotification(
-						"Personal info saved successfully! (Password change failed)",
+						"Personal info saved successfully! (Password change failed)", "warning",
 					);
 				}
 			} else {
-				showNotification("Personal info and new password saved successfully!");
+				showNotification("Personal info and new password saved successfully!", "success");
 			}
 		}
 
