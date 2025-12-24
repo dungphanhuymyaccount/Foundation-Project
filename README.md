@@ -41,13 +41,14 @@ To run this project locally, follow these steps:
 3. **Clone the Repository**:
    ```bash
    git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+
 Launch:
 
-Open the project folder in VS Code.
+1. Open the project folder in VS Code.
 
-Open the student-homepage.html file (or the main entry file).
+2. Open the student-homepage.html file (or the main entry file).
 
-Right-click and select "Open with Live Server".
+3. Right-click and select "Open with Live Server".
 
 The website will be hosted at: http://127.0.0.1:5500/.
 
