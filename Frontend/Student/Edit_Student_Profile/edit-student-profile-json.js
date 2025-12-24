@@ -10,10 +10,8 @@
 
 	// ==================== COMMON DATA HANDLING FUNCTIONS (LOCAL STORAGE) ====================
 
-	/**
-	 * Get the entire database object from Local Storage, including list_student.
-	 * @returns {object} - Object containing list_student and list_employer.
-	 */
+	//Get the entire database object from Local Storage, including list_student.
+
 	const getDatabaseObject = () => {
 		const storedData = localStorage.getItem(ALL_STUDENTS_STORAGE_KEY);
 		if (storedData) {
@@ -27,10 +25,7 @@
 		return { list_student: [], list_employer: [] };
 	};
 
-	/**
-	 * Initialize Database: Read student array from Local Storage.
-	 * BUG FIX: Ensure emails in DB are converted to lowercase on first load.
-	 */
+	//Initialize Database: Read student array from Local Storage.
 	function initializeDatabase() {
 		const db = getDatabaseObject();
 		allStudents = db.list_student || [];
@@ -43,9 +38,8 @@
 		);
 	}
 
-	/**
-	 * Save the entire allStudents array to Local Storage (in the list_student field).
-	 */
+	//Save the entire allStudents array to Local Storage (in the list_student field).
+
 	function saveAllStudents() {
 		const db = getDatabaseObject();
 		// Update list_student
@@ -54,11 +48,8 @@
 		console.log("Saved entire student DB to Local Storage.");
 	}
 
-	/**
-	 * Find student by Email in allStudents array (to check for duplicates).
-	 * @param {string} email - Email to find (already normalized to lowercase)
-	 * @returns {object|null} - Student object if found, otherwise null.
-	 */
+	//Find student by Email in allStudents array (to check for duplicates).
+
 	const findStudentByEmail = (email) => {
 		//Ensure the search email is also normalized to lowercase
 		const normalizedEmail = email ? email.toLowerCase() : "";
@@ -68,10 +59,7 @@
 
 	// ==================== GET CURRENT_USER FUNCTION (NEW LOGIC) ====================
 
-	/**
-	 * Get current user data stored directly under the 'current_user' key.
-	 * @returns {object|null} - User object if it exists and is successfully parsed.
-	 */
+	//Get current user data stored directly under the 'current_user' key.
 	function getCurrentUserFromLocalStorage() {
 		const storedData = localStorage.getItem(CURRENT_USER_STORAGE_KEY);
 
@@ -104,11 +92,7 @@
 
 	// ==================== DATE CONVERSION FUNCTIONS ====================
 
-	/**
-	 * Convert MM/DD/YYYY (from DB) to YYYY-MM-DD (for input type="date")
-	 * @param {string} dateString - Date in MM/DD/YYYY format
-	 * @returns {string} - Date in YYYY-MM-DD format
-	 */
+	// Convert MM/DD/YYYY (from DB) to YYYY-MM-DD (for input type="date")
 	function convertToYYYYMMDD(dateString) {
 		if (!dateString) return "";
 		const parts = dateString.split("/");
@@ -121,11 +105,7 @@
 		return "";
 	}
 
-	/**
-	 * Convert YYYY-MM-DD (from input type="date") to MM/DD/YYYY (for DB)
-	 * @param {string} dateString - Date in YYYY-MM-DD format
-	 * @returns {string} - Date in MM/DD/YYYY format
-	 */
+	// Convert YYYY-MM-DD (from input type="date") to MM/DD/YYYY (for DB)
 	function convertToMMDDYYYY(dateString) {
 		if (!dateString) return "";
 		const parts = dateString.split("-");
@@ -168,22 +148,21 @@
 		};
 	};
 
-	// ==================== MAIN PAGE INITIALIZATION (NEW LOGIC) ====================
+	// ==================== MAIN PAGE INITIALIZATION====================
 	function initializePage() {
 		console.log("Initializing page...");
 
-		// 1. Initialize DB (Read list_user - required for updates and duplicate checks)
+		//Initialize DB (Read list_user - required for updates and duplicate checks)
 		initializeDatabase();
 
-		// 2. GET USER DATA FROM "current_user" KEY (NEW LOGIC)
+		//GET USER DATA FROM "current_user" KEY (NEW LOGIC)
 		const studentData = getCurrentUserFromLocalStorage();
 
 		if (studentData) {
-			// Data has been normalized to lowercase in getCurrentUserFromLocalStorage()
 			currentUser = studentData;
 			loadPersonalProfile();
 
-			// Reset password form
+			//Reset password form
 			const passInputs = getPasswordInputs();
 			if (passInputs.currentPassword) passInputs.currentPassword.value = "";
 			if (passInputs.newPassword) passInputs.newPassword.value = "";
@@ -191,7 +170,7 @@
 
 			console.log("Current user (from current_user):", currentUser);
 
-			// BUG FIX: Ensure this currentUser exists in allStudents to enable Saving
+			//Ensure this currentUser exists in allStudents to enable Saving
 			const foundInDB = findStudentByEmail(currentUser.email);
 			if (!foundInDB) {
 				// Case where user is logged in but not in list_user, add them to allow Saving
@@ -310,29 +289,28 @@
 			birthday: convertToMMDDYYYY(inputs.birthday?.value.trim()) || "",
 			phoneNumber: inputs.phoneNumber?.value.trim() || "",
 			address: inputs.address?.value.trim() || "",
-			//New email always converted to lowercase before saving
 			email: inputs.email?.value.trim().toLowerCase() || "",
 			university: inputs.university?.value.trim() || "",
 			avatar: avatar?.src || DEFAULT_AVATAR,
 		};
 
-		// 1. Find user index in DB (list_user)
+		// Find user index in DB (list_user)
 		const userIndex = allStudents.findIndex((s) => s.email === currentUser.email);
 
 		if (userIndex !== -1) {
-			// 2. Update fields in DB (list_user)
+			// Update fields in DB (list_user)
 			allStudents[userIndex] = {
 				...allStudents[userIndex],
 				...newPersonalData,
 			};
 
-			// 3. Update currentUser variable
+			//Update currentUser variable
 			currentUser = { ...allStudents[userIndex] };
 
-			// UPDATE "current_user" KEY IN LOCAL STORAGE (NEW LOGIC)
+			// UPDATE "current_user" KEY IN LOCAL STORAGE
 			localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(currentUser));
 
-			// 4. Save entire DB to Local Storage
+			//Save entire DB to Local Storage
 			saveAllStudents();
 
 			console.log("Personal saved:", newPersonalData);
@@ -361,21 +339,21 @@
 		const userIndex = allStudents.findIndex((s) => s.email === currentUser.email);
 
 		if (userIndex !== -1) {
-			// Update "database" - Using 'password' key
+			//Update "database" - Using 'password' key
 			allStudents[userIndex].password = newPassword;
-			// Update session variable - Using 'password' key
+			//Update session variable - Using 'password' key
 			currentUser.password = newPassword;
 
-			// UPDATE "current_user" KEY IN LOCAL STORAGE (NEW LOGIC)
+			//UPDATE "current_user" KEY IN LOCAL STORAGE
 			localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(currentUser));
 
-			// Save entire DB to Local Storage
+			//Save entire DB to Local Storage
 			saveAllStudents();
 
 			console.log("Password updated for:", currentUser.email);
 			showNotification("Password changed successfully!", "success");
 
-			// Clear inputs after success
+			//Clear inputs after success
 			inputs.currentPassword.value = "";
 			inputs.newPassword.value = "";
 			inputs.repeatPassword.value = "";
@@ -409,6 +387,7 @@
 			errorFullName.innerHTML = "<p>Please enter full name.</p>";
 			inputs.fullName.classList.add("is-invalid");
 			isValid = false;
+			error.push("Full name is required.");
 		} else {
 			errorFullName.innerHTML = "";
 		}
@@ -420,6 +399,7 @@
 		) {
 			errorPhone.innerHTML = "<p>Phone number must have at least 10 digits.</p>";
 			inputs.phoneNumber.classList.add("is-invalid");
+			errors.push("Phone number must have at least 10 digits.");
 			isValid = false;
 		} else {
 			errorPhone.innerHTML = "";
@@ -431,6 +411,7 @@
 			if (dob.getTime() > today.getTime()) {
 				errorDob.innerHTML = "<p>Birthday cannot be in the future.</p>";
 				inputs.birthday.classList.add("is-invalid");
+				errors.push("Birthday cannot be in the future.");
 				isValid = false;
 			} else {
 				errorDob.innerHTML = "";
