@@ -1,8 +1,10 @@
 // ==================== POST JOB ====================
 
-/*Clears form contents*/
+/**
+ * Xóa nội dung form sau khi đăng tin thành công
+ */
 function clearForm() {
-    const formElements = document.querySelectorAll('#jobTitle, #field, #description, #salary, #location, #experienceMin, #experienceMax, #requirement, #deadline, #benefit, #numberOfVacancy, #avatar');
+    const formElements = document.querySelectorAll('#jobTitle, #field, #description, #salary, #location, #experienceMin, #experienceMax, #requirement, #deadline, #benefit, #numberOfVacancy');
 
     formElements.forEach(element => {
         if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
@@ -11,39 +13,33 @@ function clearForm() {
     });
 }
 
-/*Handles form submission*/
+/**
+ * Xử lý sự kiện gửi form và lưu dữ liệu kèm theo EmployerID
+ */
 async function handleSubmit() { 
-    const currentUser = getCurrentUser();
+    // Lấy thông tin người dùng hiện tại từ localStorage
+    const currentUser = getCurrentUser(); 
     
+    // Kiểm tra tính hợp lệ của người dùng: Phải có EmployerID mới được đăng bài
+    if (!currentUser || !currentUser.EmployerID) {
+        alert('Error: You must be logged in as an Employer to post a job!');
+        return;
+    }
+
+    // Lấy dữ liệu từ các trường nhập liệu
     const jobTitle = document.getElementById('jobTitle').value.trim();
     const field = document.getElementById('field').value.trim();
     const description = document.getElementById('description').value.trim();
-    const jobCompanyName = currentUser && currentUser.companyName ? currentUser.companyName : 'Unknown Company';
-    
-    if (jobCompanyName === 'Unknown Company' || !currentUser.EmployerID) {
-        alert('Error: Employer data (Company Name or User ID) is missing. Please log in again.');
-        return;
-    }    
-    
     const salary = document.getElementById('salary').value.trim();
     const location = document.getElementById('location').value.trim();
     const experienceMin = document.getElementById('experienceMin').value.trim();
     const experienceMax = document.getElementById('experienceMax').value.trim();
-    
-    const experienceCurrency = 'years'; 
-    
     const requirement = document.getElementById('requirement').value.trim();
     const deadline = document.getElementById('deadline').value.trim();
     const benefit = document.getElementById('benefit').value.trim();
     const numberOfVacancy = document.getElementById('numberOfVacancy').value.trim();
-    
-    const companyAvatar = currentUser && currentUser.avatar ? currentUser.avatar : 'Unknown Company';
-    if (companyAvatar === 'Unknown Company' || !currentUser.EmployerID) {
-        alert('Error: Employer data is missing. Please log in again.');
-        return;
-    }
 
-    // Validation
+    // Kiểm tra xem tất cả các thông tin bắt buộc đã được điền chưa
     if (
         !jobTitle || !field || !description || 
         !salary || !location ||
@@ -54,37 +50,35 @@ async function handleSubmit() {
         return;
     }
     
-    const Sal = parseInt(salary);
-    const minExp = parseInt(experienceMin);
-    const maxExp = parseInt(experienceMax);
-
-    // Create new job object
+    // Tạo đối tượng dữ liệu công việc mới
     const newJobData = {
-        jobId: generateJobId(),
+        jobId: generateJobId(), // Tự động tạo ID dạng JDxxx
         jobTitle: jobTitle,
         field: field,
-        companyName: jobCompanyName,
+        companyName: currentUser.companyName || 'Unknown Company', // Lấy từ thông tin Employer
         description: description,
         location: location,
-        salary: Sal,
+        salary: parseInt(salary),
         experience: {
-            min: minExp,
-            max: maxExp,
-            currency: experienceCurrency
+            min: parseInt(experienceMin),
+            max: parseInt(experienceMax),
+            currency: 'years'
         },
         requirement: requirement,
         deadline: deadline,
         benefit: benefit,
         numberOfVacancy: parseInt(numberOfVacancy),
-        avatar: companyAvatar, 
+        avatar: currentUser.avatar || '', // Logo của công ty
         postDate: Date.now(),
-        userId: currentUser && currentUser.EmployerID ? currentUser.EmployerID : 'GUEST'
+        // ĐỊNH DANH NGƯỜI ĐĂNG: Sử dụng EmployerID để lọc sau này
+        userId: currentUser.EmployerID 
     };
 
+    // Lưu công việc vào danh sách chung trong localStorage
     saveJobToLocalStorage(newJobData);
 
+    // Khởi tạo và gửi thông báo hệ thống
     initNotificationStorage(); 
-
     addNotificationToStorage({
         avatar: newJobData.avatar, 
         content: `<b>${newJobData.companyName}</b> posted a new job: <b>${newJobData.jobTitle}</b>.`,
@@ -92,6 +86,6 @@ async function handleSubmit() {
         recipientId: undefined 
     });
     
-    alert('Job posted successfully! Data saved locally.');
+    alert('Job posted successfully! It will now only appear in your management dashboard.');
     clearForm();
 }

@@ -13,7 +13,8 @@ body {
 
 
 .wrapper {
-    width: 100%;
+    width: 1200px;
+    margin: 0 auto;
 }
 
 .banner_and_search {
@@ -31,7 +32,7 @@ body {
 .job_post_section{
   display: flex;
   align-items: center;
-  flex-wrap: nowrap;      /* ép 1 dòng */
+  flex-wrap: nowrap;
   gap: 50px;
   padding: 30px 70px;
 
