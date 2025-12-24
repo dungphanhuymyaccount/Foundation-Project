@@ -160,3 +160,19 @@ h1 {
     border: 1px solid #eee;
     border-radius: 4px;
 }
+
+
+#editJobForm .btn-primary {
+    background-color: #007bff !important;
+    color: #fff !important;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 4px !important;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#editJobForm .btn-primary:hover {
+    background-color: #0069d9 !important;
+    border-color: #0062cc !important;
+}
