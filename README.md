@@ -51,8 +51,8 @@ Right-click and select "Open with Live Server".
 
 The website will be hosted at: http://127.0.0.1:5500/.
 
-##👨‍💻 Project Members (Group 5)
-Developed by students from Class 20251IT6121_TA001 - Hanoi University of Industry:
+## 👨‍💻 Project Members (Group 5)
+### Developed by students from Class 20251IT6121_TA001 - Hanoi University of Industry:
 
 Phan Huy Dũng (2023607834)
 
@@ -66,7 +66,7 @@ Tô Tuấn Huy (2023600859)
 
 Instructor: Nguyễn Thái Cường.
 
-🛡 Future Enhancements
+## 🛡 Future Enhancements
 Backend Integration: Implement a robust backend (Node.js/Python) and database (SQL/NoSQL).
 
 Security: Add email verification and advanced authentication mechanisms.
