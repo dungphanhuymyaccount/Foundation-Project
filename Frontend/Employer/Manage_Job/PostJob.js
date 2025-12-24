@@ -1,42 +1,37 @@
 // ==================== POST JOB ====================
-// ✅ KHÔNG KHAI BÁO currentUser Ở ĐÂY NỮA!
 
-/**
- * Xóa nội dung form
- */
+/*Clears form contents*/
 function clearForm() {
-    const formElements = document.querySelectorAll('#jobTitle, #field, #description, #salary, #location, #experienceMin, #experienceMax, #experienceCurrency, #requirement, #deadline, #benefit, #numberOfVacancy, #avatar');
+    const formElements = document.querySelectorAll('#jobTitle, #field, #description, #salary, #location, #experienceMin, #experienceMax, #requirement, #deadline, #benefit, #numberOfVacancy, #avatar');
 
     formElements.forEach(element => {
         if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
             element.value = '';
         }
-        if (element.id === 'experienceCurrency') {
-            element.value = 'years';
-        }
     });
 }
 
-/**
- * Xử lý submit form (async để đọc file)
- */
+/*Handles form submission*/
 async function handleSubmit() { 
-    // ✅ Lấy currentUser từ hàm shared
     const currentUser = getCurrentUser();
     
     const jobTitle = document.getElementById('jobTitle').value.trim();
     const field = document.getElementById('field').value.trim();
     const description = document.getElementById('description').value.trim();
     const jobCompanyName = currentUser && currentUser.companyName ? currentUser.companyName : 'Unknown Company';
+    
     if (jobCompanyName === 'Unknown Company' || !currentUser.EmployerID) {
         alert('Error: Employer data (Company Name or User ID) is missing. Please log in again.');
         return;
     }    
+    
     const salary = document.getElementById('salary').value.trim();
     const location = document.getElementById('location').value.trim();
     const experienceMin = document.getElementById('experienceMin').value.trim();
     const experienceMax = document.getElementById('experienceMax').value.trim();
-    const experienceCurrency = document.getElementById('experienceCurrency').value.trim();    
+    
+    const experienceCurrency = 'years'; 
+    
     const requirement = document.getElementById('requirement').value.trim();
     const deadline = document.getElementById('deadline').value.trim();
     const benefit = document.getElementById('benefit').value.trim();
@@ -52,7 +47,7 @@ async function handleSubmit() {
     if (
         !jobTitle || !field || !description || 
         !salary || !location ||
-        !experienceMin || !experienceMax || !experienceCurrency || 
+        !experienceMin || !experienceMax || 
         !requirement || !deadline || !benefit || !numberOfVacancy
     ) {
         alert('You need to fill all the required information!');
@@ -60,11 +55,10 @@ async function handleSubmit() {
     }
     
     const Sal = parseInt(salary);
-
     const minExp = parseInt(experienceMin);
     const maxExp = parseInt(experienceMax);
 
-    // Tạo object job mới
+    // Create new job object
     const newJobData = {
         jobId: generateJobId(),
         jobTitle: jobTitle,
@@ -82,23 +76,21 @@ async function handleSubmit() {
         deadline: deadline,
         benefit: benefit,
         numberOfVacancy: parseInt(numberOfVacancy),
-        avatar: companyAvatar, // logo công ty (base64)
+        avatar: companyAvatar, 
         postDate: Date.now(),
         userId: currentUser && currentUser.EmployerID ? currentUser.EmployerID : 'GUEST'
     };
 
-    // ✅ Lưu vào localStorage bằng hàm shared
     saveJobToLocalStorage(newJobData);
 
-    // Tạo Notification
-    initNotificationStorage(); // Đảm bảo storage đúng cấu trúc
+    initNotificationStorage(); 
 
-addNotificationToStorage({
-    avatar: newJobData.avatar, 
-    content: `<b>${newJobData.companyName}</b> posted a new job: <b>${newJobData.jobTitle}</b>.`,
-    jobId: newJobData.jobId,
-    recipientId: undefined // ⬅️ Đặt là undefined để không gắn với ID cụ thể nào (Global/All Student)
-});
+    addNotificationToStorage({
+        avatar: newJobData.avatar, 
+        content: `<b>${newJobData.companyName}</b> posted a new job: <b>${newJobData.jobTitle}</b>.`,
+        jobId: newJobData.jobId,
+        recipientId: undefined 
+    });
     
     alert('Job posted successfully! Data saved locally.');
     clearForm();

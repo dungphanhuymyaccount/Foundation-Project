@@ -10,12 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="shared.js"></script> <!-- ✅ Load shared trước -->
-    <script src="ManageJob.js"></script> <!-- ✅ XÓA dòng import PostJob.js -->
+    <script src="shared.js"></script>
+    <script src="ManageJob.js"></script>
     <script src="../HomePage_Employee/Navbar_Employer.js"></script>
     
     <style>
-        /* CSS cơ bản cho Modal */
         .modal {
             display: none;
             position: fixed;
@@ -54,7 +53,6 @@
             cursor: pointer;
         }
 
-        /* Style cho form trong Modal (tái sử dụng từ PostJob.css nếu có) */
         .form-group {
             margin-bottom: 15px;
         }
@@ -74,7 +72,6 @@
             box-sizing: border-box;
         }
 
-        /* Dùng flexbox cho các trường trên cùng một hàng (như Salary/Experience) */
         .edit-row {
             display: flex;
             gap: 20px;
@@ -215,7 +212,7 @@
                         </div>
 
 
-                        <button type="button" onclick="saveEditedJob()">Update Job</button>
+                        <button type="button" class="btn btn-primary btn-block" onclick="saveEditedJob()">Update Job</button>                  
                     </form>
                 </div>
             </div>
