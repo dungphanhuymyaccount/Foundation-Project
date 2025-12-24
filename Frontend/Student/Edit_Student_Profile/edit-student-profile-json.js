@@ -260,18 +260,18 @@
 		if (isPersonalSaved) {
 			if (isPasswordChangeAttempted) {
 				if (isPasswordSaved) {
-					// Password changed successfully (notification already handled in savePassword)
+					showNotification("Profile and password saved successfully!", "success");
+					return isPasswordSaved;
 				} else {
 					showNotification(
 						"Personal info saved successfully! (Password change failed)", "warning",
 					);
 				}
 			} else {
-				showNotification("Personal info and new password saved successfully!", "success");
+				showNotification("Personal info saved successfully!", "success");
 			}
+			return isPersonalSaved;
 		}
-
-		return isPersonalSaved && isPasswordSaved;
 	};
 
 	// ==================== SAVE PERSONAL PROFILE ====================
@@ -351,7 +351,6 @@
 			saveAllStudents();
 
 			console.log("Password updated for:", currentUser.email);
-			showNotification("Password changed successfully!", "success");
 
 			//Clear inputs after success
 			inputs.currentPassword.value = "";
@@ -387,7 +386,7 @@
 			errorFullName.innerHTML = "<p>Please enter full name.</p>";
 			inputs.fullName.classList.add("is-invalid");
 			isValid = false;
-			error.push("Full name is required.");
+			errors.push("Full name is required.");
 		} else {
 			errorFullName.innerHTML = "";
 		}
@@ -493,9 +492,6 @@
 			errorRepeatPassword.innerHTML = "";
 		}
 
-		if (!isValid) {
-			showNotification("Password Change Error:\n" + errors.join("\n"), "error");
-		}
 		return isValid;
 	}
 
