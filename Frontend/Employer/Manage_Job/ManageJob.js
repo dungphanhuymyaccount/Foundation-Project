@@ -94,9 +94,15 @@ function renderJobList(jobsToDisplay) {
         const crudCell = row.insertCell();
         crudCell.classList.add('crud-buttons');
         crudCell.innerHTML = `
-            <button class="manage-btn" title = "Manage candidate" onclick="manageCandidates('${job.jobId}')">👥</button> 
-            <button class="edit-btn" title = "Edit job post" onclick="openEditModal('${job.jobId}')">✅</button> 
-            <button class="delete-btn" title = "Delete job post" onclick="deleteJob('${job.jobId}')">❌</button>
+        <button class="manage-btn" title="Manage candidate" onclick="manageCandidates('${job.jobId}')">
+            <ion-icon name="people-outline"></ion-icon>
+        </button> 
+        <button class="edit-btn" title="Edit job post" onclick="openEditModal('${job.jobId}')">
+            <ion-icon name="create-outline"></ion-icon>
+        </button> 
+        <button class="delete-btn" title="Delete job post" onclick="deleteJob('${job.jobId}')">
+            <ion-icon name="trash-outline"></ion-icon>
+        </button>
         `;
     });
     
