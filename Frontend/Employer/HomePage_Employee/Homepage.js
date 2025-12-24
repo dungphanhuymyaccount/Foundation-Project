@@ -27,3 +27,13 @@ document.addEventListener("DOMContentLoaded", () => {
         accountName.textContent = "Account";
     }
 });
+
+document.getElementById('log-out').addEventListener("click", function(e) {
+    e.preventDefault();
+    // Hành động xóa này sẽ kích hoạt sự kiện 'storage' cho tất cả các tab khác
+    localStorage.removeItem('current_user'); 
+    
+    setTimeout(() => {
+        window.location.href = '../../General/Login/Login.html';
+    }, 800);
+});

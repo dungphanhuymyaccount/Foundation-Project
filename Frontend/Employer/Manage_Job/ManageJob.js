@@ -25,40 +25,68 @@ function initCurrentUser() {
 function loadJobsFromLocalStorage() {
     const storedJobsJSON = localStorage.getItem('postedJobs');
     
-    console.log('Loading jobs from localStorage...');
-    console.log('Raw data:', storedJobsJSON);
-    
     try {
         const allJobsRaw = storedJobsJSON ? JSON.parse(storedJobsJSON) : [];
-        console.log('All jobs parsed:', allJobsRaw);
         
-        // Kiểm tra currentUser
-        if (!currentUser) {
-            console.warn('No current user - showing all jobs (or none if filtering is required)');
-            allJobs = allJobsRaw; // Tạm thời hiển thị tất cả để debug
+        // STRICT CHECK: If no current user is found, do not show any jobs
+        if (!currentUser || currentUser.role !== 'Employer' || !currentUser.EmployerID) {
+            console.warn('Unauthorized access: No employer logged in.');
+            allJobs = [];
             return allJobs;
         }
         
-        // Lọc job theo userId
-        if (currentUser.role === 'Employer' && currentUser.EmployerID) {
-            allJobs = allJobsRaw.filter(job => {
-                console.log(`Checking job ${job.jobId}: userId="${job.userId}" vs EmployerID="${currentUser.EmployerID}"`);
-                return job.userId === currentUser.EmployerID;
-            });
-            console.log('Filtered jobs for employer:', allJobs);
-        } else {
-            console.warn('User is not an Employer or missing EmployerID');
-            allJobs = [];
-        }
+        // Filter jobs specifically for the logged-in EmployerID
+        allJobs = allJobsRaw.filter(job => job.userId === currentUser.EmployerID);
+        console.log('Filtered jobs for logged-in employer:', allJobs);
         
     } catch (e) {
-        console.error("Lỗi khi phân tích cú pháp dữ liệu localStorage:", e);
+        console.error("Error parsing localStorage data:", e);
         allJobs = [];
     }
     
     return allJobs;
 }
 
+/**
+ * Renders the job table list
+ */
+function renderJobList(jobsToDisplay) {
+    const tbody = document.getElementById('jobListBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = ''; 
+
+    // If not logged in or no jobs, show a clear message
+    if (!currentUser) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">Please log in to manage your posts.</td></tr>';
+        return;
+    }
+
+    if (jobsToDisplay.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">No jobs posted yet.</td></tr>';
+        return;
+    }
+
+    jobsToDisplay.forEach(job => {
+        const row = tbody.insertRow();
+        
+        const titleCell = row.insertCell();
+        titleCell.innerHTML = `<a href="#" class="job-title-link" onclick="showJobDetails('${job.jobId}'); event.preventDefault();">${job.jobTitle}</a>`;
+        
+        const dateCell = row.insertCell();
+        const timestamp = job.postDate ? job.postDate : parseInt(job.jobId.replace('JD', ''));
+        const date = new Date(timestamp);
+        dateCell.textContent = date.toLocaleDateString('vi-VN');
+        
+        const crudCell = row.insertCell();
+        crudCell.classList.add('crud-buttons');
+        crudCell.innerHTML = `
+            <button class="manage-btn" title="Manage candidates" onclick="manageCandidates('${job.jobId}')"><ion-icon name="people-outline"></ion-icon></button> 
+            <button class="edit-btn" title="Edit job post" onclick="openEditModal('${job.jobId}')"><ion-icon name="create-outline"></ion-icon></button> 
+            <button class="delete-btn" title="Delete job post" onclick="deleteJob('${job.jobId}')"><ion-icon name="trash-outline"></ion-icon></button>
+        `;
+    });
+}
 /**
  * 2. Hiển thị danh sách công việc vào bảng HTML
  * @param {Array} jobsToDisplay - Mảng công việc cần hiển thị
@@ -341,9 +369,9 @@ function deleteJob(jobId) {
             loadJobsFromLocalStorage(); 
             renderJobList(allJobs);
             
-            alert(`Job ID: ${jobId} đã được xóa thành công.`);
+            alert(`Job ID: ${jobId} has been deleted.`);
         } else {
-            alert('Lỗi: Không tìm thấy công việc để xóa.');
+            alert('Error: Cant delete job.');
         }
     }
 }

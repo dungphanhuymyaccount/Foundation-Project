@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  window.addEventListener('storage', (event) => {
+    // Kiểm tra nếu key 'current_user' bị xóa (do tab khác đăng xuất)
+    if (event.key === 'current_user' && event.newValue === null) {
+      window.location.href = "../../General/Login/Login.html";
+    }
+  });
+  
   const LOGIN_URL = "../../General/Login/Login.html";
   const EDIT_PROFILE_URL = "../Edit_Employer_Profile/Edit_Employer_Profile.html";
 
