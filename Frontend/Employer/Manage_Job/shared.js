@@ -1,7 +1,6 @@
 // ==================== SHARED FUNCTIONS ====================
-// File này chứa các hàm dùng chung cho PostJob và ManageJob
-
-// Hàm quy định cấu trúc LocalStorage cho Notification
+// This file contains shared functions for PostJob and ManageJob
+// Define structure for Notification storage
 const MAX_RECENT_NOTIFICATIONS = 5;
 function initNotificationStorage() {
     const defaultStructure = {
@@ -19,7 +18,7 @@ function initNotificationStorage() {
         if (!Array.isArray(data.older)) { data.older = []; changed = true; }
 
         if (data.recent.length > MAX_RECENT_NOTIFICATIONS) {
-            // Lấy các thông báo cũ hơn 5 thông báo đầu tiên
+            // Move items older than the threshold to 'older' list
             const itemsToMove = data.recent.splice(MAX_RECENT_NOTIFICATIONS);
             data.older.unshift(...itemsToMove);
             changed = true;
@@ -31,23 +30,23 @@ function initNotificationStorage() {
     }
 }
 
-// Hàm tạo Notification
+// Create Notification object
 function createNotification(data) {
     return {
         avatar: data.avatar || "default-logo.png",
         content: data.content || "",
         time: new Date().toLocaleString(),
         jobId: data.jobId || null,
-        recipientId: data.recipientId || null, // optional: employer id or target user id
+        recipientId: data.recipientId || null, // Optional: employer ID or target user ID
         dot: true
     };
 }
 
-//Hàm lưu notification vào localStorage
+// Add notification to storage
 function addNotificationToStorage(noti) {
     let storage = JSON.parse(localStorage.getItem("notifications"));
 
-    // Giữ lại recipientId nếu có để UI có thể lọc thông báo cho từng người dùng
+    // Maintain recipientId if present for filtered UI
     storage.recent.unshift(createNotification(noti));
 
     if (storage.recent.length > MAX_RECENT_NOTIFICATIONS) {
@@ -63,8 +62,8 @@ function addNotificationToStorage(noti) {
 
 
 /**
- * Lấy thông tin user hiện tại từ localStorage
- * @returns {object|null} User object hoặc null
+ * Get current user from localStorage
+ * @returns {object|null} User object or null
  */
 function getCurrentUser() {
     try {
@@ -77,8 +76,8 @@ function getCurrentUser() {
 }
 
 /**
- * Lấy tất cả jobs từ localStorage (không filter)
- * @returns {Array} Mảng các đối tượng công việc
+ * Get all raw jobs from localStorage (unfiltered)
+ * @returns {Array} Array of job objects
  */
 function getAllJobsRaw() {
     const storedJobsJSON = localStorage.getItem('postedJobs');
@@ -91,9 +90,9 @@ function getAllJobsRaw() {
 }
 
 /**
- * Chuyển đổi File thành Base64
- * @param {File | null} file - Tệp hình ảnh
- * @returns {Promise<string | null>} Chuỗi Base64 hoặc null
+ * Convert File to Base64
+ * @param {File | null} file - Image file
+ * @returns {Promise<string | null>} Base64 string or null
  */
 function convertFileToBase64(file) {
     return new Promise((resolve, reject) => {
@@ -109,8 +108,8 @@ function convertFileToBase64(file) {
 }
 
 /**
- * Tạo ID công việc mới theo định dạng JD001, JD002, ...
- * @returns {string} ID công việc mới
+ * Generate unique job ID in format JD001, JD002, ...
+ * @returns {string} New job ID
  */
 function generateJobId() {
     const postedJobs = getAllJobsRaw();
@@ -129,8 +128,7 @@ function generateJobId() {
 }
 
 /**
- * Lưu job mới vào localStorage
- * @param {object} jobData - Đối tượng dữ liệu công việc mới
+ * Save new job to localStorage
  */
 function saveJobToLocalStorage(jobData) {
     let postedJobs = getAllJobsRaw();
@@ -140,9 +138,7 @@ function saveJobToLocalStorage(jobData) {
 }
 
 /**
- * Cập nhật job đã tồn tại trong localStorage
- * @param {object} updatedJobData - Đối tượng job đã cập nhật
- * @returns {boolean} True nếu thành công
+ * Update existing job in localStorage
  */
 function updateJobInLocalStorage(updatedJobData) {
     let postedJobs = getAllJobsRaw();
@@ -157,9 +153,7 @@ function updateJobInLocalStorage(updatedJobData) {
 }
 
 /**
- * Xóa job khỏi localStorage
- * @param {string} jobId - ID của job cần xóa
- * @returns {boolean} True nếu thành công
+ * Delete job from localStorage
  */
 function deleteJobFromLocalStorage(jobId) {
     let postedJobs = getAllJobsRaw();

@@ -1,9 +1,9 @@
-// Biến toàn cục để lưu trữ dữ liệu công việc đã được lọc theo Employer
+// Global variable to store job data filtered by Employer
 let allJobs = []; 
 let currentUser = null;
 
 /**
- * 1. Khởi tạo thông tin người dùng hiện tại
+ * 1. Initialize current user information
  */
 function initCurrentUser() {
     try {
@@ -13,7 +13,7 @@ function initCurrentUser() {
             console.log('Current user loaded:', currentUser);
         } else {
             console.log('No current user found in localStorage');
-            // Chuyển hướng về trang login nếu cần thiết
+            // Redirect to login page if necessary
             // window.location.href = "../../General/Login/Login.html";
         }
     } catch (e) {
@@ -23,11 +23,11 @@ function initCurrentUser() {
 }
 
 /**
- * 2. Tải và LỌC dữ liệu công việc theo Employer ID
+ * 2. Load and FILTER job data by Employer ID
  */
 function loadJobsFromLocalStorage() {
     const storedJobsJSON = localStorage.getItem('postedJobs');
-    allJobs = []; // Reset danh sách trước khi nạp
+    allJobs = []; // Reset list before loading
 
     if (!currentUser || !currentUser.EmployerID) {
         console.warn('Cannot load jobs: Employer not logged in.');
@@ -37,7 +37,7 @@ function loadJobsFromLocalStorage() {
     try {
         const allJobsRaw = storedJobsJSON ? JSON.parse(storedJobsJSON) : [];
         
-        // CHỈ LẤY những job có userId trùng với ID của người đang đăng nhập
+        // ONLY GET jobs that match the logged-in user's ID
         allJobs = allJobsRaw.filter(job => job.userId === currentUser.EmployerID);
         
         console.log(`Loaded ${allJobs.length} jobs for employer: ${currentUser.EmployerID}`);
@@ -48,7 +48,7 @@ function loadJobsFromLocalStorage() {
 }
 
 /**
- * 3. Hiển thị danh sách công việc vào bảng HTML
+ * 3. Render job list into HTML table
  */
 function renderJobList(jobsToDisplay) {
     const tbody = document.getElementById('jobListBody');
@@ -65,17 +65,17 @@ function renderJobList(jobsToDisplay) {
     jobsToDisplay.forEach(job => {
         const row = tbody.insertRow();
         
-        // Cột Job Title
+        // Job Title Column
         const titleCell = row.insertCell();
         titleCell.innerHTML = `<a href="#" class="job-title-link" onclick="showJobDetails('${job.jobId}'); event.preventDefault();">${job.jobTitle}</a>`;
         
-        // Cột Post Date
+        // Post Date Column
         const dateCell = row.insertCell();
         const timestamp = job.postDate ? job.postDate : Date.now();
         const date = new Date(timestamp);
-        dateCell.textContent = date.toLocaleDateString('vi-VN'); 
+        dateCell.textContent = date.toLocaleDateString('en-GB'); 
         
-        // Cột Hành động (CRUD)
+        // Actions Column (CRUD)
         const crudCell = row.insertCell();
         crudCell.classList.add('crud-buttons');
         crudCell.innerHTML = `
@@ -93,12 +93,12 @@ function renderJobList(jobsToDisplay) {
 }
 
 /**
- * 4. Hàm Tìm kiếm (Chỉ tìm trên danh sách đã lọc)
+ * 4. Filter function (Searches only within the filtered list)
  */
 function filterJobs() {
     const searchTerm = document.getElementById('searchJob').value.toLowerCase().trim();
     
-    // Luôn dựa trên biến allJobs (đã được lọc theo chủ sở hữu)
+    // Always based on the allJobs variable (already filtered by owner)
     if (!searchTerm) {
         renderJobList(allJobs); 
         return;
@@ -114,14 +114,14 @@ function filterJobs() {
 }
 
 /**
- * 5. Xóa công việc (Có kiểm tra quyền sở hữu)
+ * 5. Delete job (Ownership check included)
  */
 function deleteJob(jobId) {
     if (confirm(`Are you sure you want to delete Job ID: ${jobId}?`)) {
-        // Lấy lại dữ liệu thô từ Storage để thao tác xóa
+        // Retrieve raw data from storage for deletion
         let allStoredJobs = JSON.parse(localStorage.getItem('postedJobs')) || [];
         
-        // Tìm đúng job cần xóa dựa trên ID job VÀ ID người dùng
+        // Find job by ID AND user ownership
         const jobIndex = allStoredJobs.findIndex(j => 
             j.jobId === jobId && j.userId === currentUser.EmployerID
         );
@@ -130,7 +130,7 @@ function deleteJob(jobId) {
             allStoredJobs.splice(jobIndex, 1);
             localStorage.setItem('postedJobs', JSON.stringify(allStoredJobs));
             
-            // Cập nhật lại bộ nhớ tạm và giao diện
+            // Update local cache and UI
             loadJobsFromLocalStorage(); 
             renderJobList(allJobs);
             alert(`Job deleted successfully.`);
@@ -141,7 +141,7 @@ function deleteJob(jobId) {
 }
 
 /**
- * 6. Quản lý ứng viên
+ * 6. Candidate management navigation
  */
 function manageCandidates(jobId) {    
     localStorage.setItem("managing_job_ID", JSON.stringify(jobId)); 
@@ -149,7 +149,7 @@ function manageCandidates(jobId) {
 }
 
 /**
- * 7. Xem chi tiết công việc (Modal)
+ * 7. Show Job Details (Modal)
  */
 function showJobDetails(jobId) {
     const job = allJobs.find(j => j.jobId === jobId);
@@ -167,7 +167,7 @@ function showJobDetails(jobId) {
         <p><strong>Location:</strong> ${job.location}</p>
         <p><strong>Salary:</strong> ${job.salary.toLocaleString()} VND</p>
         <p><strong>Experience:</strong> ${job.experience.min} - ${job.experience.max} ${job.experience.currency}</p>
-        <p><strong>Deadline:</strong> ${new Date(job.deadline).toLocaleDateString('vi-VN')}</p>
+        <p><strong>Deadline:</strong> ${new Date(job.deadline).toLocaleDateString('en-GB')}</p>
         <p><strong>Description:</strong></p>
         <pre style="white-space: pre-wrap;">${job.description}</pre>
         <p><strong>Company Logo:</strong></p>
@@ -178,14 +178,14 @@ function showJobDetails(jobId) {
 }
 
 /**
- * 8. Đóng Modal
+ * 8. Close Modal
  */
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
 
 /**
- * 9. Mở Modal chỉnh sửa
+ * 9. Open Edit Modal
  */
 function openEditModal(jobId) {
     const job = allJobs.find(j => j.jobId === jobId);
@@ -211,7 +211,7 @@ function openEditModal(jobId) {
 }
 
 /**
- * 10. Lưu chỉnh sửa
+ * 10. Save edited job
  */
 async function saveEditedJob() {
     const jobId = document.getElementById('editJobId').value;
@@ -223,7 +223,7 @@ async function saveEditedJob() {
         return;
     }
 
-    // Cập nhật dữ liệu từ form
+    // Update data from form
     const updatedJob = {
         ...allStoredJobs[jobIdx],
         jobTitle: document.getElementById('editJobTitle').value.trim(),
@@ -240,7 +240,7 @@ async function saveEditedJob() {
         numberOfVacancy: parseInt(document.getElementById('editNumberOfVacancy').value)
     };
 
-    // Xử lý Logo nếu có upload mới
+    // Handle new Logo upload
     const avatarInput = document.getElementById('editAvatar');
     if (avatarInput.files.length > 0) {
         updatedJob.avatar = await convertFileToBase64(avatarInput.files[0]);
@@ -255,13 +255,13 @@ async function saveEditedJob() {
     renderJobList(allJobs);
 }
 
-// Khởi tạo khi trang sẵn sàng
+// Initialization when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     initCurrentUser();
     loadJobsFromLocalStorage();
     renderJobList(allJobs);
     
-    // Đóng modal khi nhấn ra ngoài
+    // Close modal when clicking outside of it
     window.onclick = function(event) {
         if (event.target.className === 'modal') {
             event.target.style.display = "none";

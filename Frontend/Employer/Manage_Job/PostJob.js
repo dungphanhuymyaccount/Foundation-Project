@@ -1,7 +1,7 @@
 // ==================== POST JOB ====================
 
 /**
- * Xóa nội dung form sau khi đăng tin thành công
+ * Clear form content after successful job posting
  */
 function clearForm() {
     const formElements = document.querySelectorAll('#jobTitle, #field, #description, #salary, #location, #experienceMin, #experienceMax, #requirement, #deadline, #benefit, #numberOfVacancy');
@@ -14,19 +14,19 @@ function clearForm() {
 }
 
 /**
- * Xử lý sự kiện gửi form và lưu dữ liệu kèm theo EmployerID
+ * Handle form submission and save data with EmployerID
  */
 async function handleSubmit() { 
-    // Lấy thông tin người dùng hiện tại từ localStorage
+    // Get current user information
     const currentUser = getCurrentUser(); 
     
-    // Kiểm tra tính hợp lệ của người dùng: Phải có EmployerID mới được đăng bài
+    // Authorization check: Must have EmployerID
     if (!currentUser || !currentUser.EmployerID) {
         alert('Error: You must be logged in as an Employer to post a job!');
         return;
     }
 
-    // Lấy dữ liệu từ các trường nhập liệu
+    // Retrieve input data
     const jobTitle = document.getElementById('jobTitle').value.trim();
     const field = document.getElementById('field').value.trim();
     const description = document.getElementById('description').value.trim();
@@ -39,7 +39,7 @@ async function handleSubmit() {
     const benefit = document.getElementById('benefit').value.trim();
     const numberOfVacancy = document.getElementById('numberOfVacancy').value.trim();
 
-    // Kiểm tra xem tất cả các thông tin bắt buộc đã được điền chưa
+    // Validation: Check if required fields are filled
     if (
         !jobTitle || !field || !description || 
         !salary || !location ||
@@ -50,12 +50,12 @@ async function handleSubmit() {
         return;
     }
     
-    // Tạo đối tượng dữ liệu công việc mới
+    // Create new job data object
     const newJobData = {
-        jobId: generateJobId(), // Tự động tạo ID dạng JDxxx
+        jobId: generateJobId(), // Auto-generate ID e.g., JD001
         jobTitle: jobTitle,
         field: field,
-        companyName: currentUser.companyName || 'Unknown Company', // Lấy từ thông tin Employer
+        companyName: currentUser.companyName || 'Unknown Company', 
         description: description,
         location: location,
         salary: parseInt(salary),
@@ -68,16 +68,16 @@ async function handleSubmit() {
         deadline: deadline,
         benefit: benefit,
         numberOfVacancy: parseInt(numberOfVacancy),
-        avatar: currentUser.avatar || '', // Logo của công ty
+        avatar: currentUser.avatar || '', // Company logo
         postDate: Date.now(),
-        // ĐỊNH DANH NGƯỜI ĐĂNG: Sử dụng EmployerID để lọc sau này
+        // OWNER IDENTIFICATION: Link to EmployerID for filtering
         userId: currentUser.EmployerID 
     };
 
-    // Lưu công việc vào danh sách chung trong localStorage
+    // Save job to global list
     saveJobToLocalStorage(newJobData);
 
-    // Khởi tạo và gửi thông báo hệ thống
+    // Initialize and send system notification
     initNotificationStorage(); 
     addNotificationToStorage({
         avatar: newJobData.avatar, 
@@ -86,6 +86,6 @@ async function handleSubmit() {
         recipientId: undefined 
     });
     
-    alert('Job posted successfully! It will now only appear in your management dashboard.');
+    alert('Job posted successfully! It will now appear in your management dashboard.');
     clearForm();
 }
