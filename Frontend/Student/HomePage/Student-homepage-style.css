@@ -143,6 +143,7 @@ body {
 .job_container:hover{
     border: 1px solid #0060c0b7;
     color: rgb(173, 175, 0);
+    cursor: pointer;
 }
 
 /*nút xem thêm post*/
