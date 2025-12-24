@@ -156,6 +156,7 @@ document.getElementById("employerForm").addEventListener("submit", function (e) 
 	list_user.list_employer.push(newEmployer);
 	allUser = [...list_user.list_student, ...list_user.list_employer];// Update the user list
 	//lưu lại mảng list user mới cập nhật vào local storage
+	
 	localStorage.setItem('list_user', JSON.stringify(list_user))
 	alert("Create employer successfull!")
 	e.target.reset();
@@ -255,7 +256,7 @@ document.getElementById("Yes").addEventListener("click", function () {
 	localStorage.setItem("list_user", JSON.stringify(list_user));
 	renderUserTable(document.getElementById("searchUser").value.toLowerCase());
 	alert("Delete User successful!")
-
+	updateStatistics();
 	// Close the popup
 	document.getElementById("confirmModal").classList.add("hidden");
 	pendingDeleteEmail = null;
