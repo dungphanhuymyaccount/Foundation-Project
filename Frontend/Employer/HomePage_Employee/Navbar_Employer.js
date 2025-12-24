@@ -1,67 +1,71 @@
-document.addEventListener("DOMContentLoaded", () => {
+// Navbar_Employer.js (dựa trên code cũ) — KHÔNG redirect khi chưa login, chỉ đổi menu
 
-  window.addEventListener('storage', (event) => {
-    // Kiểm tra nếu key 'current_user' bị xóa (do tab khác đăng xuất)
-    if (event.key === 'current_user' && event.newValue === null) {
-      window.location.href = "../../General/Login/Login.html";
-    }
-  });
-  
+document.addEventListener("DOMContentLoaded", () => {
   const LOGIN_URL = "../../General/Login/Login.html";
   const EDIT_PROFILE_URL = "../Edit_Employer_Profile/Edit_Employer_Profile.html";
 
-  const currentUser = JSON.parse(localStorage.getItem("current_user"));
+  window.addEventListener("storage", (event) => {
+    if (event.key === "current_user" && event.newValue === null) {
+      window.location.href = LOGIN_URL;
+    }
+  });
+
+  let currentUser = null;
+  try {
+    currentUser = JSON.parse(localStorage.getItem("current_user"));
+  } catch (e) {
+    currentUser = null;
+  }
 
   const accountBtn = document.getElementById("current-user");
+  const submenu1 = document.querySelector(".submenu1"); // Edit profile / Login
+  const logoutBtn = document.getElementById("log-out"); // <a id="log-out"...>
 
-  const submenu1 = document.querySelector(".submenu1");                
-  const submenu2 = document.querySelector(".submenu2");               
-
-  if (!accountBtn || !submenu1 || !submenu2) return;
+  if (!accountBtn || !submenu1 || !logoutBtn) return;
 
   const setMenuItem = (el, { href, icon, text }) => {
     el.setAttribute("href", href);
     el.innerHTML = `<ion-icon class="icon" name="${icon}"></ion-icon>${text}`;
   };
 
-// When logged in, change “account” to “Hi + name”
+  // ===== LOGGED IN (Employer) =====
   if (currentUser && currentUser.role === "Employer") {
+    accountBtn.innerHTML =
+      `<ion-icon class="icon" name="person-circle-outline"></ion-icon>Hi, ${currentUser.employerName}`;
 
-    accountBtn.innerHTML = `<ion-icon class="icon" name="person-circle-outline"></ion-icon>Hi, ${currentUser.employerName}`;
-
-
-    // submenu1 = Edit profile
     setMenuItem(submenu1, {
       href: EDIT_PROFILE_URL,
       icon: "person-outline",
       text: "Edit profile",
     });
 
-    // submenu2 = Log out 
-    setMenuItem(submenu2, {
-      href: "#",
-      icon: "log-out-outline",
-      text: "Log out",
-    });
+    // hiện logout
+    logoutBtn.style.display = "";
+    logoutBtn.innerHTML = `<ion-icon class="icon" name="log-out-outline"></ion-icon>Log out`;
+    logoutBtn.setAttribute("href", "#");
 
-    // Logout action
-    submenu2.addEventListener("click", (e) => {
-      e.preventDefault();
-      localStorage.removeItem("current_user");
-      window.location.href = LOGIN_URL;
-    });
+    // chống gắn trùng event
+    if (!logoutBtn.dataset.bound) {
+      logoutBtn.dataset.bound = "1";
+      logoutBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("current_user");
+        window.location.replace(LOGIN_URL);
+      });
+    }
 
-  // ====== NOT LOGGED IN======
+  // ===== NOT LOGGED IN =====
   } else {
-    accountBtn.innerHTML = `<ion-icon class="icon" name="person-circle-outline"></ion-icon>Account`;
-    
+    accountBtn.innerHTML =
+      `<ion-icon class="icon" name="person-circle-outline"></ion-icon>Account`;
 
-    // submenu1 = Login
     setMenuItem(submenu1, {
       href: LOGIN_URL,
       icon: "log-in-outline",
       text: "Login",
     });
-    if (submenu2) submenu2.style.display = "none";//if not logged in, no submenu2
+
+    // ẩn logout
+    logoutBtn.style.display = "none";
   }
 });
