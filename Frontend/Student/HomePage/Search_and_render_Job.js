@@ -8,9 +8,9 @@ let postedJobs = JSON.parse(localStorage.getItem("postedJobs")) || []; // Get jo
 // Init render with current filters/search (default = all)
 applyFilters();
 
-/* =========================
-   RENDER JOBS + PAGINATION
-========================= */
+
+//   RENDER JOBS + PAGINATION
+
 function renderJob(jobList) {
   displayedJob = jobList;
   jobContainer.innerHTML = "";
@@ -23,7 +23,7 @@ function renderJob(jobList) {
 
   const totalPages = Math.ceil(jobList.length / jobsPerPage) || 1;
 
-  // tránh currentPage bị vượt quá totalPages sau khi lọc
+  
   if (currentPage > totalPages) currentPage = totalPages;
   if (currentPage < 1) currentPage = 1;
 
@@ -73,9 +73,7 @@ document.getElementById("nextBtn").addEventListener("click", () => {
   }
 });
 
-/* =========================
-   JOB DETAIL
-========================= */
+
 function jobDetail(jobId) {
   let selectedJob = postedJobs.find((job) => job.jobId === jobId);
   if (selectedJob) {
@@ -86,14 +84,9 @@ function jobDetail(jobId) {
   }
 }
 
-/* =========================
-   SEARCH + ADVANCED FILTER
-   (KẾT HỢP CHUNG)
-========================= */
-function applyFilters() {
-  // reset về trang 1 mỗi khi đổi điều kiện lọc/tìm
-  currentPage = 1;
 
+function applyFilters() {
+  currentPage = 1;
   const searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
   const searchLocation = document.getElementById("location").value;
   const searchField = document.getElementById("field").value;
@@ -101,7 +94,7 @@ function applyFilters() {
   const searchExperience = document.getElementById("experience").value;
 
   searchedJobs = postedJobs.filter((job) => {
-    /* ---- (A) SEARCH BAR (OR) ---- */
+    
     let matchSearch = true;
     if (searchTerm !== "") {
       const t = searchTerm;
@@ -118,7 +111,7 @@ function applyFilters() {
         location.includes(t);
     }
 
-    /* ---- (B) FIELD ---- */
+    //field filter
     let matchField;
     if (searchField === "none") {
       matchField = true;
@@ -126,31 +119,31 @@ function applyFilters() {
       matchField = (job.field || "").toLowerCase() === searchField.toLowerCase();
     }
 
-    /* ---- (C) LOCATION ---- */
+    //location filter
     let matchLocation;
     let jobLocation = removeVietnameseTones(job.location || "");
 
     if (searchLocation === "none") {
       matchLocation = true;
     } else if (searchLocation === "other") {
-      // Other = không thuộc 3 TP lớn (VN vẫn ok)
+      // other location
       matchLocation =
         !jobLocation.includes("ha noi") &&
         !jobLocation.includes("ho chi minh") &&
         !jobLocation.includes("da nang");
     } else {
-      // option value của mày đã là không dấu (ha noi, ho chi minh, da nang)
+    
       matchLocation = jobLocation.includes(searchLocation.toLowerCase());
     }
 
-    /* ---- (D) SALARY ---- */
+    //salary filter
     let matchSalary;
     if (searchSalary === "none") {
       matchSalary = true;
     } else {
       const jobSalary = Number(job.salary);
 
-      // nếu job.salary không phải số thì không match khi đang lọc salary
+      // If job.salary is not a number, it won’t match when filtering by salary.
       if (!Number.isFinite(jobSalary)) {
         matchSalary = false;
       } else if (searchSalary.includes("-")) {
@@ -160,13 +153,11 @@ function applyFilters() {
 
         matchSalary = jobSalary >= minFilterSalary && jobSalary <= maxFilterSalary;
       } else {
-        // ví dụ: "70000000" => More than 70,000,000
         const minFilterSalary = parseInt(searchSalary, 10);
         matchSalary = jobSalary >= minFilterSalary;
       }
     }
 
-    /* ---- (E) EXPERIENCE (GIỮ NGUYÊN LOGIC CỦA MÀY) ---- */
     let matchExperience;
     if (searchExperience === "none" || !job.experience || !job.experience.max) {
       matchExperience = searchExperience === "none";

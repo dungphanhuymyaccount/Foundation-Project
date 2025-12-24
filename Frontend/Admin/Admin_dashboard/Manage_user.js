@@ -157,6 +157,7 @@ document.getElementById("employerForm").addEventListener("submit", function (e) 
 	allUser = [...list_user.list_student, ...list_user.list_employer];// Update the user list
 	//lưu lại mảng list user mới cập nhật vào local storage
 	localStorage.setItem('list_user', JSON.stringify(list_user))
+	alert("Create employer successfull!")
 	e.target.reset();
 });
 
@@ -252,9 +253,8 @@ document.getElementById("Yes").addEventListener("click", function () {
 	allUser = [...list_user.list_student, ...list_user.list_employer];
 	// Save changes
 	localStorage.setItem("list_user", JSON.stringify(list_user));
-
 	renderUserTable(document.getElementById("searchUser").value.toLowerCase());
-	//updateStatistics();
+	alert("Delete User successful!")
 
 	// Close the popup
 	document.getElementById("confirmModal").classList.add("hidden");
@@ -304,7 +304,7 @@ document.getElementById("No").addEventListener("click", function () {
 //     <table border="1" cellpadding="8">
 //       <thead>
 //         <tr>${Object.keys(data[0])
-// 			.map((k) => `<th>${k}</th>`)
+// 			.map((k) => `<th>${k}</th>`)  hxcvV
 // 			.join("")}</tr>
 //       </thead>
 //       <tbody id="dataTable"></tbody>
