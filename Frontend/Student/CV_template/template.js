@@ -23,6 +23,18 @@ function getLastTemplateKey(StudentID) {
   return `cv_${StudentID}_lastTemplateId`;
 }
 
+//  max avatar size (800KB)
+const MAX_AVATAR_BYTES = 800 * 1024;
+
+// notify when image is too large 
+function notifyAvatarTooLarge(maxKB) {
+  alert(`Max allowed is ${maxKB}KB. Please choose a smaller/compressed image.`);
+}
+
+function notifyStorageQuotaExceeded() {
+  alert("the CV cannot be saved. Please use other image and try again.");
+}
+
 let StudentID = null;    // currently logged-in student
 let existingData = null; // cached CV data
 
@@ -51,6 +63,13 @@ document.addEventListener("DOMContentLoaded", () => {
     avatarInput.addEventListener("change", () => {
       const file = avatarInput.files[0];
       if (!file) return;
+
+      // (ADDED) limit image size to 800KB
+      if (file.size > MAX_AVATAR_BYTES) {
+        notifyAvatarTooLarge(800);
+        avatarInput.value = "";
+        return;
+      }
 
       const reader = new FileReader(); // read image file
       reader.onload = (e) => {
@@ -131,8 +150,20 @@ function handleSaveCv(form) {
   const cvKey = getCvKey(StudentID, "1");
   const lastKey = getLastTemplateKey(StudentID);
 
-  localStorage.setItem(cvKey, JSON.stringify(payload));
-  localStorage.setItem(lastKey, "1"); // last used template
+  // (CHANGED) add quota error notification only
+  try {
+    localStorage.setItem(cvKey, JSON.stringify(payload));
+    localStorage.setItem(lastKey, "1"); // last used template
+  } catch (e) {
+    // QuotaExceededError when localStorage is full (often large image/base64)
+    if (e?.name === "QuotaExceededError" || e?.code === 22 || e?.code === 1014) {
+      notifyStorageQuotaExceeded();
+      return;
+    }
+    console.error("Cannot save CV to localStorage:", e);
+    alert("Cannot save CV. Please try again.");
+    return;
+  }
 
   console.log("Saved CV payload:", payload);
 
