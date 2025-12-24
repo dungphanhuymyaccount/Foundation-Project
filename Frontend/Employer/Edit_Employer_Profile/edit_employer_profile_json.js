@@ -13,7 +13,6 @@ let originalData = {};
 
 // ==================== COMMON DATA HANDLING FUNCTIONS (LOCAL STORAGE) ====================
 
-
 //Get entire database object (list_user) from Local Storage.
 
 const getDatabaseObject = () => {
@@ -44,7 +43,6 @@ function initializeDatabase() {
 	);
 }
 
-
 //Save the entire allEmployers array back to the list_user key.
 
 function saveAllEmployers() {
@@ -53,7 +51,6 @@ function saveAllEmployers() {
 	localStorage.setItem(ALL_USERS_STORAGE_KEY, JSON.stringify(db));
 	console.log("Saved entire Employer DB to Local Storage.");
 }
-
 
 //Find employer by Email in the allEmployers array (to check for duplicates).
 
@@ -129,7 +126,7 @@ const getPersonalInputs = () => {
 		personalAddress: allInputs[3],
 		email: allInputs[4],
 	};
-}
+};
 
 function getCompanyInputs() {
 	const companySection = document.querySelector("#account-company");
@@ -192,10 +189,7 @@ function initializePage() {
 		}
 	} else {
 		// Case where "current_user" key is not found
-		showNotification(
-			"Logged-in not found. Please log in again.",
-			"error",
-		);
+		showNotification("Logged-in not found. Please log in again.", "error");
 		localStorage.removeItem(LOGGED_IN_EMAIL_KEY);
 		localStorage.removeItem(CURRENT_USER_STORAGE_KEY);
 	}
@@ -225,7 +219,8 @@ function loadPersonalProfile() {
 		inputs.employerName.value = personalData.employerName;
 	if (inputs.birthday) inputs.birthday.value = personalData.birthday;
 	if (inputs.phoneNumber) inputs.phoneNumber.value = personalData.phoneNumber;
-	if (inputs.personalAddress) inputs.personalAddress.value = personalData.personalAddress;
+	if (inputs.personalAddress)
+		inputs.personalAddress.value = personalData.personalAddress;
 	if (inputs.email) inputs.email.value = personalData.email;
 	if (inputs.companyName) inputs.companyName.value = personalData.companyName;
 	if (avatar) avatar.src = personalData.avatar;
@@ -280,32 +275,37 @@ window.saveProfile = function () {
 		passInputs.currentPassword.value.trim() !== "" ||
 		passInputs.newPassword.value.trim() !== "" ||
 		passInputs.repeatPassword.value.trim() !== "";
-	let isPasswordSaved = true;	
+	let isPasswordSaved = true;
 	if (isPasswordChangeAttempted) {
 		isPasswordSaved = savePassword();
 	}
 
-	if (isPersonalSaved && isCompanySaved) {
+	if (isPersonalSaved == true && isCompanySaved) {
 		if (isPasswordChangeAttempted) {
 			if (isPasswordSaved) {
-				//Password changed successfully (notification already handled in savePassword)
+				showNotification(
+					"Personal info and new password saved successfully!",
+					"success",
+				);
+				return isPasswordSaved;
 			} else {
 				showNotification(
-					"Personal info saved successfully! (Password change failed)"," warning"
+					"Personal info saved successfully! (Password change failed)",
+					" warning",
 				);
 			}
-		}
-	else {
-			showNotification("Personal info and new password saved successfully!", "success");
+		} else {
+			showNotification("Personal info saved successfully!", "success");
 		}
 	}
-	return isPersonalSaved && isCompanySaved && isPasswordSaved;
+	return isPersonalSaved && isCompanySaved;
 };
 
 // ==================== SAVE PERSONAL PROFILE ====================
 function savePersonalProfile() {
-	if (!validatePersonalForm())
-		{ return false; }
+	if (!validatePersonalForm()) {
+		return false;
+	}
 	const inputs = getPersonalInputs();
 	const avatar = document.querySelector(".ui-w-80");
 
@@ -329,13 +329,13 @@ function savePersonalProfile() {
 		currentUser = { ...allEmployers[userIndex] };
 		localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(currentUser));
 		saveAllEmployers();
-			return true;
-		} else {
-			showNotification(
-				"Error: User not found in database while saving personal info.",
-				"error",
-			);
-			return false;
+		return true;
+	} else {
+		showNotification(
+			"Error: User not found in database while saving personal info.",
+			"error",
+		);
+		return false;
 	}
 }
 
@@ -384,7 +384,6 @@ function savePassword() {
 		currentUser.password = newPassword;
 		localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(currentUser));
 		saveAllEmployers();
-		showNotification("Password updated successfully!", "success");
 		inputs.currentPassword.value = "";
 		inputs.newPassword.value = "";
 		inputs.repeatPassword.value = "";
@@ -423,7 +422,11 @@ function validatePersonalForm() {
 
 	const phoneVal = inputs.phoneNumber ? inputs.phoneNumber.value.trim() : "";
 
-	if (inputs.phoneNumber && inputs.phoneNumber.value.trim() !== "" && phoneVal.length < 10) {
+	if (
+		inputs.phoneNumber &&
+		inputs.phoneNumber.value.trim() !== "" &&
+		phoneVal.length < 10
+	) {
 		errorPhone.innerHTML = "<p>Phone number must have at least 10 digits.</p>";
 		inputs.phoneNumber.classList.add("is-invalid");
 		errors.push("Phone number must have at least 10 digits.");
@@ -527,10 +530,6 @@ function validatePasswordForm() {
 		isValid = false;
 	} else {
 		errorRepeatPassword.innerHTML = "";
-	}
-
-	if (!isValid) {
-		showNotification("Password Change Error:\n" + errors.join("\n"), "error");
 	}
 	return isValid;
 }
